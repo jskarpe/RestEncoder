@@ -1,0 +1,10 @@
+Yuav\RestEncoderBundle\Entity\Job:
+    properties:
+        state:
+            - NotBlank: ~
+            - NotNull: ~
+            - Length:
+                min: 2
+                max: 50
+                minMessage: "State must be at least  characters length"
+                maxMessage: "State name cannot be longer than  characters length"

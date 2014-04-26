@@ -1,0 +1,4 @@
+yuav_rest_encoder:
+    type: rest
+    prefix: /api
+    resource: "@AcmeBlogBundle/Resources/config/routes.yml"

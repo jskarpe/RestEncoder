@@ -1,0 +1,7 @@
+{
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "dev-master",
+        "phpunit/phpunit": "3.7.*",
+        "liip/functional-test-bundle":"dev-master"
+    }
+}

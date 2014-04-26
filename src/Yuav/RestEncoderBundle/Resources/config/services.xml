@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+	    <parameter key="yuav_rest_encoder.job.handler.class">Yuav\RestEncoderBundle\Handler\JobHandler</parameter>
+	    <parameter key="yuav_rest_encoder.job.class">Yuav\RestEncoderBundle\Entity\Job</parameter>
+	</parameters>
+	
+	<services>
+	    <service id="yuav_rest_encoder.job.handler" class="%yuav_rest_encoder.job.handler.class%">
+	        <argument type="service" id="doctrine.orm.entity_manager" />
+	        <argument>%yuav_rest_encoder.job.class%</argument>
+	        <argument type="service" id="form.factory"></argument>
+	    </service>
+	</services>
+
+</container>

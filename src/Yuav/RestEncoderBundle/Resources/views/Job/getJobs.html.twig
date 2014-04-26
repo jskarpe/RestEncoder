@@ -1,0 +1,18 @@
+{% block content %}
+    <h1 class="title">{{ 'job.list'|trans({}, 'YuavRestEncoderBundle') }}</h1>
+
+    <ul id="job-list">
+        {% for job in jobs %}
+            <li>
+                <a href="{{ path('api_1_get_job', {'id': job.id}) }}">{{ job.state }}</a>
+                {#[<a href="{{ path('api_1_edit_jobs', {'id': job.id}) }}">{{ 'job.edit.link'|trans({}, 'YuavRestEncoderBundle') }}</a>]#}
+                {#[<a href="{{ path('api_1_remove_jobs', {'id': job.id}) }}">{{ 'job.remove.link'|trans({}, 'YuavRestEncoderBundle') }}</a>]#}
+            </li>
+        {% else %}
+            <li>{{ 'job.list.empty'|trans({}, 'AcmeBlogBundle') }}</li>
+        {% endfor %}
+    </ul>
+    <p>
+        <a href="{{ path('api_1_new_job') }}">{{ 'job.new.link'|trans({}, 'YuavRestEncoderBundle') }}</a>
+    </p>
+{% endblock %}

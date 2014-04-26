@@ -1,0 +1,8 @@
+yuav_rest_encoder:
+    type: rest
+    prefix: /api
+    resource: "@YuavRestEncoderBundle/Resources/config/routes.yml"
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
