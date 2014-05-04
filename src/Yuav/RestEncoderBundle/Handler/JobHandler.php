@@ -100,10 +100,11 @@ class JobHandler implements JobHandlerInterface
 	private function processForm(JobInterface $job, array $parameters, $method = "PUT")
 	{
 		$form = $this->formFactory->create(new JobType(), $job, array('method' => $method));
+		
 		$form->submit($parameters, 'PATCH' !== $method);
 		if ($form->isValid()) {
 
-			$page = $form->getData();
+			$job = $form->getData();
 			$this->om->persist($job);
 			$this->om->flush($job);
 

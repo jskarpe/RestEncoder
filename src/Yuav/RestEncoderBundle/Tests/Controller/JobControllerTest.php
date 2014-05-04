@@ -1,6 +1,7 @@
 <?php
 
 namespace Yuav\RestEncoderBundle\Tests\Controller;
+
 use Liip\FunctionalTestBundle\Test\WebTestCase as WebTestCase;
 use Yuav\RestEncoderBundle\Tests\Fixtures\Entity\LoadJobData;
 
@@ -12,10 +13,22 @@ class JobControllerTest extends WebTestCase
 	public function setUp()
 	{
 		$this->auth = array('PHP_AUTH_USER' => 'user', 'PHP_AUTH_PW' => 'userpass',);
-
 		$this->client = static::createClient(array(), $this->auth);
 	}
 
+	/**
+	 * Workaround for MakeGood integration
+	 */
+    protected static function createKernel(array $options = array())
+    {
+        require_once realpath(dirname(__file__).'/../../../../../').'/app/AppKernel.php';
+
+        return new \AppKernel(
+            isset($options['environment']) ? $options['environment'] : 'test',
+            isset($options['debug']) ? $options['debug'] : true
+        );
+    }
+	
 	public function testJsonGetJobAction()
 	{
 		$fixtures = array('Yuav\RestEncoderBundle\Tests\Fixtures\Entity\LoadJobData');
@@ -39,7 +52,7 @@ class JobControllerTest extends WebTestCase
 	{
 		$this->client
 				->request('POST', '/api/v1/jobs.json', array(), array(), array('CONTENT_TYPE' => 'application/json'),
-						'{"state":"finished"}');
+						'{"input":"finished","apiKey":"asdf"}');
 
 		$this->assertJsonResponse($this->client->getResponse(), 201, false);
 	}
@@ -64,7 +77,7 @@ class JobControllerTest extends WebTestCase
 
 		$this->client
 				->request('PUT', sprintf('/api/v1/jobs/%d.json', $id), array(), array(),
-						array('CONTENT_TYPE' => 'application/json'), '{"state":"finished"}');
+						array('CONTENT_TYPE' => 'application/json'), '{"input":"finished","apiKey":"asdf"}');
 
 		$this->assertJsonResponse($this->client->getResponse(), 201, false);
 	}
@@ -78,7 +91,7 @@ class JobControllerTest extends WebTestCase
 
 		$this->client
 				->request('PATCH', sprintf('/api/v1/jobs/%d.json', $job->getId()), array(), array(),
-						array('CONTENT_TYPE' => 'application/json'), '{"state":"new"}');
+						array('CONTENT_TYPE' => 'application/json'), '{"input":"finished", "apiKey":"fdsa"}');
 
 		$this->assertJsonResponse($this->client->getResponse(), 204, false);
 		$this

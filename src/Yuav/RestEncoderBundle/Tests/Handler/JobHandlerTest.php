@@ -8,6 +8,7 @@ use Yuav\RestEncoderBundle\Entity\Job;
 class JobHandlerTest extends \PHPUnit_Framework_TestCase
 {
 
+
 	const JOB_CLASS = 'Yuav\RestEncoderBundle\Tests\Handler\DummyJob';
 
 	/** @var JobHandler */

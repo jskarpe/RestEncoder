@@ -11,3 +11,5 @@
 /composer.phar
 /composer.lock
 .project
+.settings
+.buildpath

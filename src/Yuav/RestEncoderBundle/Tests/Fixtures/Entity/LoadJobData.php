@@ -12,8 +12,10 @@ class LoadJobData implements FixtureInterface
 	public function load(ObjectManager $manager)
 	{
 		$job = new Job();
-		$job->setState('finished');
-		$job->setCreatedAt(new \DateTime('now'));
+		$job->setInput('http://myFileHere.com/file.mpg');
+		$job->setApiKey('dummy');
+// 		$job->setSubmittedAt(new \DateTime('now'));
+// 		$job->setUpdatedAt(new \DateTime('now'));
 
 		$manager->persist($job);
 		$manager->flush();

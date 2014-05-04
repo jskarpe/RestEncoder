@@ -13,7 +13,23 @@ class JobType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-		$builder->add('state')->add('created_at');
+		$builder
+			->add('apiKey')
+			->add('asperaTransferPolicy', null, array('required' => false))
+			->add('credentials', null, array('required' => false))
+			->add('downloadConnections')
+			->add('expectedMd5Checksum', null, array('required' => false))
+			->add('grouping', null, array('required' => false))
+			->add('input')
+			->add('liveStream', null, array('required' => false))
+			->add('mock', null, array('required' => false))
+			->add('outputs', null, array('required' => false))
+			->add('passThrough', null, array('required' => false))
+			->add('private', null, array('required' => false))
+			->add('region', null, array('required' => false))
+			->add('test', null, array('required' => false))
+			->add('transferMaximumRate', null, array('required' => false))
+			->add('transferMinimumRate', null, array('required' => false));
 	}
 
 	/**
@@ -30,7 +46,7 @@ class JobType extends AbstractType
 	public function getName()
 	{
 		return '';
-// 		return 'job';
-// 		return 'yuav_restencoderbundle_job';
+		// 		return 'job';
+		// 		return 'yuav_restencoderbundle_job';
 	}
 }
