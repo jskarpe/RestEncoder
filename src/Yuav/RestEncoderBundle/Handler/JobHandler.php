@@ -5,6 +5,9 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Yuav\RestEncoderBundle\Model\JobInterface;
 use Yuav\RestEncoderBundle\Form\JobType;
 use Yuav\RestEncoderBundle\Exception\InvalidFormException;
+use Yuav\RestEncoderBundle\Entity\MediaFile;
+use Yuav\RestEncoderBundle\Entity\Output;
+use Yuav\RestEncoderBundle\Entity\Job;
 
 class JobHandler implements JobHandlerInterface
 {
@@ -55,8 +58,7 @@ class JobHandler implements JobHandlerInterface
 	 */
 	public function post(array $parameters)
 	{
-		$job = $this->createJob();
-
+		$job = new Job();
 		return $this->processForm($job, $parameters, 'POST');
 	}
 
@@ -100,8 +102,7 @@ class JobHandler implements JobHandlerInterface
 	private function processForm(JobInterface $job, array $parameters, $method = "PUT")
 	{
 		$form = $this->formFactory->create(new JobType(), $job, array('method' => $method));
-		
-		$form->submit($parameters, 'PATCH' !== $method);
+		$form->submit($parameters, false);
 		if ($form->isValid()) {
 
 			$job = $form->getData();
@@ -113,10 +114,4 @@ class JobHandler implements JobHandlerInterface
 
 		throw new InvalidFormException('Invalid submitted data', $form);
 	}
-
-	private function createJob()
-	{
-		return new $this->entityClass();
-	}
-
 }

@@ -2,8 +2,10 @@
 
 namespace Yuav\RestEncoderBundle\Entity;
 
-use Yuav\RestEncoderBundle\Model\JobInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Yuav\RestEncoderBundle\Model\JobInterface;
+
 
 /**
  * Job
@@ -61,7 +63,7 @@ class Job implements JobInterface
 	/**
 	 * @var array
 	 *
-	 * @ORM\OneToMany(targetEntity="MediaFile", mappedBy="job")
+	 * @ORM\OneToMany(targetEntity="MediaFile", mappedBy="job", cascade={"persist"})
 	 */
 	private $outputMediaFiles;
 
@@ -83,7 +85,7 @@ class Job implements JobInterface
 	 * The API key for your account
 	 * @var string
 	 *
-	 * @ORM\Column(name="api_key", type="string", length=100)
+	 * @ORM\Column(name="api_key", type="string", length=100, nullable=true)
 	 */
 	private $apiKey;
 
@@ -106,7 +108,7 @@ class Job implements JobInterface
 	/**
 	 * @var array
 	 *
-	 * @ORM\OneToMany(targetEntity="MediaFile", mappedBy="job")
+	 * @ORM\OneToMany(targetEntity="Output", mappedBy="job", cascade={"persist", "remove"})
 	 */
 	private $outputs;
 
@@ -203,6 +205,10 @@ class Job implements JobInterface
 		$this->downloadConnections = 4;
 		$this->test = false;
 		$this->state = 'new';
+		$this->outputs = new ArrayCollection();
+		$this->addOutput(new  Output());
+		$this->outputMediaFiles = new ArrayCollection();
+		
 	}
 
 	/**
@@ -444,10 +450,26 @@ class Job implements JobInterface
 	 * @param array $outputs
 	 * @return Job
 	 */
-	public function setOutputs($outputs)
+	public function setOutputs(ArrayCollection $outputs)
 	{
 		$this->outputs = $outputs;
 	
+		return $this;
+	}
+	
+	public function addOutput(Output $output)
+	{
+		$this->outputs->add($output);
+		$output->setJob($this);
+		return $this;
+	}
+	
+	public function removeOutput($output)
+	{
+		if ($this->outputs->contains($output)) {
+		    $output->setJob(null);
+			$this->outputs->removeElement($output);
+		}
 		return $this;
 	}
 	
@@ -646,14 +668,14 @@ class Job implements JobInterface
 	}
 
 	/**
-	 * Set input_media_file
+	 * Set input media file
 	 *
-	 * @param \MediaFile $inputMediaFile
+	 * @param MediaFile $inputMediaFile
 	 * @return Job
 	 */
-	public function setInputMediaFile(\MediaFile $inputMediaFile)
+	public function setInputMediaFile(MediaFile $inputMediaFile)
 	{
-		$this->input_media_file = $inputMediaFile;
+		$this->inputMediaFile = $inputMediaFile;
 
 		return $this;
 	}
@@ -661,11 +683,11 @@ class Job implements JobInterface
 	/**
 	 * Get input_media_file
 	 *
-	 * @return \MediaFile
+	 * @return MediaFile
 	 */
 	public function getInputMediaFile()
 	{
-		return $this->input_media_file;
+		return $this->inputMediaFile;
 	}
 
 	/**
@@ -692,14 +714,14 @@ class Job implements JobInterface
 	}
 
 	/**
-	 * Set output_media_files
+	 * Set output media files
 	 *
 	 * @param array $outputMediaFiles
 	 * @return Job
 	 */
-	public function setOutputMediaFiles($outputMediaFiles)
+	public function setOutputMediaFiles(ArrayCollection $outputMediaFiles)
 	{
-		$this->output_media_files = $outputMediaFiles;
+		$this->outputMediaFiles = $outputMediaFiles;
 
 		return $this;
 	}
@@ -707,13 +729,27 @@ class Job implements JobInterface
 	/**
 	 * Get output_media_files
 	 *
-	 * @return array
+	 * @return ArrayCollection
 	 */
 	public function getOutputMediaFiles()
 	{
-		return $this->output_media_files;
+		return $this->outputMediaFiles;
 	}
 
+	public function addOutputMediaFile(MediaFile $mediaFile)
+	{
+		$this->outputMediaFiles->add($mediaFile);
+		return $this;
+	}
+	
+	public function removeOutputMediaFile($mediaFile)
+	{
+		if ($this->outputMediaFiles->contains($mediaFile)) {
+			$this->outputMediaFiles->removeElement($mediaFile);
+		}
+		return $this;
+	}
+	
 	/**
 	 * Set thumbnails
 	 *

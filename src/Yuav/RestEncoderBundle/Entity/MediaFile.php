@@ -245,60 +245,60 @@ class MediaFile
     }
 
     /**
-     * Set frame_rate
+     * Set frame rate
      *
-     * @param \int $frameRate
+     * @param integer $frameRate
      * @return MediaFile
      */
-    public function setFrameRate(\int $frameRate)
+    public function setFrameRate($frameRate)
     {
-        $this->frame_rate = $frameRate;
+        $this->frameRate = $frameRate;
 
         return $this;
     }
 
     /**
-     * Get frame_rate
+     * Get frame rate
      *
-     * @return \int 
+     * @return int 
      */
     public function getFrameRate()
     {
-        return $this->frame_rate;
+        return $this->frameRate;
     }
 
     /**
-     * Set finished_at
+     * Set finished at
      *
      * @param \DateTime $finishedAt
      * @return MediaFile
      */
-    public function setFinishedAt($finishedAt)
+    public function setFinishedAt(\DateTime $finishedAt)
     {
-        $this->finished_at = $finishedAt;
+        $this->finishedAt = $finishedAt;
 
         return $this;
     }
 
     /**
-     * Get finished_at
+     * Get finished at
      *
      * @return \DateTime 
      */
     public function getFinishedAt()
     {
-        return $this->finished_at;
+        return $this->finishedAt;
     }
 
     /**
-     * Set updated_at
+     * Set updated at
      *
      * @param \DateTime $updatedAt
      * @return MediaFile
      */
     public function setUpdatedAt($updatedAt)
     {
-        $this->updated_at = $updatedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -310,7 +310,7 @@ class MediaFile
      */
     public function getUpdatedAt()
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
     /**
@@ -319,7 +319,7 @@ class MediaFile
      * @param \int $durationInMs
      * @return MediaFile
      */
-    public function setDurationInMs(\int $durationInMs)
+    public function setDurationInMs($durationInMs)
     {
         $this->duration_in_ms = $durationInMs;
 
@@ -342,7 +342,7 @@ class MediaFile
      * @param \int $audioSampleRate
      * @return MediaFile
      */
-    public function setAudioSampleRate(\int $audioSampleRate)
+    public function setAudioSampleRate($audioSampleRate)
     {
         $this->audio_sample_rate = $audioSampleRate;
 
@@ -434,7 +434,7 @@ class MediaFile
      * @param \int $audioBitrateInKbps
      * @return MediaFile
      */
-    public function setAudioBitrateInKbps(\int $audioBitrateInKbps)
+    public function setAudioBitrateInKbps($audioBitrateInKbps)
     {
         $this->audio_bitrate_in_kbps = $audioBitrateInKbps;
 
@@ -480,7 +480,7 @@ class MediaFile
      * @param \int $height
      * @return MediaFile
      */
-    public function setHeight(\int $height)
+    public function setHeight($height)
     {
         $this->height = $height;
 
@@ -503,7 +503,7 @@ class MediaFile
      * @param \int $fileSizeBytes
      * @return MediaFile
      */
-    public function setFileSizeBytes(\int $fileSizeBytes)
+    public function setFileSizeBytes($fileSizeBytes)
     {
         $this->file_size_bytes = $fileSizeBytes;
 
@@ -572,7 +572,7 @@ class MediaFile
      * @param \int $totaltBitrateInKbps
      * @return MediaFile
      */
-    public function setTotaltBitrateInKbps(\int $totaltBitrateInKbps)
+    public function setTotaltBitrateInKbps($totaltBitrateInKbps)
     {
         $this->totalt_bitrate_in_kbps = $totaltBitrateInKbps;
 
@@ -618,7 +618,7 @@ class MediaFile
      * @param \int $width
      * @return MediaFile
      */
-    public function setWidth(\int $width)
+    public function setWidth($width)
     {
         $this->width = $width;
 
@@ -641,7 +641,7 @@ class MediaFile
      * @param \int $videoBitrateInKbps
      * @return MediaFile
      */
-    public function setVideoBitrateInKbps(\int $videoBitrateInKbps)
+    public function setVideoBitrateInKbps($videoBitrateInKbps)
     {
         $this->video_bitrate_in_kbps = $videoBitrateInKbps;
 

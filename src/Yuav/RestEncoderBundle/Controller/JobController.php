@@ -51,7 +51,6 @@ class JobController extends FOSRestController
 		$offset = $paramFetcher->get('offset');
 		$offset = null == $offset ? 0 : $offset;
 		$limit = $paramFetcher->get('limit');
-
 		return $this->container->get('yuav_rest_encoder.job.handler')->all($limit, $offset);
 	}
 
@@ -77,7 +76,7 @@ class JobController extends FOSRestController
 	 *
 	 * @throws NotFoundHttpException when job doesn't exist
 	 */
-	public function getJobAction($id)
+	public function getJobAction(Request $request, $id)
 	{
 		$job = $this->getOr404($id);
 		return $job;
@@ -130,15 +129,15 @@ class JobController extends FOSRestController
 	public function postJobAction(Request $request)
 	{
 		try {
-			$newPage = $this->container->get('yuav_rest_encoder.job.handler')
+			$newJob = $this->container->get('yuav_rest_encoder.job.handler')
 					->post($request->request->all());
-
-			$routeOptions = array('id' => $newPage->getId(), '_format' => $request->get('_format'));
-
+			// Add location header to newly created job
+			$routeOptions = array('id' => $newJob->getId(), '_format' => $request->get('_format'));
 			return $this->routeRedirectView('api_1_get_job', $routeOptions, Codes::HTTP_CREATED);
-
+			
+			// Zencoder format
+// 			return array('id' => $newJob->getId(), 'test' => $newJob->getTest(), 'outputs' => $newJob->getOutputs());
 		} catch (InvalidFormException $exception) {
-
 			return $exception->getForm();
 		}
 	}
@@ -173,15 +172,15 @@ class JobController extends FOSRestController
 		try {
 			if (!($job = $this->container->get('yuav_rest_encoder.job.handler')->get($id))) {
 				$statusCode = Codes::HTTP_CREATED;
-				$page = $this->container->get('yuav_rest_encoder.job.handler')
+				$job = $this->container->get('yuav_rest_encoder.job.handler')
 						->post($request->request->all());
 			} else {
 				$statusCode = Codes::HTTP_NO_CONTENT;
-				$page = $this->container->get('yuav_rest_encoder.job.handler')
-						->put($page, $request->request->all());
+				$job = $this->container->get('yuav_rest_encoder.job.handler')
+						->put($job, $request->request->all());
 			}
 
-			$routeOptions = array('id' => $page->getId(), '_format' => $request->get('_format'));
+			$routeOptions = array('id' => $job->getId(), '_format' => $request->get('_format'));
 
 			return $this->routeRedirectView('api_1_get_job', $routeOptions, $statusCode);
 
@@ -243,7 +242,6 @@ class JobController extends FOSRestController
 	protected function getOr404($id)
 	{
 		if (!($job = $this->container->get('yuav_rest_encoder.job.handler')->get($id))) {
-			// 			throw new NotAcceptableHttpException('testings');
 			throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
 		}
 

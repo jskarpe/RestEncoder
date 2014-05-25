@@ -1,4 +1,5 @@
 <h1>{{ job.id }}- {{ job.state }}</h1>
     <p>
-
+    {{ job.outputs|length }}
+{{ dump(job) }}
     </p>
