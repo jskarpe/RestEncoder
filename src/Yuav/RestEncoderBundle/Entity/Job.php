@@ -80,7 +80,28 @@ class Job implements JobInterface
 	 * @ORM\Column(name="state", type="string", length=100)
 	 */
 	private $state;
+	
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="current_event", type="string", length=100, nullable=true)
+	 */
+	private $current_event;
+	
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="current_event_progress", type="string", length=100, nullable=true)
+	 */
+	private $current_event_progress;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="progress", type="string", length=100, nullable=true)
+	 */
+	private $progress;
+	
 	/**
 	 * The API key for your account
 	 * @var string
@@ -206,11 +227,21 @@ class Job implements JobInterface
 		$this->test = false;
 		$this->state = 'new';
 		$this->outputs = new ArrayCollection();
-		$this->addOutput(new  Output());
 		$this->outputMediaFiles = new ArrayCollection();
 		
 	}
-
+	
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function setId($id)
+	{
+	    $this->id = $id;
+	    return $this;
+	}
+	
 	/**
 	 * Get id
 	 *
@@ -812,4 +843,38 @@ class Job implements JobInterface
 	{
 		$this->setUpdatedAt(new \DateTime('now'));
 	}
+
+    public function getCurrentEvent()
+    {
+        return $this->current_event;
+    }
+
+    public function setCurrentEvent($current_event)
+    {
+        $this->current_event = $current_event;
+        return $this;
+    }
+
+    public function getCurrentEventProgress()
+    {
+        return $this->current_event_progress;
+    }
+
+    public function setCurrentEventProgress($current_event_progress)
+    {
+        $this->current_event_progress = $current_event_progress;
+        return $this;
+    }
+
+    public function getProgress()
+    {
+        return $this->progress;
+    }
+
+    public function setProgress($progress)
+    {
+        $this->progress = $progress;
+        return $this;
+    }
+	
 }

@@ -99,13 +99,18 @@ class JobHandler implements JobHandlerInterface
 	 *
 	 * @throws \Yuav\RestEncoderBundle\Exception\InvalidFormException
 	 */
-	private function processForm(JobInterface $job, array $parameters, $method = "PUT")
+	private function processForm(Job $job, array $parameters, $method = "PUT")
 	{
 		$form = $this->formFactory->create(new JobType(), $job, array('method' => $method));
 		$form->submit($parameters, false);
+		
 		if ($form->isValid()) {
 
 			$job = $form->getData();
+			if (count($job->getOutputs()) == 0) {
+			    $output = new Output();
+			    $job->addOutput($output);
+			}
 			$this->om->persist($job);
 			$this->om->flush($job);
 

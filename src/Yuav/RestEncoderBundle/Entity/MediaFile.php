@@ -595,7 +595,7 @@ class MediaFile
      * @param \int $channels
      * @return MediaFile
      */
-    public function setChannels(\int $channels)
+    public function setChannels($channels)
     {
         $this->channels = $channels;
 

@@ -15,6 +15,15 @@
 	        <argument>%yuav_rest_encoder.job.class%</argument>
 	        <argument type="service" id="form.factory"></argument>
 	    </service>
+		<service id="yuav_rest_encoder.job_consumer" class="Yuav\RestEncoderBundle\Consumer\JobConsumer">
+			<argument type="service" id="doctrine.orm.entity_manager" />
+			<argument type="service" id="old_sound_rabbit_mq.output_queue_producer" />
+			<argument type="service" id="logger" />
+	    </service>
+		<service id="yuav_rest_encoder.output_consumer" class="Yuav\RestEncoderBundle\Consumer\OutputConsumer">
+			<argument type="service" id="doctrine.orm.entity_manager" />
+			<argument type="service" id="logger" />
+	    </service>
 	</services>
 
 </container>

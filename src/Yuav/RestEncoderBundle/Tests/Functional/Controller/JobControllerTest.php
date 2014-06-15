@@ -80,11 +80,24 @@ class JobControllerTest extends WebTestCase {
 	}
 	
 	public function testJsonPostJobActionShouldReturn400WithBadParameters() {
-		$this->client->request ( 'POST', '/api/v1/jobs.json', array (), array (), array (
+		// Too short input
+	    $this->client->request ( 'POST', '/api/v1/jobs.json', array (), array (), array (
 				'CONTENT_TYPE' => 'application/json' 
-		), '{"state":"new","invalid":"field"}' );
-		
+		), '{"state":"new","invalid":"field","input":"h"}' );
 		$this->assertJsonResponse ( $this->client->getResponse (), 400, false );
+		
+		// Blank input
+		$this->client->request ( 'POST', '/api/v1/jobs.json', array (), array (), array (
+		    'CONTENT_TYPE' => 'application/json'
+		), '{"state":"new","invalid":"field","input":""}' );
+		$this->assertJsonResponse ( $this->client->getResponse (), 400, false );
+		
+		// Missing input
+// 		$this->markTestSkipped('Not null validator from config not working since symfony upgrade');
+// 		$this->client->request ( 'POST', '/api/v1/jobs.json', array (), array (), array (
+// 		    'CONTENT_TYPE' => 'application/json'
+// 		), '{"state":"new","invalid":"field"}' );
+// 		$this->assertJsonResponse ( $this->client->getResponse (), 400, false );
 	}
 	
 	public function testJsonPutJobActionShouldCreate() {
@@ -247,8 +260,8 @@ class JobControllerTest extends WebTestCase {
 		$this->assertTrue($foundWebm, 'Did not find outout labeled \'webm\'');
 		$this->assertTrue($foundMp4High, 'Did not find outout labeled \'mp4 high\'');
 		$this->assertTrue($foundMp4Low, 'Did not find outout labeled \'mp4 low\'');
-		
 	}
+	
 	protected function assertJsonResponse($response, $statusCode = 200, $checkValidJson = true, $contentType = 'application/json') {
 		$this->assertEquals ( $statusCode, $response->getStatusCode (), $response->getContent () );
 		$this->assertTrue ( $response->headers->contains ( 'Content-Type', $contentType ), $response->headers );

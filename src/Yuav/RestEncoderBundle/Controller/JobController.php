@@ -131,6 +131,13 @@ class JobController extends FOSRestController
 		try {
 			$newJob = $this->container->get('yuav_rest_encoder.job.handler')
 					->post($request->request->all());
+			
+			// Publish job to RabbitMQ
+			$msg = array('job_id' => $newJob->getId());
+			
+			$producer = $this->get('old_sound_rabbit_mq.job_queue_producer');
+			$producer->publish(json_encode($msg));
+			
 			// Add location header to newly created job
 			$routeOptions = array('id' => $newJob->getId(), '_format' => $request->get('_format'));
 			return $this->routeRedirectView('api_1_get_job', $routeOptions, Codes::HTTP_CREATED);
@@ -140,6 +147,8 @@ class JobController extends FOSRestController
 		} catch (InvalidFormException $exception) {
 			return $exception->getForm();
 		}
+		
+		
 	}
 
 	/**

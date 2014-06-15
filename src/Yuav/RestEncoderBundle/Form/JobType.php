@@ -23,7 +23,7 @@ class JobType extends AbstractType
 			->add('downloadConnections')
 			->add('expectedMd5Checksum', null, array('required' => false))
 			->add('grouping', null, array('required' => false))
-			->add('input')
+			->add('input', null, array('required' => true))
 			->add('liveStream', null, array('required' => false))
 			->add('mock', null, array('required' => false))
 			->add('outputs', 'collection', array(
