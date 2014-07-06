@@ -6,12 +6,25 @@ use Yuav\RestEncoderBundle\Entity\Output;
 use Yuav\RestEncoderBundle\Processor\Input\Downloader;
 use FFMpeg\FFMpeg;
 use Yuav\RestEncoderBundle\Processor\Output\Translator;
+use Psr\Log\LoggerInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class OutputProcessor
 {
 
     private $downloader;
+    private $ffmpeg;
+    private $logger;
+    private $om;
+    private $currentJob;
 
+    public function __construct(ObjectManager $om, FFMpeg $ffmpeg, LoggerInterface $logger = null)
+    {
+        $this->om = $om;
+        $this->ffmpeg = $ffmpeg;
+        $this->logger = $logger;
+    }
+    
     public function __destruct()
     {
         foreach ($this->tempFiles as $file) {
@@ -24,12 +37,11 @@ class OutputProcessor
     public function process(Output $output)
     {
         $job = $output->getJob();
+        $this->currentJob = $job;
         $downloader = $this->getDownloader();
         $inputFile = $downloader->downloadFileAdvanced($job->getInput());
         $this->tempFiles[] = $inputFile;
-        
-        $ffmpeg = FFMpeg::create();
-        $video = $ffmpeg->open($inputFile);
+        $video = $this->ffmpeg->open($inputFile);
         
         $translator = new Translator();
         
@@ -42,6 +54,9 @@ class OutputProcessor
         
         $outputPathFile = tempnam(sys_get_temp_dir(), 'RestEncoder') . $filename;
         $format = $translator->getFFMpegFormatFromOutput($output);
+        
+        $format->on('progress', array($this, 'updateProgress'));
+        
         $video->save($format, $outputPathFile);
         $this->tempfiles[] = $outputPathFile;
         
@@ -50,6 +65,13 @@ class OutputProcessor
         return $output;
     }
 
+    public function updateProgress($video, $format, $percentage)
+    {
+        if ($this->currentJob instanceof Job) {
+            $this->currentJob->setCurrentEventProgress("$percentage%");
+        }
+    }
+    
     public function upload($outputFile)
     {}
 

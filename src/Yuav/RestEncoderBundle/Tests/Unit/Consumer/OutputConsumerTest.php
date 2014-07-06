@@ -7,6 +7,7 @@ use Yuav\RestEncoderBundle\Entity\Job;
 use Yuav\RestEncoderBundle\Consumer\JobConsumer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Yuav\RestEncoderBundle\Consumer\OutputConsumer;
+use FFMpeg\FFMpeg;
 
 class OutputConsumerTest extends WebTestCase
 {
@@ -55,7 +56,7 @@ class OutputConsumerTest extends WebTestCase
         ->will($this->returnValue($jobRepository));
 
         // Inject mock to consumer
-        $consumer = new OutputConsumer($entityManager);
+        $consumer = new OutputConsumer($entityManager, FFMpeg::create());
         
         $queueMsg = new AMQPMessage();
         $queueMsg->body = json_encode(array('output_id' => $output->getId()));
@@ -93,7 +94,7 @@ class OutputConsumerTest extends WebTestCase
         ->will($this->returnValue($repository));
 
         // Inject mock to consumer
-        $consumer = new OutputConsumer($entityManager);
+        $consumer = new OutputConsumer($entityManager, FFMpeg::create());
         
         $queueMsg = new AMQPMessage();
         $queueMsg->body = json_encode(array('output_id' => 123));

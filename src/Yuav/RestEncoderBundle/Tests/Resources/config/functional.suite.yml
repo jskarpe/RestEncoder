@@ -1,0 +1,4 @@
+yaml
+class_name: FunctionalTester
+modules:
+    enabled: [Symfony2, Doctrine2, TestHelper] 

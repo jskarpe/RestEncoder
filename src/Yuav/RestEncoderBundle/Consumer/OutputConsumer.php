@@ -10,17 +10,20 @@ use Yuav\RestEncoderBundle\Entity\Job;
 use Yuav\RestEncoderBundle\Processor\JobProcessor;
 use Psr\Log\LoggerInterface;
 use Yuav\RestEncoderBundle\Processor\OutputProcessor;
+use FFMpeg\FFMpeg;
 
 
 class OutputConsumer implements ConsumerInterface
 {
     
+    private $ffmpeg;
     private $om;
     private $outputProcessor;
     private $logger;
 
-    public function __construct(ObjectManager $om, LoggerInterface $logger = null)
+    public function __construct(ObjectManager $om, FFMpeg $ffmpeg, LoggerInterface $logger = null)
     {
+        $this->ffmpeg = $ffmpeg;
         $this->om = $om;
         $this->logger = $logger;
     }
@@ -56,7 +59,7 @@ class OutputConsumer implements ConsumerInterface
     public function getOutputProcessor()
     {
         if (null === $this->outputProcessor) {
-            $this->outputProcessor = new OutputProcessor($this->om, $this->logger);
+            $this->outputProcessor = new OutputProcessor($this->om, $this->ffmpeg, $this->logger);
         }
         return $this->outputProcessor;
     }

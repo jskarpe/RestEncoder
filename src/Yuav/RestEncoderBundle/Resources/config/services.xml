@@ -22,6 +22,11 @@
 	    </service>
 		<service id="yuav_rest_encoder.output_consumer" class="Yuav\RestEncoderBundle\Consumer\OutputConsumer">
 			<argument type="service" id="doctrine.orm.entity_manager" />
+			<argument type="service" id="dubture_ffmpeg.ffmpeg" />
+			<argument type="service" id="logger" />
+	    </service>
+		<service id="yuav_rest_encoder.output_processor" class="Yuav\RestEncoderBundle\Processor\OutputProcessor">
+			<argument type="service" id="dubture_ffmpeg.ffmpeg" />
 			<argument type="service" id="logger" />
 	    </service>
 	</services>

@@ -24,5 +24,9 @@ class YuavRestEncoderExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        
+        $aAsseticBundle = $container->getParameter('assetic.bundles');
+        $aAsseticBundle[] = 'YuavRestEncoderBundle';
+        $container->setParameter('assetic.bundles', $aAsseticBundle);
     }
 }

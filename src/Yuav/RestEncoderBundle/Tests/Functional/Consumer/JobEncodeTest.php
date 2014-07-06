@@ -11,6 +11,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase as WebTestCase;
 use Doctrine\ORM\Tools\SchemaTool;
 use Yuav\RestEncoderBundle\Consumer\OutputConsumer;
 use Yuav\RestEncoderBundle\Tests\Fixtures\Entity\LoadJobMp4SampleEncode;
+use FFMpeg\FFMpeg;
 
 
 class JobEncodeTest extends WebTestCase
@@ -54,7 +55,7 @@ class JobEncodeTest extends WebTestCase
         
         $this->assertInstanceOf('\Yuav\RestEncoderBundle\Entity\Job', $job);
         $this->assertCount(1, $job->getOutputs());
-        $outputConsumer = new OutputConsumer($this->em);
+        $outputConsumer = new OutputConsumer($this->em, FFMpeg::create());
         foreach ($job->getOutputs() as $output) {
             $msg = new AMQPMessage();
             $msg->body = json_encode(array('output_id' => $output->getId()));

@@ -1,0 +1,109 @@
+{% extends '::base.html.twig' %} {% javascripts "@jquery_js"
+"@bootstrap_js" "@codemirror_js"
+"@YuavRestEncoderBundle/Resources/public/components/codemirror/mode/javascript/javascript.js"
+"@YuavRestEncoderBundle/Resources/public/components/codemirror/addon/lint/lint.js"
+"@YuavRestEncoderBundle/Resources/public/components/jsonlint/lib/jsonlint.js"
+"@YuavRestEncoderBundle/Resources/public/components/codemirror/addon/lint/json-lint.js"
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %} {% stylesheets "@bootstrap_css" "@codemirror_css"
+"@YuavRestEncoderBundle/Resources/public/components/codemirror/addon/lint/lint.css"
+"@YuavRestEncoderBundle/Resources/public/components/codemirror/theme/eclipse.css"
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+<style type="text/css">
+.CodeMirror {
+	border: 1px solid black;
+}
+</style>
+{% endstylesheets %} {% block title %}Request builder{% endblock %} {%
+block content %}
+<div class="page-header">
+	<h1>Request builder</h1>
+</div
+<div class="container">
+
+<div id="request_builder" class="row">
+
+<div id="request_settings_fields" class="col-xs-6">
+
+      <div class="request-field">
+        <label>Request Type</label><br>
+        <select  id="resource_select" name="resource_select"><option value="jobs">Jobs</option><option value="inputs">Inputs</option><option value="outputs">Outputs</option></select>
+        <select  id="resource_action_select" name="resource_action_select"><option value="create">Create</option><option value="list">List</option><option value="details">Details</option><option value="resubmit">Resubmit</option><option value="cancel">Cancel</option><option value="progress">Progress</option></select>
+      </div>
+
+      <div style="display: block;" id="request_template_selector_container" class="optional-field request-field">
+        <label>Job Template</label><br>
+            <select  id="request_template_selector" name="request_template_selector"><option value="">Select a template</option>
+			<option value="template_1">Basic</option>
+			<option value="template_2">Apple HLS</option>
+			<option value="template_4">Mobile (Newest Devices)</option>
+			<option value="template_5">Mobile (Standard Devices) </option>
+			<option value="template_6">Mobile (Legacy Devices)</option>
+			<option value="template_7">iPod Nano</option>
+			<option value="template_15">Live Stream HLS to S3</option>
+            <option value="template_3">HTML5</option>
+            </select>
+      </div>
+
+      <div style="display: none;" id="job_id_container" class="optional-field request-field">
+        <label>Job ID</label><br>
+        <input id="job_id" name="job_id" type="text">
+      </div>
+
+      <div style="display: none;" id="input_id_container" class="optional-field request-field">
+        <label>Input ID</label><br>
+        <input id="input_id" name="input_id" type="text">
+      </div>
+
+      <div style="display: none;" id="output_id_container" class="optional-field request-field">
+        <label>Output ID</label><br>
+        <input id="output_id" name="output_id" type="text">
+      </div>
+
+    
+
+
+
+</div>
+</div>
+
+<div id="request_headers_container" class="col-xs-6">
+	<h3>Headers</h3>
+	<pre id="request_headers" class="code-output">
+		<span class="http-headers">
+  <span class="method">POST /api/v1/jobs HTTP/1.1</span>
+  <span class="accept">Accept: application/json</span>
+  <span class="content-type">Content-Type: application/json</span>
+</span>
+</pre>
+</div>
+
+
+<div id="request_body_container" class="col-xs-6">
+	<h3>POST Body Editor</h3>
+	<textarea id="request_body_editor" class="form-control" rows="5">{
+  "input": "http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"
+}</textarea>
+	<script>
+	  CodeMirror.fromTextArea(document.getElementById("request_body_editor"), {
+		    mode: "application/json",
+		    gutters: ["CodeMirror-lint-markers"],
+		    lint: true,
+		    lineNumbers: true,
+		    theme: "eclipse"
+		  });
+	</script>
+</div>
+
+<a href="#" class="btn btn-primary" id="submit_button">Execute</a>
+
+</div>
+</div>
+
+
+
+
+
+{% endblock %}
