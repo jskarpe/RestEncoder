@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %} {% block body %}
+<table class="table table-condensed">
+	<tr>
+		<th>Id</th>
+		<th>Submitted</th>
+		<th>Input</th>
+		<th>State</th>
+		<th>Progress</th>
+	</tr>
+	{% for job in jobs %}
+	<tr>
+		<td><a href="/api/v1/jobs/{{ job.id }}.json"> {{ job.id }} </a></td>
+		<td>{{ job.submittedAt|date('Y-m-d H:i:s') }}</td>
+		<td><a href="{{ job.input }}">{{ job.input }}</a></td>
+		<td>{{ job.state }}</td>
+		<td>{{ job.progress }}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+<table class="table table-condensed">
+	<tr>
+		<th>Id</th>
+		<th>Height</th>
+		<th>Width</th>
+	</tr>
+	{% for output in outputs %}
+	<tr>
+		<td><a href="/api/v1/outputs/{{ output.id }}.json"> {{ output.id }} </a></td>
+		<td>{{ output.height }}</td>
+		<td>{{ output.width }}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+{% endblock %}

@@ -2,21 +2,11 @@
     "require": {
         "php-ffmpeg/php-ffmpeg": "~0.4",
         "knplabs/gaufrette": "0.1.*",
-        "knplabs/knp-gaufrette-bundle": "dev-master",
-        "sp/bower-bundle": "*"
+        "knplabs/knp-gaufrette-bundle": "dev-master"
     }
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "phpunit/phpunit": "3.7.*",
-        "liip/functional-test-bundle":"dev-master",
-        "codeception/codeception:*"
-    },
-    "scripts": {
-       "post-install-cmd": [
-           "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerInstall"
-       ],
-       "post-update-cmd": [
-           "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerInstall"
-       ]
-   }
+        "liip/functional-test-bundle":"dev-master"
+    }
 }

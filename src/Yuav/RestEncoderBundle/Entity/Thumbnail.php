@@ -22,7 +22,7 @@ class Thumbnail
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Job", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="Job", inversedBy="thumbnails", cascade={"all"})
      */
     private $job;
     

@@ -35,7 +35,7 @@ class OutputConsumer implements ConsumerInterface
         
         try {
             if ($this->logger) {
-                $this->logger->debug("Received output id '$outputId' from Output queue");
+                $this->logger->debug("Received output id $outputId from Output queue");
             }
             $output = $this->om->getRepository('\Yuav\RestEncoderBundle\Entity\Output')->find($outputId);
             $outputProcessor = $this->getOutputProcessor();

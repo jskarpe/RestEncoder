@@ -5,20 +5,20 @@ use Yuav\RestEncoderBundle\Entity\MediaFile;
 
 class MediaFileProcessor
 {
-    
+
     /**
      * Analyze media file
-     * @param string $input Path to medialfile
+     * 
+     * @param string $input
+     *            Path to medialfile
      * @return MediaFile
      */
     public function process($inputFile)
     {
         $mediaFile = new MediaFile();
-//         $mediaFile->setUrl($input);
         $mediaFile->setMd5Checksum(md5($inputFile));
         $mediaFile->setFileSizeBytes(filesize($inputFile));
         // $mediaFile->setLabel($label);
-//         $mediaFile->setTest($job->getTest());
         
         $ffprobe = \FFMpeg\FFProbe::create();
         $format = $ffprobe->format($inputFile);
@@ -27,7 +27,7 @@ class MediaFileProcessor
         // Common
         $mediaFile->setFormat($format->get('format_name'));
         $mediaFile->setDurationInMs($format->get('duration') * 1000);
-        $mediaFile->setTotaltBitrateInKbps($format->get('bit_rate')/1000);
+        $mediaFile->setTotaltBitrateInKbps($format->get('bit_rate') / 1000);
         
         // Audio
         $audio = $streams->audios()->first();

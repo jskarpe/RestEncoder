@@ -134,7 +134,6 @@ class JobController extends FOSRestController
 			
 			// Publish job to RabbitMQ
 			$msg = array('job_id' => $newJob->getId());
-			
 			$producer = $this->get('old_sound_rabbit_mq.job_queue_producer');
 			$producer->publish(json_encode($msg));
 			

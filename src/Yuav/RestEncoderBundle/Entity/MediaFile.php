@@ -1,5 +1,4 @@
 <?php
-
 namespace Yuav\RestEncoderBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -9,189 +8,171 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class MediaFile
 {
+
     /**
-     * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer @ORM\Column(name="id", type="integer")
+     *      @ORM\Id
+     *      @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="format", type="string", length=100)
+     * @var string @ORM\Column(name="format", type="string", length=100)
      */
     private $format;
 
     /**
-     * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime")
+     * @var \DateTime @ORM\Column(name="created_at", type="datetime")
      */
-    private $created_at;
+    private $createdAt;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="frame_rate", type="integer")
+     * @var int @ORM\Column(name="frame_rate", type="string")
      */
-    private $frame_rate;
+    private $frameRate;
 
     /**
-     * @var \DateTime
      *
-     * @ORM\Column(name="finished_at", type="datetime")
+     * @var \DateTime @ORM\Column(name="finished_at", type="datetime", nullable=true)
      */
-    private $finished_at;
+    private $finishedAt;
 
     /**
-     * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime")
+     * @var \DateTime @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updated_at;
+    private $updatedAt;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="duration_in_ms", type="integer")
+     * @var int @ORM\Column(name="duration_in_ms", type="integer")
      */
-    private $duration_in_ms;
+    private $durationInMs;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="audio_sample_rate", type="integer")
+     * @var int @ORM\Column(name="audio_sample_rate", type="integer")
      */
-    private $audio_sample_rate;
+    private $audioSampleRate;
 
     /**
- 	* @ORM\ManyToOne(targetEntity="Job", cascade={"all"})
- 	*/
+     * @ORM\ManyToOne(targetEntity="Job", cascade={"all"})
+     */
     private $job;
-    
+
     /**
-     * @var string
      *
-     * @ORM\Column(name="url", type="string")
+     * @var string @ORM\Column(name="url", type="string")
      */
     private $url;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="error_message", type="string")
+     * @var string @ORM\Column(name="error_message", type="string", nullable=true)
      */
-    private $error_message;
+    private $errorMessage;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="error_class", type="string")
+     * @var string @ORM\Column(name="error_class", type="string", nullable=true)
      */
-    private $error_class;
+    private $errorClass;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="audio_bitrate_in_kbps", type="integer")
+     * @var int @ORM\Column(name="audio_bitrate_in_kbps", type="integer")
      */
-    private $audio_bitrate_in_kbps;
+    private $audioBitrateInKbps;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_codec", type="string")
+     * @var string @ORM\Column(name="audio_codec", type="string")
      */
-    private $audio_codec;
+    private $audioCodec;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="height", type="integer")
+     * @var int @ORM\Column(name="height", type="integer")
      */
     private $height;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="file_size_bytes", type="integer")
+     * @var int @ORM\Column(name="file_size_bytes", type="integer")
      */
-    private $file_size_bytes;
+    private $fileSizeBytes;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="video_codec", type="string")
+     * @var string @ORM\Column(name="video_codec", type="string")
      */
-    private $video_codec;
+    private $videoCodec;
 
     /**
-     * @var boolean
      *
-     * @ORM\Column(name="test", type="boolean")
+     * @var boolean @ORM\Column(name="test", type="boolean")
      */
-    private $test;
+    private $test = false;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="totalt_bitrate_in_kbps", type="integer")
+     * @var int @ORM\Column(name="totalt_bitrate_in_kbps", type="integer")
      */
-    private $totalt_bitrate_in_kbps;
+    private $totaltBitrateInKbps;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="channels", type="integer")
+     * @var int @ORM\Column(name="channels", type="integer")
      */
     private $channels;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="width", type="integer")
+     * @var int @ORM\Column(name="width", type="integer")
      */
     private $width;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="video_bitrate_in_kbps", type="integer")
+     * @var int @ORM\Column(name="video_bitrate_in_kbps", type="integer")
      */
-    private $video_bitrate_in_kbps;
+    private $videoBitrateInKbps;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="state", type="string", length=100)
+     * @var string @ORM\Column(name="state", type="string", length=100)
      */
-    private $state;
+    private $state = 'new';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="label", type="string")
+     * @var string @ORM\Column(name="label", type="string", nullable=true)
      */
     private $label;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="md5_checksum", type="string")
+     * @var string @ORM\Column(name="md5_checksum", type="string")
      */
-    private $md5_checksum;
+    private $md5Checksum;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -201,20 +182,20 @@ class MediaFile
     /**
      * Set format
      *
-     * @param string $format
+     * @param string $format            
      * @return MediaFile
      */
     public function setFormat($format)
     {
         $this->format = $format;
-
+        
         return $this;
     }
 
     /**
      * Get format
      *
-     * @return string 
+     * @return string
      */
     public function getFormat()
     {
@@ -224,43 +205,43 @@ class MediaFile
     /**
      * Set created_at
      *
-     * @param \DateTime $createdAt
+     * @param \DateTime $createdAt            
      * @return MediaFile
      */
     public function setCreatedAt($createdAt)
     {
-        $this->created_at = $createdAt;
-
+        $this->createdAt = $createdAt;
+        
         return $this;
     }
 
     /**
      * Get created_at
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**
      * Set frame rate
      *
-     * @param integer $frameRate
+     * @param integer $frameRate            
      * @return MediaFile
      */
     public function setFrameRate($frameRate)
     {
         $this->frameRate = $frameRate;
-
+        
         return $this;
     }
 
     /**
      * Get frame rate
      *
-     * @return int 
+     * @return int
      */
     public function getFrameRate()
     {
@@ -270,20 +251,20 @@ class MediaFile
     /**
      * Set finished at
      *
-     * @param \DateTime $finishedAt
+     * @param \DateTime $finishedAt            
      * @return MediaFile
      */
     public function setFinishedAt(\DateTime $finishedAt)
     {
         $this->finishedAt = $finishedAt;
-
+        
         return $this;
     }
 
     /**
      * Get finished at
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getFinishedAt()
     {
@@ -293,20 +274,20 @@ class MediaFile
     /**
      * Set updated at
      *
-     * @param \DateTime $updatedAt
+     * @param \DateTime $updatedAt            
      * @return MediaFile
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-
+        
         return $this;
     }
 
     /**
      * Get updated_at
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -316,66 +297,89 @@ class MediaFile
     /**
      * Set duration_in_ms
      *
-     * @param \int $durationInMs
+     * @param \int $durationInMs            
      * @return MediaFile
      */
     public function setDurationInMs($durationInMs)
     {
-        $this->duration_in_ms = $durationInMs;
-
+        $this->durationInMs = $durationInMs;
+        
         return $this;
     }
 
     /**
      * Get duration_in_ms
      *
-     * @return \int 
+     * @return \int
      */
     public function getDurationInMs()
     {
-        return $this->duration_in_ms;
+        return $this->durationInMs;
     }
 
     /**
      * Set audio_sample_rate
      *
-     * @param \int $audioSampleRate
+     * @param \int $audioSampleRate            
      * @return MediaFile
      */
     public function setAudioSampleRate($audioSampleRate)
     {
-        $this->audio_sample_rate = $audioSampleRate;
-
+        $this->audioSampleRate = $audioSampleRate;
+        
         return $this;
     }
 
     /**
      * Get audio_sample_rate
      *
-     * @return \int 
+     * @return \int
      */
     public function getAudioSampleRate()
     {
-        return $this->audio_sample_rate;
+        return $this->audioSampleRate;
+    }
+
+    /**
+     * Set job
+     *
+     * @param string $job            
+     * @return MediaFile
+     */
+    public function setJob(Job $job)
+    {
+        $this->job = $job;
+        
+        return $this;
+    }
+
+    /**
+     * Get job
+     *
+     * @return Job
+     */
+    public function getJob()
+    {
+        return $this->job;
     }
 
     /**
      * Set url
      *
-     * @param string $url
+     * @param string $url            
      * @return MediaFile
      */
     public function setUrl($url)
     {
         $this->url = $url;
-
+        
         return $this;
     }
 
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
@@ -385,112 +389,112 @@ class MediaFile
     /**
      * Set error_message
      *
-     * @param string $errorMessage
+     * @param string $errorMessage            
      * @return MediaFile
      */
     public function setErrorMessage($errorMessage)
     {
-        $this->error_message = $errorMessage;
-
+        $this->errorMessage = $errorMessage;
+        
         return $this;
     }
 
     /**
      * Get error_message
      *
-     * @return string 
+     * @return string
      */
     public function getErrorMessage()
     {
-        return $this->error_message;
+        return $this->errorMessage;
     }
 
     /**
      * Set error_class
      *
-     * @param string $errorClass
+     * @param string $errorClass            
      * @return MediaFile
      */
     public function setErrorClass($errorClass)
     {
-        $this->error_class = $errorClass;
-
+        $this->errorClass = $errorClass;
+        
         return $this;
     }
 
     /**
      * Get error_class
      *
-     * @return string 
+     * @return string
      */
     public function getErrorClass()
     {
-        return $this->error_class;
+        return $this->errorClass;
     }
 
     /**
      * Set audio_bitrate_in_kbps
      *
-     * @param \int $audioBitrateInKbps
+     * @param \int $audioBitrateInKbps            
      * @return MediaFile
      */
     public function setAudioBitrateInKbps($audioBitrateInKbps)
     {
-        $this->audio_bitrate_in_kbps = $audioBitrateInKbps;
-
+        $this->audioBitrateInKbps = $audioBitrateInKbps;
+        
         return $this;
     }
 
     /**
      * Get audio_bitrate_in_kbps
      *
-     * @return \int 
+     * @return \int
      */
     public function getAudioBitrateInKbps()
     {
-        return $this->audio_bitrate_in_kbps;
+        return $this->audioBitrateInKbps;
     }
 
     /**
      * Set audio_codec
      *
-     * @param string $audioCodec
+     * @param string $audioCodec            
      * @return MediaFile
      */
     public function setAudioCodec($audioCodec)
     {
-        $this->audio_codec = $audioCodec;
-
+        $this->audioCodec = $audioCodec;
+        
         return $this;
     }
 
     /**
      * Get audio_codec
      *
-     * @return string 
+     * @return string
      */
     public function getAudioCodec()
     {
-        return $this->audio_codec;
+        return $this->audioCodec;
     }
 
     /**
      * Set height
      *
-     * @param \int $height
+     * @param \int $height            
      * @return MediaFile
      */
     public function setHeight($height)
     {
         $this->height = $height;
-
+        
         return $this;
     }
 
     /**
      * Get height
      *
-     * @return \int 
+     * @return \int
      */
     public function getHeight()
     {
@@ -500,66 +504,66 @@ class MediaFile
     /**
      * Set file_size_bytes
      *
-     * @param \int $fileSizeBytes
+     * @param \int $fileSizeBytes            
      * @return MediaFile
      */
     public function setFileSizeBytes($fileSizeBytes)
     {
-        $this->file_size_bytes = $fileSizeBytes;
-
+        $this->fileSizeBytes = $fileSizeBytes;
+        
         return $this;
     }
 
     /**
      * Get file_size_bytes
      *
-     * @return \int 
+     * @return \int
      */
     public function getFileSizeBytes()
     {
-        return $this->file_size_bytes;
+        return $this->fileSizeBytes;
     }
 
     /**
      * Set video_codec
      *
-     * @param string $videoCodec
+     * @param string $videoCodec            
      * @return MediaFile
      */
     public function setVideoCodec($videoCodec)
     {
-        $this->video_codec = $videoCodec;
-
+        $this->videoCodec = $videoCodec;
+        
         return $this;
     }
 
     /**
      * Get video_codec
      *
-     * @return string 
+     * @return string
      */
     public function getVideoCodec()
     {
-        return $this->video_codec;
+        return $this->videoCodec;
     }
 
     /**
      * Set test
      *
-     * @param boolean $test
+     * @param boolean $test            
      * @return MediaFile
      */
     public function setTest($test)
     {
         $this->test = $test;
-
+        
         return $this;
     }
 
     /**
      * Get test
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getTest()
     {
@@ -569,43 +573,43 @@ class MediaFile
     /**
      * Set totalt_bitrate_in_kbps
      *
-     * @param \int $totaltBitrateInKbps
+     * @param \int $totaltBitrateInKbps            
      * @return MediaFile
      */
     public function setTotaltBitrateInKbps($totaltBitrateInKbps)
     {
-        $this->totalt_bitrate_in_kbps = $totaltBitrateInKbps;
-
+        $this->totaltBitrateInKbps = $totaltBitrateInKbps;
+        
         return $this;
     }
 
     /**
      * Get totalt_bitrate_in_kbps
      *
-     * @return \int 
+     * @return \int
      */
     public function getTotaltBitrateInKbps()
     {
-        return $this->totalt_bitrate_in_kbps;
+        return $this->totaltBitrateInKbps;
     }
 
     /**
      * Set channels
      *
-     * @param \int $channels
+     * @param \int $channels            
      * @return MediaFile
      */
     public function setChannels($channels)
     {
         $this->channels = $channels;
-
+        
         return $this;
     }
 
     /**
      * Get channels
      *
-     * @return \int 
+     * @return \int
      */
     public function getChannels()
     {
@@ -615,20 +619,20 @@ class MediaFile
     /**
      * Set width
      *
-     * @param \int $width
+     * @param \int $width            
      * @return MediaFile
      */
     public function setWidth($width)
     {
         $this->width = $width;
-
+        
         return $this;
     }
 
     /**
      * Get width
      *
-     * @return \int 
+     * @return \int
      */
     public function getWidth()
     {
@@ -638,43 +642,43 @@ class MediaFile
     /**
      * Set video_bitrate_in_kbps
      *
-     * @param \int $videoBitrateInKbps
+     * @param \int $videoBitrateInKbps            
      * @return MediaFile
      */
     public function setVideoBitrateInKbps($videoBitrateInKbps)
     {
-        $this->video_bitrate_in_kbps = $videoBitrateInKbps;
-
+        $this->videoBitrateInKbps = $videoBitrateInKbps;
+        
         return $this;
     }
 
     /**
      * Get video_bitrate_in_kbps
      *
-     * @return \int 
+     * @return \int
      */
     public function getVideoBitrateInKbps()
     {
-        return $this->video_bitrate_in_kbps;
+        return $this->videoBitrateInKbps;
     }
 
     /**
      * Set state
      *
-     * @param string $state
+     * @param string $state            
      * @return MediaFile
      */
     public function setState($state)
     {
         $this->state = $state;
-
+        
         return $this;
     }
 
     /**
      * Get state
      *
-     * @return string 
+     * @return string
      */
     public function getState()
     {
@@ -684,20 +688,20 @@ class MediaFile
     /**
      * Set label
      *
-     * @param string $label
+     * @param string $label            
      * @return MediaFile
      */
     public function setLabel($label)
     {
         $this->label = $label;
-
+        
         return $this;
     }
 
     /**
      * Get label
      *
-     * @return string 
+     * @return string
      */
     public function getLabel()
     {
@@ -707,23 +711,32 @@ class MediaFile
     /**
      * Set md5_checksum
      *
-     * @param string $md5Checksum
+     * @param string $md5Checksum            
      * @return MediaFile
      */
     public function setMd5Checksum($md5Checksum)
     {
-        $this->md5_checksum = $md5Checksum;
-
+        $this->md5Checksum = $md5Checksum;
+        
         return $this;
     }
 
     /**
      * Get md5_checksum
      *
-     * @return string 
+     * @return string
      */
     public function getMd5Checksum()
     {
-        return $this->md5_checksum;
+        return $this->md5Checksum;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function populateUpdatedAt()
+    {
+        $this->setUpdatedAt(new \DateTime('now'));
     }
 }

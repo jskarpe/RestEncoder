@@ -1,0 +1,62 @@
+# Assetic Configuration
+assetic:
+    debug: "%kernel.debug%"
+    use_controller: false
+    bundles: [ ]
+    filters:
+        less:
+            node: /usr/bin/node
+            node_paths: [/usr/local/lib/node_modules]
+            apply_to: "\.less$"
+        cssrewrite: ~
+    assets:
+        bootstrap_css:
+            inputs:
+                - %kernel.root_dir%/../bower_components/bootstrap/less/bootstrap.less
+                - %kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/less/form.less
+            filters:
+                - less
+                - cssrewrite
+            output: css/bootstrap.css
+        bootstrap_js:
+            inputs:
+                - %kernel.root_dir%/../bower_components/bootstrap/js/transition.js
+                - %kernel.root_dir%/../bower_components/bootstrap/js/alert.js
+                - %kernel.root_dir%/../bower_components/bootstrap/js/button.js
+                - %kernel.root_dir%/../bower_components/bootstrap/js/carousel.js
+                - %kernel.root_dir%/../bower_components/bootstrap/js/collapse.js
+                - %kernel.root_dir%/../bower_components/bootstrap/js/dropdown.js
+                - %kernel.root_dir%/../bower_components/bootstrap/js/modal.js
+                - %kernel.root_dir%/../bower_components/bootstrap/js/tooltip.js
+                - %kernel.root_dir%/../bower_components/bootstrap/js/popover.js
+                - %kernel.root_dir%/../bower_components/bootstrap/js/scrollspy.js
+                - %kernel.root_dir%/../bower_components/bootstrap/js/tab.js
+                - %kernel.root_dir%/../bower_components/bootstrap/js/affix.js
+                - %kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js
+            output: js/bootstrap.js
+        codemirror_css:
+            inputs:
+                - %kernel.root_dir%/../bower_components/codemirror/lib/codemirror.css
+                - %kernel.root_dir%/../bower_components/codemirror/addon/lint/lint.css
+            filters:
+                - cssrewrite
+            output: css/codemirror.css
+        codemirror_js:
+            inputs:
+                - %kernel.root_dir%/../bower_components/codemirror/lib/codemirror.js
+                - %kernel.root_dir%/../bower_components/codemirror/mode/javascript/javascript.js
+                - %kernel.root_dir%/../bower_components/codemirror/addon/lint/lint.js
+                - %kernel.root_dir%/../bower_components/jsonlint/lib/jsonlint.js
+                - %kernel.root_dir%/../bower_components/codemirror/addon/lint/json-lint.js
+            output: js/codemirror.js
+        jquery:
+            inputs:
+                - %kernel.root_dir%/../bower_components/jquery/dist/jquery.min.js
+            output: js/jquery.js
+        jqueryrest:
+            inputs:
+                - %kernel.root_dir%/../bower_components/jquery.rest/dist/1/jquery.rest.min.js
+            output: js/jquery.rest.js
+braincrafted_bootstrap:
+    auto_configure:
+        assetic: false

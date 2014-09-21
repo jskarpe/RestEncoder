@@ -1,9 +1,0 @@
-{
-    "name": "RestEncoder",
-    "dependencies": {
-        "bootstrap": "*",
-        "codemirror": "*",
-        "jsonlint": "*",
-        "jquery": "*"
-    }
-}

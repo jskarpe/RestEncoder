@@ -1,109 +1,222 @@
-{% extends '::base.html.twig' %} {% javascripts "@jquery_js"
-"@bootstrap_js" "@codemirror_js"
-"@YuavRestEncoderBundle/Resources/public/components/codemirror/mode/javascript/javascript.js"
-"@YuavRestEncoderBundle/Resources/public/components/codemirror/addon/lint/lint.js"
-"@YuavRestEncoderBundle/Resources/public/components/jsonlint/lib/jsonlint.js"
-"@YuavRestEncoderBundle/Resources/public/components/codemirror/addon/lint/json-lint.js"
-%}
-<script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %} {% stylesheets "@bootstrap_css" "@codemirror_css"
-"@YuavRestEncoderBundle/Resources/public/components/codemirror/addon/lint/lint.css"
-"@YuavRestEncoderBundle/Resources/public/components/codemirror/theme/eclipse.css"
-%}
-<link rel="stylesheet" href="{{ asset_url }}" />
+{% extends '::base.html.twig' %} {% block title %}Request builder{%
+endblock %} {% block javascripts %}
+<script src="{{ asset('js/codemirror.js') }}"></script>
+<script src="{{ asset('js/jquery.rest.js') }}"></script>
+{% endblock %} {% block stylesheets %}
+<link href="{{ asset('css/codemirror.css') }}" rel="stylesheet">
 <style type="text/css">
 .CodeMirror {
-	border: 1px solid black;
+	line-height: 1.3em;
+	font-family: monospace;
+	/* Necessary so the scrollbar can be absolutely positioned within the wrapper on Lion. */
+	position: relative;
+	/* This prevents unwanted scrollbars from showing up on the body and wrapper in IE. */
+	overflow: hidden;
+	background-color: white;
+	width: 530px;
+	/* Copied from Bootstrap's textarea */
+	display: inline-block;
+	margin-bottom: 9px;
+	color: #555555;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-o-transition: border linear 0.2s, box-shadow linear 0.2s;
+	transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+
+.CodeMirror-focused {
+	/* Copied from Bootstrap's textarea */
+	border-color: rgba(82, 168, 236, 0.8);
+	outline: 0;
+	outline: thin dotted \9;
+	/* IE6-9 */
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px
+		rgba(82, 168, 236, 0.6);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px
+		rgba(82, 168, 236, 0.6);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px
+		rgba(82, 168, 236, 0.6);
 }
 </style>
-{% endstylesheets %} {% block title %}Request builder{% endblock %} {%
-block content %}
-<div class="page-header">
-	<h1>Request builder</h1>
-</div
+{% endblock %} {% block body %}
 <div class="container">
 
-<div id="request_builder" class="row">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">API request</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-xs-12">
+				<select id="resource_select" name="resource_select">
+					<option value="jobs">Jobs</option>
+					<option value="inputs">Inputs</option>
+					<option value="outputs">Outputs</option>
+				</select> <select id="resource_action_select"
+					name="resource_action_select"><option value="create">Create</option>
+					<option value="list">List</option>
+					<option value="get">Get</option>
+					<option value="cancel">Cancel</option>
+					<option value="progress">Progress</option>
+				</select> <input id="job_id" name="job_id" type="text"
+					placeholder="Job ID">
+			</div>
 
-<div id="request_settings_fields" class="col-xs-6">
-
-      <div class="request-field">
-        <label>Request Type</label><br>
-        <select  id="resource_select" name="resource_select"><option value="jobs">Jobs</option><option value="inputs">Inputs</option><option value="outputs">Outputs</option></select>
-        <select  id="resource_action_select" name="resource_action_select"><option value="create">Create</option><option value="list">List</option><option value="details">Details</option><option value="resubmit">Resubmit</option><option value="cancel">Cancel</option><option value="progress">Progress</option></select>
-      </div>
-
-      <div style="display: block;" id="request_template_selector_container" class="optional-field request-field">
-        <label>Job Template</label><br>
-            <select  id="request_template_selector" name="request_template_selector"><option value="">Select a template</option>
-			<option value="template_1">Basic</option>
-			<option value="template_2">Apple HLS</option>
-			<option value="template_4">Mobile (Newest Devices)</option>
-			<option value="template_5">Mobile (Standard Devices) </option>
-			<option value="template_6">Mobile (Legacy Devices)</option>
-			<option value="template_7">iPod Nano</option>
-			<option value="template_15">Live Stream HLS to S3</option>
-            <option value="template_3">HTML5</option>
-            </select>
-      </div>
-
-      <div style="display: none;" id="job_id_container" class="optional-field request-field">
-        <label>Job ID</label><br>
-        <input id="job_id" name="job_id" type="text">
-      </div>
-
-      <div style="display: none;" id="input_id_container" class="optional-field request-field">
-        <label>Input ID</label><br>
-        <input id="input_id" name="input_id" type="text">
-      </div>
-
-      <div style="display: none;" id="output_id_container" class="optional-field request-field">
-        <label>Output ID</label><br>
-        <input id="output_id" name="output_id" type="text">
-      </div>
-
-    
-
-
-
-</div>
-</div>
-
-<div id="request_headers_container" class="col-xs-6">
-	<h3>Headers</h3>
-	<pre id="request_headers" class="code-output">
-		<span class="http-headers">
-  <span class="method">POST /api/v1/jobs HTTP/1.1</span>
-  <span class="accept">Accept: application/json</span>
-  <span class="content-type">Content-Type: application/json</span>
-</span>
-</pre>
-</div>
-
-
-<div id="request_body_container" class="col-xs-6">
-	<h3>POST Body Editor</h3>
-	<textarea id="request_body_editor" class="form-control" rows="5">{
-  "input": "http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"
+			<div id="request_body_container" class="col-xs-6">
+				<h5>POST Body Editor</h5>
+				<textarea class="form-control" id="request_body_editor">{
+  "input": "http://bit.ly/1hiyzMe"
 }</textarea>
-	<script>
-	  CodeMirror.fromTextArea(document.getElementById("request_body_editor"), {
-		    mode: "application/json",
-		    gutters: ["CodeMirror-lint-markers"],
-		    lint: true,
-		    lineNumbers: true,
-		    theme: "eclipse"
-		  });
-	</script>
+			</div>
+
+			<div id="request_headers_container" class="col-xs-6">
+				<h5>Headers</h5>
+				<pre id="request_headers">
+POST /api/v1/jobs HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+            </pre>
+			</div>
+
+			<div class="col-xs-8">
+				<button type="submit" class="btn btn-primary span3"
+					id="submit_button">Submit</button>
+				<img id="ajaxLoading" alt="Loading..." src="/ajax-loader.gif"
+					class="span3">
+			</div>
+
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Response</h3>
+		</div>
+		<div class="panel-body" id="request_response"></div>
+	</div>
+
 </div>
 
-<a href="#" class="btn btn-primary" id="submit_button">Execute</a>
 
-</div>
-</div>
+<script>
+
+textArea = document.getElementById("request_body_editor");
+var editor = CodeMirror.fromTextArea(textArea, {
+  lineNumbers: true,
+  mode: "application/json",
+  gutters: ["CodeMirror-lint-markers"],
+  lint: true
+});
 
 
+var client = new $.RestClient('/app_dev.php/api/v1/', {
+  username: 'user',
+  password: 'userpass',
+  stripTrailingSlash: true,
+  stringifyData: true
+});
+	
+client.add('jobs', { url: 'jobs' });
 
+$(function() {
+    $("#submit_button").click(function() { 
+        var json = jQuery.parseJSON($('textarea#request_body_editor').val() );
+        var request;
+        switch($("#resource_action_select").val()) {
+        case 'create':
+        	request = client.jobs.create(json);
+            break;
+        case 'list':
+        	request = client.jobs.read();
+            break;
+        case 'get':
+            request = client.jobs.read($('#job_id').val());
+        break;
+        default:
+    }
+        request.complete(function(data) {
+
+        	var responseJson = ''
+        	 if (request.responseJSON !== undefined){
+            	 console.log(request);
+        		 responseJson = JSON.stringify(request.responseJSON, null, 4); //JSON.stringify(jQuery.parseJSON(), null, 4);
+        		 };
+
+        		x = (1 < 2) ? true : false;
+                
+            $("#request_response").html("<pre>HTTP/1.1 " + request.status + " " + request.statusText + "\n"
+                     + request.getAllResponseHeaders() + "\n"
+                     + responseJson  + "</pre>");
+        });
+        return false;
+    });
+});
+
+var $loading = $('#ajaxLoading').hide();
+$(document)
+  .ajaxStart(function () {
+    $loading.show();
+  })
+  .ajaxStop(function () {
+    $loading.hide();
+});
+
+activatePostEditor();
+
+$( "#resource_action_select" ).change(function() {
+	activatePostEditor();
+	
+	});
+
+function activatePostEditor()
+{
+	switch ($("#resource_action_select").val()) {
+	case 'create':
+		$('#job_id').hide();
+		$('#request_body_container').show();
+		break;
+	case 'list':
+		$('#job_id').hide();
+		$('#request_body_container').hide();
+		break;
+	default:
+		$('#job_id').show();
+		$('#request_body_container').hide();
+	}
+}
+
+
+// // C
+// client.jobs.create({a:21,b:42});
+// // POST /rest/api/jobs/ (with data a=21 and b=42)
+// // Note: data can also be stringified to: {"a":21,"b":42} in this case, see options below
+
+// // R
+// client.jobs.read();
+// // GET /rest/api/jobs/
+// client.jobs.read(42);
+// // GET /rest/api/jobs/42/
+
+// // U
+// client.jobs.update(42, {my:"updates"});
+// // PUT /rest/api/42/   my=updates
+
+// // D
+// client.jobs.destroy(42);
+// client.jobs.del(42);
+// // DELETE /rest/api/jobs/42/
+// // Note: client.jobs.delete() has been disabled due to IE compatibility
+
+</script>
 
 
 {% endblock %}
+
+

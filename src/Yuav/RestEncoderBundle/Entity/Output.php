@@ -22,7 +22,7 @@ class Output
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Job", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="Job", inversedBy="outputs", cascade={"all"})
      */
     private $job;
     

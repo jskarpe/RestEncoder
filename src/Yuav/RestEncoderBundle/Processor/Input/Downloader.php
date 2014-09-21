@@ -95,14 +95,39 @@ class Downloader
         curl_multi_close($mh);
         fclose($bodyStream); // Not closing explicitly results in incomplete download for curl_multi
         
+        $tmpDir = $this->tempdir();
         if (false !== $filename) {
-            rename($tmpFile, sys_get_temp_dir() . '/' . $filename);
+            rename($tmpFile, $tmpDir . '/' . $filename);
         }
         
         // Cache
-        $this->downloadedFiles[$url] = sys_get_temp_dir() . '/' . $filename;
+        $this->downloadedFiles[$url] = $tmpDir . '/' . $filename;
         
-        return sys_get_temp_dir() . '/' . $filename;
+        return $tmpDir . '/' . $filename;
+    }
+
+    public function rmTmpFile($url)
+    {
+        if (isset($this->downloadedFiles[$url])) {
+            $file = $this->downloadedFiles[$url];
+            if (file_exists($file)) {
+                unlink($file);
+                rmdir(dirname($file));
+            }
+            unset($this->downloadedFiles[$url]);
+        }
+    }
+
+    protected function tempdir()
+    {
+        $tempfile = tempnam(sys_get_temp_dir(), '');
+        if (file_exists($tempfile)) {
+            unlink($tempfile);
+        }
+        mkdir($tempfile);
+        if (is_dir($tempfile)) {
+            return $tempfile;
+        }
     }
 
     protected function findFilenameFromHeader($header)

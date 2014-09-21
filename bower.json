@@ -1,0 +1,25 @@
+{
+  "name": "RestEncoder",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Yuav/RestEncoder",
+  "authors": [
+    "Jon Skarpeteig <jon.skarpeteig@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "jquery": "~2.1.1",
+    "jquery.rest": "~1.0.2",
+    "codemirror": "~4.4.0",
+    "jsonlint": "~1.6.0"
+  }
+}
