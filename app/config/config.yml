@@ -134,3 +134,22 @@ old_sound_rabbit_mq:
             exchange_options: {name: 'output_queue', type: direct}
             queue_options:    {name: 'output_queue'}
             callback:         yuav_rest_encoder.output_consumer
+
+services:
+    opencloud.connection:
+        class: OpenCloud\OpenStack
+        arguments:
+          - %openstack_identity_url%
+          - {username: %openstack_username%, password: %openstack_password%, tenantName: %openstack_tenant_name%}
+            
+knp_gaufrette:
+    adapters:
+        foo:
+            opencloud:
+                object_store_id: opencloud.object_store
+                container_name: RestEncoder
+                create_container: true
+    filesystems:
+        outputs:
+            adapter:    foo
+            alias:      foo_filesystem

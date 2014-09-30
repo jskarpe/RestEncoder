@@ -85,9 +85,10 @@ class JobProcessor
                 'job_id' => $job->getId(),
                 'output_id' => $output->getId()
             );
-            $this->outputQueueProducer->publish(json_encode($msg));
+            $jsonmsg = json_encode($msg);
+            $this->outputQueueProducer->publish($jsonmsg);
             if ($this->logger) {
-                $this->logger->debug('Added output ' . $output->getId() . ' to queue (' . $output->getFormat() . ')');
+                $this->logger->debug("Added output $jsonmsg to queue (" . $output->getFormat() . ')');
             }
         }
         

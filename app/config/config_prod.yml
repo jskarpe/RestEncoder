@@ -23,3 +23,9 @@ monolog:
             level: debug
         console:
             type:  console
+
+knp_gaufrette:
+    adapters:
+        foo:
+            dropbox:
+                api_id: yuav_rest_encoder.dropbox.api

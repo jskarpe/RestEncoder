@@ -1,34 +1,64 @@
 <?xml version="1.0" ?>
 
-<container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
 	<parameters>
-	    <parameter key="yuav_rest_encoder.job.handler.class">Yuav\RestEncoderBundle\Handler\JobHandler</parameter>
-	    <parameter key="yuav_rest_encoder.job.class">Yuav\RestEncoderBundle\Entity\Job</parameter>
+		<parameter key="yuav_rest_encoder.job.handler.class">Yuav\RestEncoderBundle\Handler\JobHandler</parameter>
+		<parameter key="yuav_rest_encoder.job.class">Yuav\RestEncoderBundle\Entity\Job</parameter>
+		<parameter key="yuav_rest_encoder.swift.uri">http://10.0.0.175:5000/v2.0</parameter>
+		<parameter key="yuav_rest_encoder.swift.containername">RestEncoder</parameter>
+		<parameter key="yuav_rest_encoder.swift.createcontainer">true</parameter>
+		<parameter key="yuav_rest_encoder.swift.credentials" type="collection">
+			<parameter key="username">admin</parameter>
+			<parameter key="password">secrete</parameter>
+			<parameter key="tenantName">admin</parameter>
+		</parameter>
 	</parameters>
-	
+
 	<services>
-	    <service id="yuav_rest_encoder.job.handler" class="%yuav_rest_encoder.job.handler.class%">
-	        <argument type="service" id="doctrine.orm.entity_manager" />
-	        <argument>%yuav_rest_encoder.job.class%</argument>
-	        <argument type="service" id="form.factory"></argument>
-	    </service>
+		<service id="yuav_rest_encoder.swift.client" class="OpenCloud\OpenStack">
+			<argument>%yuav_rest_encoder.swift.uri%</argument>
+			<argument>%yuav_rest_encoder.swift.credentials%</argument>
+		</service>
+		<service id="yuav_rest_encoder.swift.objectstore" class="OpenCloud\ObjectStore\Service">
+			<argument type="service" id="yuav_rest_encoder.swift.client" />
+			<argument>object-store</argument>
+			<argument>swift</argument>
+			<argument>regionOne</argument>
+		</service>
+		<service id="yuav_rest_encoder.swift.adapter" class="Gaufrette\Adapter\OpenCloud">
+			<argument type="service" id="yuav_rest_encoder.swift.objectstore" />
+			<argument>%yuav_rest_encoder.swift.containername%</argument>
+			<argument>%yuav_rest_encoder.swift.createcontainer%</argument>
+			<argument>true</argument>
+		</service>
+		<service id="yuav_rest_encoder.swift.fs" class="Gaufrette\Filesystem">
+			<argument type="service" id="yuav_rest_encoder.swift.adapter">
+			</argument>
+		</service>
+		<service id="yuav_rest_encoder.job.handler" class="%yuav_rest_encoder.job.handler.class%">
+			<argument type="service" id="doctrine.orm.entity_manager" />
+			<argument>%yuav_rest_encoder.job.class%</argument>
+			<argument type="service" id="form.factory">
+			</argument>
+		</service>
 		<service id="yuav_rest_encoder.job_consumer" class="Yuav\RestEncoderBundle\Consumer\JobConsumer">
 			<argument type="service" id="doctrine.orm.entity_manager" />
 			<argument type="service" id="old_sound_rabbit_mq.output_queue_producer" />
 			<argument type="service" id="logger" />
-	    </service>
+		</service>
 		<service id="yuav_rest_encoder.output_consumer" class="Yuav\RestEncoderBundle\Consumer\OutputConsumer">
 			<argument type="service" id="doctrine.orm.entity_manager" />
 			<argument type="service" id="dubture_ffmpeg.ffmpeg" />
+			<argument type="service" id="knp_gaufrette.filesystem_map" />
 			<argument type="service" id="logger" />
-	    </service>
+		</service>
 		<service id="yuav_rest_encoder.output_processor" class="Yuav\RestEncoderBundle\Processor\OutputProcessor">
+			<argument type="service" id="doctrine.orm.entity_manager" />
 			<argument type="service" id="dubture_ffmpeg.ffmpeg" />
+			<argument type="service" id="knp_gaufrette.filesystem_map" />
 			<argument type="service" id="logger" />
-	    </service>
+		</service>
 	</services>
 
 </container>

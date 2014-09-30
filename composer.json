@@ -13,6 +13,7 @@
         "php-ffmpeg/php-ffmpeg": "~0.4",
         "pulse00/ffmpeg-bundle": "dev-master",
         "knplabs/gaufrette": "0.1.*",
+        "knplabs/knp-gaufrette-bundle": "*@dev",
         "php": ">=5.3.3",
         "symfony/symfony": "~2.4",
         "doctrine/orm": "~2.2,>=2.2.3",
@@ -28,7 +29,9 @@
         "friendsofsymfony/rest-bundle": "dev-master",
         "jms/serializer-bundle": "dev-master",
         "nelmio/api-doc-bundle": "dev-master",
-        "braincrafted/bootstrap-bundle": "@stable"
+        "braincrafted/bootstrap-bundle": "@stable",
+        "rackspace/php-opencloud": "dev-master",
+        "guzzlehttp/log-subscriber": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

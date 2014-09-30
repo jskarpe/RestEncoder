@@ -8,28 +8,44 @@ use FFMpeg\FFMpeg;
 use Yuav\RestEncoderBundle\Processor\Output\Translator;
 use Psr\Log\LoggerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Gaufrette;
 
 class OutputProcessor
 {
 
     private $downloader;
+
     private $ffmpeg;
+
     private $logger;
+
     private $om;
+
     private $currentJob;
 
-    public function __construct(ObjectManager $om, FFMpeg $ffmpeg, LoggerInterface $logger = null)
+    /**
+     *
+     * @var \Gaufrette\Filesystem
+     */
+    private $fs;
+
+    private $tempFiles;
+
+    public function __construct(ObjectManager $om, FFMpeg $ffmpeg, \Knp\Bundle\GaufretteBundle\FilesystemMap $fsMap, LoggerInterface $logger = null)
     {
         $this->om = $om;
         $this->ffmpeg = $ffmpeg;
+        $this->fs = $fsMap->get('outputs');
         $this->logger = $logger;
     }
-    
+
     public function __destruct()
     {
-        foreach ($this->tempFiles as $file) {
-            if (file_exists($file)) {
-                unlink($file);
+        if (is_array($this->tempFiles) && ! empty($this->tempFiles)) {
+            foreach ($this->tempFiles as $file) {
+                if (file_exists($file)) {
+                    unlink($file);
+                }
             }
         }
     }
@@ -55,12 +71,15 @@ class OutputProcessor
         $outputPathFile = tempnam(sys_get_temp_dir(), 'RestEncoder') . $filename;
         $format = $translator->getFFMpegFormatFromOutput($output);
         
-        $format->on('progress', array($this, 'updateProgress'));
+        $format->on('progress', array(
+            $this,
+            'updateProgress'
+        ));
         
         $video->save($format, $outputPathFile);
         $this->tempfiles[] = $outputPathFile;
         
-//         $this->uploadOutputFile($output, $outputPathFile);
+        $this->upload(basename($outputPathFile), file_get_contents($outputPathFile));
         
         return $output;
     }
@@ -71,9 +90,11 @@ class OutputProcessor
             $this->currentJob->setCurrentEventProgress("$percentage%");
         }
     }
-    
-    public function upload($outputFile)
-    {}
+
+    public function upload($key, $contents)
+    {
+        $this->fs->write($key, $contents);
+    }
 
     /**
      *

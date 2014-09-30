@@ -12,3 +12,8 @@ npm install less
 
 Run job queue consumer: php app/console rabbitmq:consumer -m 1 job_queue
 Run output queue consumer: php app/console rabbitmq:consumer -m 1 output_queue
+
+Get development swift instance running:
+
+  http://stacksync.org/storage-back-end/openstack-swift-all-in-one
+  

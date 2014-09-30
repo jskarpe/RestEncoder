@@ -18,14 +18,17 @@ class OutputConsumer implements ConsumerInterface
     
     private $ffmpeg;
     private $om;
+    private $fsMap;
     private $outputProcessor;
     private $logger;
 
-    public function __construct(ObjectManager $om, FFMpeg $ffmpeg, LoggerInterface $logger = null)
+    public function __construct(ObjectManager $om, FFMpeg $ffmpeg, \Knp\Bundle\GaufretteBundle\FilesystemMap $fsMap, LoggerInterface $logger = null)
     {
         $this->ffmpeg = $ffmpeg;
         $this->om = $om;
+        $this->fsMap = $fsMap;
         $this->logger = $logger;
+        
     }
 
     public function execute(AMQPMessage $msg)
@@ -59,7 +62,7 @@ class OutputConsumer implements ConsumerInterface
     public function getOutputProcessor()
     {
         if (null === $this->outputProcessor) {
-            $this->outputProcessor = new OutputProcessor($this->om, $this->ffmpeg, $this->logger);
+            $this->outputProcessor = new OutputProcessor($this->om, $this->ffmpeg, $this->fsMap, $this->logger);
         }
         return $this->outputProcessor;
     }

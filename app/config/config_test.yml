@@ -25,3 +25,14 @@ doctrine:
             default:
                 driver:   pdo_sqlite
                 path:     %kernel.cache_dir%/test.db
+
+knp_gaufrette:
+    adapters:
+        foo:
+            in_memory:
+                files:
+                    'file1.txt':    ~
+                    'file2.txt':
+                        content:    Some content
+                        checksum:   abc1efg2hij3
+                        mtime:      123456890123
