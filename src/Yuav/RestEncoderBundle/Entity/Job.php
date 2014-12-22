@@ -73,18 +73,6 @@ class Job implements JobInterface
 
     /**
      *
-     * @var string @ORM\Column(name="current_event", type="string", length=100, nullable=true)
-     */
-    private $current_event;
-
-    /**
-     *
-     * @var string @ORM\Column(name="current_event_progress", type="string", length=100, nullable=true)
-     */
-    private $current_event_progress;
-
-    /**
-     *
      * @var string @ORM\Column(name="progress", type="string", length=100, nullable=true)
      */
     private $progress;
@@ -733,7 +721,7 @@ class Job implements JobInterface
                 if ($outputMediaFile instanceof MediaFile) {
                     $outputMediaFile->setJob($this);
                 } else {
-                    throw \InvalidArgumentException("Expected ArrayCollection with MediaFile objects, found type: " . gettype($outputMediaFile));
+                    throw\InvalidArgumentException("Expected ArrayCollection with MediaFile objects, found type: " . gettype($outputMediaFile));
                 }
             }
         }
@@ -826,28 +814,6 @@ class Job implements JobInterface
     public function populateUpdatedAt()
     {
         $this->setUpdatedAt(new \DateTime('now'));
-    }
-
-    public function getCurrentEvent()
-    {
-        return $this->current_event;
-    }
-
-    public function setCurrentEvent($current_event)
-    {
-        $this->current_event = $current_event;
-        return $this;
-    }
-
-    public function getCurrentEventProgress()
-    {
-        return $this->current_event_progress;
-    }
-
-    public function setCurrentEventProgress($current_event_progress)
-    {
-        $this->current_event_progress = $current_event_progress;
-        return $this;
     }
 
     public function getProgress()

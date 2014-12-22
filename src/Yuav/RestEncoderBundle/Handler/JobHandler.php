@@ -103,7 +103,7 @@ class JobHandler implements JobHandlerInterface
 	{
 		$form = $this->formFactory->create(new JobType(), $job, array('method' => $method));
 		$form->submit($parameters, false);
-		
+		var_dump($parameters);
 		if ($form->isValid()) {
 
 			$job = $form->getData();
@@ -111,6 +111,7 @@ class JobHandler implements JobHandlerInterface
 			    $output = new Output();
 			    $job->addOutput($output);
 			}
+			var_dump($job);
 			$this->om->persist($job);
 			$this->om->flush($job);
 

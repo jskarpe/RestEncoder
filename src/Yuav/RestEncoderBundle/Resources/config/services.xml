@@ -5,7 +5,7 @@
 	<parameters>
 		<parameter key="yuav_rest_encoder.job.handler.class">Yuav\RestEncoderBundle\Handler\JobHandler</parameter>
 		<parameter key="yuav_rest_encoder.job.class">Yuav\RestEncoderBundle\Entity\Job</parameter>
-		<parameter key="yuav_rest_encoder.swift.uri">http://10.0.0.175:5000/v2.0</parameter>
+		<parameter key="yuav_rest_encoder.swift.uri">http://10.0.0.112:5000/v2.0</parameter>
 		<parameter key="yuav_rest_encoder.swift.containername">RestEncoder</parameter>
 		<parameter key="yuav_rest_encoder.swift.createcontainer">true</parameter>
 		<parameter key="yuav_rest_encoder.swift.credentials" type="collection">

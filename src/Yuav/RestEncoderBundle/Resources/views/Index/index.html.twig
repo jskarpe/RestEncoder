@@ -23,12 +23,14 @@
 		<th>Id</th>
 		<th>Height</th>
 		<th>Width</th>
+		<th>Url</th>
 	</tr>
 	{% for output in outputs %}
 	<tr>
 		<td><a href="/api/v1/outputs/{{ output.id }}.json"> {{ output.id }} </a></td>
 		<td>{{ output.height }}</td>
 		<td>{{ output.width }}</td>
+		<td><a href="{{ output.url }}">{{ output.url }}</a></td>
 	</tr>
 	{% endfor %}
 </table>

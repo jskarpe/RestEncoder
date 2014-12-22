@@ -1,5 +1,4 @@
 <?php
-
 namespace Yuav\RestEncoderBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -12,12 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Output
 {
+
     /**
-     * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer @ORM\Column(name="id", type="integer")
+     *      @ORM\Id
+     *      @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -25,123 +24,129 @@ class Output
      * @ORM\ManyToOne(targetEntity="Job", inversedBy="outputs", cascade={"all"})
      */
     private $job;
-    
+
     /**
-     * @var string
+     * @ORM\OneToOne(targetEntity="MediaFile", inversedBy="output", cascade={"all"})
+     */
+    private $mediaFile;
+
+    /**
      *
-     * @ORM\Column(name="type", type="string", length=2048)
+     * @var string @ORM\Column(name="type", type="string", length=2048)
      */
     private $type = 'standard';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="label", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="label", type="string", length=2048, nullable=true)
      */
     private $label;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="url", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="url", type="string", length=2048, nullable=true)
      */
     private $url;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="secondaryUrl", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="secondaryUrl", type="string", length=2048, nullable=true)
      */
     private $secondaryUrl;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="base_url", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="base_url", type="string", length=2048, nullable=true)
      */
     private $base_url;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="filename", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="current_event", type="string", length=100, nullable=true)
+     */
+    private $currentEvent = 'Queued';
+
+    /**
+     *
+     * @var string @ORM\Column(name="current_event_progress", type="string", length=100, nullable=true)
+     */
+    private $currentEventProgress;
+
+    /**
+     *
+     * @var string @ORM\Column(name="progress", type="string", length=100, nullable=true)
+     */
+    private $progress;
+
+    /**
+     *
+     * @var string @ORM\Column(name="filename", type="string", length=2048, nullable=true)
      */
     private $filename;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="package_filename", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="package_filename", type="string", length=2048, nullable=true)
      */
     private $package_filename;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="package_format", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="package_format", type="string", length=2048, nullable=true)
      */
     private $package_format;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="device_profile", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="device_profile", type="string", length=2048, nullable=true)
      */
     private $device_profile;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="strict", type="string", length=2048)
+     * @var string @ORM\Column(name="strict", type="string", length=2048)
      */
     private $strict = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="skip_video", type="string", length=2048)
+     * @var string @ORM\Column(name="skip_video", type="string", length=2048)
      */
     private $skip_video = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="skip_audio", type="string", length=2048)
+     * @var string @ORM\Column(name="skip_audio", type="string", length=2048)
      */
     private $skip_audio = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="source", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="source", type="string", length=2048, nullable=true)
      */
     private $source;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="credentials", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="credentials", type="string", length=2048, nullable=true)
      */
     private $credentials;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="generate_md5_checksum", type="string", length=2048)
+     * @var string @ORM\Column(name="generate_md5_checksum", type="string", length=2048)
      */
     private $generate_md5_checksum = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="parallel_upload_limit", type="string", length=2048)
+     * @var string @ORM\Column(name="parallel_upload_limit", type="string", length=2048)
      */
     private $parallel_upload_limit = 10;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="headers", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="headers", type="string", length=2048, nullable=true)
      */
     private $headers;
 
@@ -152,951 +157,819 @@ class Output
      */
     
     /**
-     * @var string
      *
-     * @ORM\Column(name="format", type="string", length=2048)
+     * @var string @ORM\Column(name="format", type="string", length=2048)
      */
     private $format = 'mp4';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="video_codec", type="string", length=2048)
+     * @var string @ORM\Column(name="video_codec", type="string", length=2048)
      */
     private $video_codec = 'h264';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_codec", type="string", length=2048)
+     * @var string @ORM\Column(name="audio_codec", type="string", length=2048)
      */
     private $audio_codec = 'aac';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="size", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="size", type="string", length=2048, nullable=true)
      */
     private $size;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="number", type="integer", nullable=true)
+     * @var string @ORM\Column(name="number", type="integer", nullable=true)
      */
     private $number;
-    
+
     /**
-     * @var string
      *
-     * @ORM\Column(name="width", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="width", type="string", length=2048, nullable=true)
      */
     private $width;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="height", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="height", type="string", length=2048, nullable=true)
      */
     private $height;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="upscale", type="string", length=2048)
+     * @var string @ORM\Column(name="upscale", type="string", length=2048)
      */
     private $upscale = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="aspect_mode", type="string", length=2048)
+     * @var string @ORM\Column(name="aspect_mode", type="string", length=2048)
      */
     private $aspect_mode = 'preserve';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="quality", type="string", length=2048)
+     * @var string @ORM\Column(name="quality", type="string", length=2048)
      */
     private $quality = 3;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="video_bitrate", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="video_bitrate", type="string", length=2048, nullable=true)
      */
     private $video_bitrate;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_quality", type="string", length=2048)
+     * @var string @ORM\Column(name="audio_quality", type="string", length=2048)
      */
     private $audio_quality = 3;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_bitrate", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="audio_bitrate", type="string", length=2048, nullable=true)
      */
     private $audio_bitrate;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="max_video_bitrate", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="max_video_bitrate", type="string", length=2048, nullable=true)
      */
     private $max_video_bitrate;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="speed", type="string", length=2048)
+     * @var string @ORM\Column(name="speed", type="string", length=2048)
      */
     private $speed = 3;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="decoder_bitrate_cap", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="decoder_bitrate_cap", type="string", length=2048, nullable=true)
      */
     private $decoder_bitrate_cap;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="decoder_buffer_size", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="decoder_buffer_size", type="string", length=2048, nullable=true)
      */
     private $decoder_buffer_size;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="one_pass", type="string", length=2048)
+     * @var string @ORM\Column(name="one_pass", type="string", length=2048)
      */
     private $one_pass = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_constant_bitrate", type="string", length=2048)
+     * @var string @ORM\Column(name="audio_constant_bitrate", type="string", length=2048)
      */
     private $audio_constant_bitrate = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="frame_rate", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="frame_rate", type="string", length=2048, nullable=true)
      */
     private $frame_rate;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="max_frame_rate", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="max_frame_rate", type="string", length=2048, nullable=true)
      */
     private $max_frame_rate;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="decimate", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="decimate", type="string", length=2048, nullable=true)
      */
     private $decimate;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="keyframe_interval", type="string", length=2048)
+     * @var string @ORM\Column(name="keyframe_interval", type="string", length=2048)
      */
     private $keyframe_interval = 250;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="keyframe_rate", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="keyframe_rate", type="string", length=2048, nullable=true)
      */
     private $keyframe_rate;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="fixed_keyframe_interval", type="string", length=2048)
+     * @var string @ORM\Column(name="fixed_keyframe_interval", type="string", length=2048)
      */
     private $fixed_keyframe_interval = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="forced_keyframe_interval", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="forced_keyframe_interval", type="string", length=2048, nullable=true)
      */
     private $forced_keyframe_interval;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="forced_keyframe_rate", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="forced_keyframe_rate", type="string", length=2048, nullable=true)
      */
     private $forced_keyframe_rate;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_sample_rate", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="audio_sample_rate", type="string", length=2048, nullable=true)
      */
     private $audio_sample_rate;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_channels", type="string", length=2048)
+     * @var string @ORM\Column(name="audio_channels", type="string", length=2048)
      */
     private $audio_channels = 2;
 
     /**
-     * 
-     * Start generating the thumbnails starting at the first frame.
-     * 
-     * @var boolean
      *
-     * @ORM\Column(name="start_at_first_frame", type="boolean")
+     *
+     *
+     * Start generating the thumbnails starting at the first frame.
+     *
+     * @var boolean @ORM\Column(name="start_at_first_frame", type="boolean")
      */
     private $start_at_first_frame = false;
-    
+
     /**
      * Take thumbnails at an even interval, in seconds.
-     * @var string
      *
-     * @ORM\Column(name="interval", type="integer", nullable=true)
+     * @var string @ORM\Column(name="interval", type="integer", nullable=true)
      */
     private $interval;
-    
+
     /**
      * Take thumbnails at an even interval, in frames.
-     * @var string
      *
-     * @ORM\Column(name="interval_in_frames", type="integer", nullable=true)
+     * @var string @ORM\Column(name="interval_in_frames", type="integer", nullable=true)
      */
     private $interval_in_frames;
-    
+
     /**
      * Prefix for thumbnail filenames.
-     * @var string
      *
-     * @ORM\Column(name="prefix", type="string", length=256)
+     * @var string @ORM\Column(name="prefix", type="string", length=256)
      */
     private $prefix = 'frame';
-    
+
     /**
+     *
+     *
      *
      * Make the output publicly readable on S3.
      *
-     * @var boolean
-     *
-     * @ORM\Column(name="public", type="boolean")
+     * @var boolean @ORM\Column(name="public", type="boolean")
      */
     private $public = false;
-    
+
     /**
      * An array of times, in seconds, at which to grab a thumbnail.
-     * @var string
      *
-     * @ORM\Column(name="times", type="integer", nullable=true)
+     * @var string @ORM\Column(name="times", type="integer", nullable=true)
      */
     private $times;
-    
+
     /**
-     * @var string
      *
-     * @ORM\Column(name="access_control", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="access_control", type="string", length=2048, nullable=true)
      */
     private $access_control;
-    
+
     /**
-     * @var string
      *
-     * @ORM\Column(name="grantee", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="grantee", type="string", length=2048, nullable=true)
      */
     private $grantee;
-    
+
     /**
-     * @var string
      *
-     * @ORM\Column(name="permission", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="permission", type="string", length=2048, nullable=true)
      */
     private $permission;
-    
+
     /**
-     * @var string
      *
-     * @ORM\Column(name="rrs", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="rrs", type="string", length=2048, nullable=true)
      */
     private $rrs;
-    
+
     /**
-     * @var string
      *
-     * @ORM\Column(name="watermarks", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="watermarks", type="string", length=2048, nullable=true)
      */
     private $watermarks;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="x", type="string", length=2048)
+     * @var string @ORM\Column(name="x", type="string", length=2048)
      */
-    private $x = -10;
+    private $x = - 10;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="y", type="string", length=2048)
+     * @var string @ORM\Column(name="y", type="string", length=2048)
      */
-    private $y = -10;
+    private $y = - 10;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="origin", type="string", length=2048)
+     * @var string @ORM\Column(name="origin", type="string", length=2048)
      */
     private $origin = 'content';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="opacity", type="string", length=2048)
+     * @var string @ORM\Column(name="opacity", type="string", length=2048)
      */
     private $opacity = 1.0;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="caption_url", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="caption_url", type="string", length=2048, nullable=true)
      */
     private $caption_url;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="skip_captions", type="string", length=2048)
+     * @var string @ORM\Column(name="skip_captions", type="string", length=2048)
      */
     private $skip_captions = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="rotate", type="string", length=2048)
+     * @var string @ORM\Column(name="rotate", type="string", length=2048)
      */
     private $rotate = 'auto';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="deinterlace", type="string", length=2048)
+     * @var string @ORM\Column(name="deinterlace", type="string", length=2048)
      */
     private $deinterlace = 'detect';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="sharpen", type="string", length=2048)
+     * @var string @ORM\Column(name="sharpen", type="string", length=2048)
      */
     private $sharpen = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="denoise", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="denoise", type="string", length=2048, nullable=true)
      */
     private $denoise;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="autolevel", type="string", length=2048)
+     * @var string @ORM\Column(name="autolevel", type="string", length=2048)
      */
     private $autolevel = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="deblock", type="string", length=2048)
+     * @var string @ORM\Column(name="deblock", type="string", length=2048)
      */
     private $deblock = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_gain", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="audio_gain", type="string", length=2048, nullable=true)
      */
     private $audio_gain;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_normalize", type="boolean")
+     * @var string @ORM\Column(name="audio_normalize", type="boolean")
      */
     private $audio_normalize = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_pre_normalize", type="boolean")
+     * @var string @ORM\Column(name="audio_pre_normalize", type="boolean")
      */
     private $audio_pre_normalize = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_post_normalize", type="boolean")
+     * @var string @ORM\Column(name="audio_post_normalize", type="boolean")
      */
     private $audio_post_normalize = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_bass", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="audio_bass", type="string", length=2048, nullable=true)
      */
     private $audio_bass;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_treble", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="audio_treble", type="string", length=2048, nullable=true)
      */
     private $audio_treble;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_highpass", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="audio_highpass", type="string", length=2048, nullable=true)
      */
     private $audio_highpass;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_lowpass", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="audio_lowpass", type="string", length=2048, nullable=true)
      */
     private $audio_lowpass;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_compression_ratio", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="audio_compression_ratio", type="string", length=2048, nullable=true)
      */
     private $audio_compression_ratio;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_compression_threshold", type="smallint")
+     * @var string @ORM\Column(name="audio_compression_threshold", type="smallint")
      */
-    private $audio_compression_threshold = -20;
+    private $audio_compression_threshold = - 20;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_expansion_ratio", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="audio_expansion_ratio", type="string", length=2048, nullable=true)
      */
     private $audio_expansion_ratio;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_expansion_threshold", type="smallint")
+     * @var string @ORM\Column(name="audio_expansion_threshold", type="smallint")
      */
-    private $audio_expansion_threshold = -35;
+    private $audio_expansion_threshold = - 35;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_fade", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="audio_fade", type="string", length=2048, nullable=true)
      */
     private $audio_fade;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_fade_in", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="audio_fade_in", type="string", length=2048, nullable=true)
      */
     private $audio_fade_in;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_fade_out", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="audio_fade_out", type="string", length=2048, nullable=true)
      */
     private $audio_fade_out;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="audio_karaoke_mode", type="boolean")
+     * @var string @ORM\Column(name="audio_karaoke_mode", type="boolean")
      */
     private $audio_karaoke_mode = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="start_clip", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="start_clip", type="string", length=2048, nullable=true)
      */
     private $start_clip;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="clip_length", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="clip_length", type="string", length=2048, nullable=true)
      */
     private $clip_length;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="notifications", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="notifications", type="string", length=2048, nullable=true)
      */
     private $notifications;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="event", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="event", type="string", length=2048, nullable=true)
      */
     private $event;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="min_size", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="min_size", type="string", length=2048, nullable=true)
      */
     private $min_size;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="max_size", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="max_size", type="string", length=2048, nullable=true)
      */
     private $max_size;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="min_duration", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="min_duration", type="string", length=2048, nullable=true)
      */
     private $min_duration;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="max_duration", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="max_duration", type="string", length=2048, nullable=true)
      */
     private $max_duration;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="segment_seconds", type="integer")
+     * @var string @ORM\Column(name="segment_seconds", type="integer")
      */
     private $segment_seconds = 10;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="segment_size", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="segment_size", type="string", length=2048, nullable=true)
      */
     private $segment_size;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="streams", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="streams", type="string", length=2048, nullable=true)
      */
     private $streams;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="path", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="path", type="string", length=2048, nullable=true)
      */
     private $path;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="bandwidth", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="bandwidth", type="string", length=2048, nullable=true)
      */
     private $bandwidth;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="resolution", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="resolution", type="string", length=2048, nullable=true)
      */
     private $resolution;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="codecs", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="codecs", type="string", length=2048, nullable=true)
      */
     private $codecs;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="segment_image_url", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="segment_image_url", type="string", length=2048, nullable=true)
      */
     private $segment_image_url;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="segment_video_snapshots", type="string", length=2048)
+     * @var string @ORM\Column(name="segment_video_snapshots", type="string", length=2048)
      */
     private $segment_video_snapshots = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="max_hls_protocol_version", type="string", length=2048)
+     * @var string @ORM\Column(name="max_hls_protocol_version", type="string", length=2048)
      */
     private $max_hls_protocol_version = 3;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="hls_optimized_ts", type="string", length=2048)
+     * @var string @ORM\Column(name="hls_optimized_ts", type="string", length=2048)
      */
     private $hls_optimized_ts = true;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="prepare_for_segmenting", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="prepare_for_segmenting", type="string", length=2048, nullable=true)
      */
     private $prepare_for_segmenting;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="instant_play", type="string", length=2048)
+     * @var string @ORM\Column(name="instant_play", type="string", length=2048)
      */
     private $instant_play = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="smil_base_url", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="smil_base_url", type="string", length=2048, nullable=true)
      */
     private $smil_base_url;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="encryption_method", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="encryption_method", type="string", length=2048, nullable=true)
      */
     private $encryption_method;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="encryption_key", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="encryption_key", type="string", length=2048, nullable=true)
      */
     private $encryption_key;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="encryption_key_url", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="encryption_key_url", type="string", length=2048, nullable=true)
      */
     private $encryption_key_url;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="encryption_key_rotation_period", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="encryption_key_rotation_period", type="string", length=2048, nullable=true)
      */
     private $encryption_key_rotation_period;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="encryption_key_url_prefix", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="encryption_key_url_prefix", type="string", length=2048, nullable=true)
      */
     private $encryption_key_url_prefix;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="encryption_iv", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="encryption_iv", type="string", length=2048, nullable=true)
      */
     private $encryption_iv;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="encryption_password", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="encryption_password", type="string", length=2048, nullable=true)
      */
     private $encryption_password;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="decryption_method", type="string", length=2048)
+     * @var string @ORM\Column(name="decryption_method", type="string", length=2048)
      */
     private $decryption_method = 'aes-128-cbc';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="decryption_key", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="decryption_key", type="string", length=2048, nullable=true)
      */
     private $decryption_key;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="decryption_key_url", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="decryption_key_url", type="string", length=2048, nullable=true)
      */
     private $decryption_key_url;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="decryption_password", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="decryption_password", type="string", length=2048, nullable=true)
      */
     private $decryption_password;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="h264_reference_frames", type="integer")
+     * @var string @ORM\Column(name="h264_reference_frames", type="integer")
      */
     private $h264_reference_frames = 3;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="h264_profile", type="string", length=2048)
+     * @var string @ORM\Column(name="h264_profile", type="string", length=2048)
      */
     private $h264_profile = 'baseline';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="h264_level", type="string", length=2048)
+     * @var string @ORM\Column(name="h264_level", type="string", length=2048)
      */
     private $h264_level = 'auto';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="h264_bframes", type="string", length=2048)
+     * @var string @ORM\Column(name="h264_bframes", type="string", length=2048)
      */
     private $h264_bframes = 0;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="tuning", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="tuning", type="string", length=2048, nullable=true)
      */
     private $tuning;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="crf", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="crf", type="string", length=2048, nullable=true)
      */
     private $crf;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="cue_points", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="cue_points", type="string", length=2048, nullable=true)
      */
     private $cue_points;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="time", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="time", type="string", length=2048, nullable=true)
      */
     private $time;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="name", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="name", type="string", length=2048, nullable=true)
      */
     private $name;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="data", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="data", type="string", length=2048, nullable=true)
      */
     private $data;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="vp6_temporal_down_watermark", type="integer")
+     * @var string @ORM\Column(name="vp6_temporal_down_watermark", type="integer")
      */
     private $vp6_temporal_down_watermark = 20;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="vp6_temporal_resampling", type="boolean")
+     * @var string @ORM\Column(name="vp6_temporal_resampling", type="boolean")
      */
     private $vp6_temporal_resampling = true;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="vp6_undershoot_pct", type="integer")
+     * @var string @ORM\Column(name="vp6_undershoot_pct", type="integer")
      */
     private $vp6_undershoot_pct = 90;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="vp6_profile", type="string", length=2048)
+     * @var string @ORM\Column(name="vp6_profile", type="string", length=2048)
      */
     private $vp6_profile = 'vp6e';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="vp6_compression_mode", type="string", length=2048)
+     * @var string @ORM\Column(name="vp6_compression_mode", type="string", length=2048)
      */
     private $vp6_compression_mode = 'good';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="vp6_2pass_min_section", type="string", length=2048)
+     * @var string @ORM\Column(name="vp6_2pass_min_section", type="string", length=2048)
      */
     private $vp6_2pass_min_section = 40;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="vp6_2pass_max_section", type="string", length=2048)
+     * @var string @ORM\Column(name="vp6_2pass_max_section", type="string", length=2048)
      */
     private $vp6_2pass_max_section = 400;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="vp6_stream_prebuffer", type="string", length=2048)
+     * @var string @ORM\Column(name="vp6_stream_prebuffer", type="string", length=2048)
      */
     private $vp6_stream_prebuffer = 6;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="vp6_stream_max_buffer", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="vp6_stream_max_buffer", type="string", length=2048, nullable=true)
      */
     private $vp6_stream_max_buffer;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="vp6_deinterlace_mode", type="string", length=2048)
+     * @var string @ORM\Column(name="vp6_deinterlace_mode", type="string", length=2048)
      */
     private $vp6_deinterlace_mode = 'adaptive';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="vp6_denoise_level", type="string", length=2048)
+     * @var string @ORM\Column(name="vp6_denoise_level", type="string", length=2048)
      */
     private $vp6_denoise_level = 0;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="alpha_transparency", type="boolean")
+     * @var string @ORM\Column(name="alpha_transparency", type="boolean")
      */
     private $alpha_transparency = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="constant_bitrate", type="boolean")
+     * @var string @ORM\Column(name="constant_bitrate", type="boolean")
      */
     private $constant_bitrate = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="hint", type="boolean")
+     * @var string @ORM\Column(name="hint", type="boolean")
      */
     private $hint = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="mtu_size", type="integer")
+     * @var string @ORM\Column(name="mtu_size", type="integer")
      */
     private $mtu_size = 1450;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="max_aac_profile", type="string", length=2048)
+     * @var string @ORM\Column(name="max_aac_profile", type="string", length=2048)
      */
     private $max_aac_profile = 'he-aac';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="force_aac_profile", type="string", length=2048, nullable=true)
+     * @var string @ORM\Column(name="force_aac_profile", type="string", length=2048, nullable=true)
      */
     private $force_aac_profile;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="aspera_transfer_policy", type="string", length=2048)
+     * @var string @ORM\Column(name="aspera_transfer_policy", type="string", length=2048)
      */
     private $aspera_transfer_policy = 'fair';
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="transfer_minimum_rate", type="string", length=2048)
+     * @var string @ORM\Column(name="transfer_minimum_rate", type="string", length=2048)
      */
     private $transfer_minimum_rate = 1000;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="transfer_maximum_rate", type="string", length=2048)
+     * @var string @ORM\Column(name="transfer_maximum_rate", type="string", length=2048)
      */
     private $transfer_maximum_rate = 250000;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="copy_video", type="boolean")
+     * @var string @ORM\Column(name="copy_video", type="boolean")
      */
     private $copy_video = false;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="copy_audio", type="boolean")
+     * @var string @ORM\Column(name="copy_audio", type="boolean")
      */
     private $copy_audio = false;
-
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -1106,7 +979,7 @@ class Output
     /**
      * Set type
      *
-     * @param string $type
+     * @param string $type            
      * @return Output
      */
     public function setType($type)
@@ -1115,14 +988,14 @@ class Output
             throw new \InvalidArgumentException("Type should not be null");
         }
         $this->type = $type;
-
+        
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -1132,20 +1005,20 @@ class Output
     /**
      * Set label
      *
-     * @param string $label
+     * @param string $label            
      * @return Output
      */
     public function setLabel($label)
     {
         $this->label = $label;
-
+        
         return $this;
     }
 
     /**
      * Get label
      *
-     * @return string 
+     * @return string
      */
     public function getLabel()
     {
@@ -1155,20 +1028,20 @@ class Output
     /**
      * Set url
      *
-     * @param string $url
+     * @param string $url            
      * @return Output
      */
     public function setUrl($url)
     {
         $this->url = $url;
-
+        
         return $this;
     }
 
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
@@ -1178,20 +1051,20 @@ class Output
     /**
      * Set secondaryUrl
      *
-     * @param string $secondaryUrl
+     * @param string $secondaryUrl            
      * @return Output
      */
     public function setSecondaryUrl($secondaryUrl)
     {
         $this->secondaryUrl = $secondaryUrl;
-
+        
         return $this;
     }
 
     /**
      * Get secondaryUrl
      *
-     * @return string 
+     * @return string
      */
     public function getSecondaryUrl()
     {
@@ -1201,20 +1074,20 @@ class Output
     /**
      * Set base_url
      *
-     * @param string $baseUrl
+     * @param string $baseUrl            
      * @return Output
      */
     public function setBaseUrl($baseUrl)
     {
         $this->base_url = $baseUrl;
-
+        
         return $this;
     }
 
     /**
      * Get base_url
      *
-     * @return string 
+     * @return string
      */
     public function getBaseUrl()
     {
@@ -1224,20 +1097,20 @@ class Output
     /**
      * Set filename
      *
-     * @param string $filename
+     * @param string $filename            
      * @return Output
      */
     public function setFilename($filename)
     {
         $this->filename = $filename;
-
+        
         return $this;
     }
 
     /**
      * Get filename
      *
-     * @return string 
+     * @return string
      */
     public function getFilename()
     {
@@ -1247,20 +1120,20 @@ class Output
     /**
      * Set package_filename
      *
-     * @param string $packageFilename
+     * @param string $packageFilename            
      * @return Output
      */
     public function setPackageFilename($packageFilename)
     {
         $this->package_filename = $packageFilename;
-
+        
         return $this;
     }
 
     /**
      * Get package_filename
      *
-     * @return string 
+     * @return string
      */
     public function getPackageFilename()
     {
@@ -1270,20 +1143,20 @@ class Output
     /**
      * Set package_format
      *
-     * @param string $packageFormat
+     * @param string $packageFormat            
      * @return Output
      */
     public function setPackageFormat($packageFormat)
     {
         $this->package_format = $packageFormat;
-
+        
         return $this;
     }
 
     /**
      * Get package_format
      *
-     * @return string 
+     * @return string
      */
     public function getPackageFormat()
     {
@@ -1293,20 +1166,20 @@ class Output
     /**
      * Set device_profile
      *
-     * @param string $deviceProfile
+     * @param string $deviceProfile            
      * @return Output
      */
     public function setDeviceProfile($deviceProfile)
     {
         $this->device_profile = $deviceProfile;
-
+        
         return $this;
     }
 
     /**
      * Get device_profile
      *
-     * @return string 
+     * @return string
      */
     public function getDeviceProfile()
     {
@@ -1316,20 +1189,20 @@ class Output
     /**
      * Set strict
      *
-     * @param string $strict
+     * @param string $strict            
      * @return Output
      */
     public function setStrict($strict)
     {
         $this->strict = $strict;
-
+        
         return $this;
     }
 
     /**
      * Get strict
      *
-     * @return string 
+     * @return string
      */
     public function getStrict()
     {
@@ -1339,20 +1212,20 @@ class Output
     /**
      * Set skip_video
      *
-     * @param string $skipVideo
+     * @param string $skipVideo            
      * @return Output
      */
     public function setSkipVideo($skipVideo)
     {
         $this->skip_video = $skipVideo;
-
+        
         return $this;
     }
 
     /**
      * Get skip_video
      *
-     * @return string 
+     * @return string
      */
     public function getSkipVideo()
     {
@@ -1362,20 +1235,20 @@ class Output
     /**
      * Set skip_audio
      *
-     * @param string $skipAudio
+     * @param string $skipAudio            
      * @return Output
      */
     public function setSkipAudio($skipAudio)
     {
         $this->skip_audio = $skipAudio;
-
+        
         return $this;
     }
 
     /**
      * Get skip_audio
      *
-     * @return string 
+     * @return string
      */
     public function getSkipAudio()
     {
@@ -1385,20 +1258,20 @@ class Output
     /**
      * Set source
      *
-     * @param string $source
+     * @param string $source            
      * @return Output
      */
     public function setSource($source)
     {
         $this->source = $source;
-
+        
         return $this;
     }
 
     /**
      * Get source
      *
-     * @return string 
+     * @return string
      */
     public function getSource()
     {
@@ -1408,20 +1281,20 @@ class Output
     /**
      * Set credentials
      *
-     * @param string $credentials
+     * @param string $credentials            
      * @return Output
      */
     public function setCredentials($credentials)
     {
         $this->credentials = $credentials;
-
+        
         return $this;
     }
 
     /**
      * Get credentials
      *
-     * @return string 
+     * @return string
      */
     public function getCredentials()
     {
@@ -1431,20 +1304,20 @@ class Output
     /**
      * Set generate_md5_checksum
      *
-     * @param string $generateMd5Checksum
+     * @param string $generateMd5Checksum            
      * @return Output
      */
     public function setGenerateMd5Checksum($generateMd5Checksum)
     {
         $this->generate_md5_checksum = $generateMd5Checksum;
-
+        
         return $this;
     }
 
     /**
      * Get generate_md5_checksum
      *
-     * @return string 
+     * @return string
      */
     public function getGenerateMd5Checksum()
     {
@@ -1454,20 +1327,20 @@ class Output
     /**
      * Set parallel_upload_limit
      *
-     * @param string $parallelUploadLimit
+     * @param string $parallelUploadLimit            
      * @return Output
      */
     public function setParallelUploadLimit($parallelUploadLimit)
     {
         $this->parallel_upload_limit = $parallelUploadLimit;
-
+        
         return $this;
     }
 
     /**
      * Get parallel_upload_limit
      *
-     * @return string 
+     * @return string
      */
     public function getParallelUploadLimit()
     {
@@ -1477,20 +1350,20 @@ class Output
     /**
      * Set headers
      *
-     * @param string $headers
+     * @param string $headers            
      * @return Output
      */
     public function setHeaders($headers)
     {
         $this->headers = $headers;
-
+        
         return $this;
     }
 
     /**
      * Get headers
      *
-     * @return string 
+     * @return string
      */
     public function getHeaders()
     {
@@ -1500,125 +1373,125 @@ class Output
     /**
      * Set format
      *
-     * @param string $format
+     * @param string $format            
      * @return Output
      */
     public function setFormat($format)
     {
         $this->format = $format;
-
+        
         return $this;
     }
 
     /**
      * Get format
-     * 
-     * Defaulted by the output filename and then video or audio codec. 
-     * Otherwise: mp4 (for standard outputs); ts (for segmented outputs). 
      *
-     * @return string 
+     * Defaulted by the output filename and then video or audio codec.
+     * Otherwise: mp4 (for standard outputs); ts (for segmented outputs).
+     *
+     * @return string
      */
     public function getFormat()
     {
-    	if (null === $this->format) {
-    		$outputFilename = $this->getFilename();
-    		switch (pathinfo($outputFilename, PATHINFO_EXTENSION)) {
-	   			case 'webm':
-    				$this->format = 'webm';
-    				break;
-    			case 'mp4':
-    			default:
-    				$this->format = 'mp4';
-    				break;
-    		}
-    	}
+        if (null === $this->format) {
+            $outputFilename = $this->getFilename();
+            switch (pathinfo($outputFilename, PATHINFO_EXTENSION)) {
+                case 'webm':
+                    $this->format = 'webm';
+                    break;
+                case 'mp4':
+                default:
+                    $this->format = 'mp4';
+                    break;
+            }
+        }
         return $this->format;
     }
 
     /**
      * Set video_codec
      *
-     * @param string $videoCodec
+     * @param string $videoCodec            
      * @return Output
      */
     public function setVideoCodec($videoCodec)
     {
         $this->video_codec = $videoCodec;
-
+        
         return $this;
     }
 
     /**
      * Get video_codec
      *
-     * Defaultet by the format, profile, or audio_codec. h264 if none are provided. 
+     * Defaultet by the format, profile, or audio_codec. h264 if none are provided.
      *
-     * @return string 
+     * @return string
      */
     public function getVideoCodec()
     {
-    	if (null === $this->video_codec) {
-    		switch ($this->getFormat()) {
-    			case 'webm':
-    				$this->video_codec = 'vp8';
-    				break;
-    			case 'mp4':
-    			default:
-    				$this->video_codec = 'h264';
-    		}
-    	}
+        if (null === $this->video_codec) {
+            switch ($this->getFormat()) {
+                case 'webm':
+                    $this->video_codec = 'vp8';
+                    break;
+                case 'mp4':
+                default:
+                    $this->video_codec = 'h264';
+            }
+        }
         return $this->video_codec;
     }
 
     /**
      * Set audio_codec
      *
-     * @param string $audioCodec
+     * @param string $audioCodec            
      * @return Output
      */
     public function setAudioCodec($audioCodec)
     {
         $this->audio_codec = $audioCodec;
-
+        
         return $this;
     }
 
     /**
      * Get audio_codec
-     * 
+     *
      * Determined by the format, profile, or video_codec. aac if none are provided.
      *
-     * @return string 
+     * @return string
      */
     public function getAudioCodec()
     {
-    	if (null === $this->audio_codec) {
-    		switch ($this->getFormat()) {
-    			case 'mp4':
-    			default:
-    				$this->audio_codec = 'aac';
-    		}
-    	}
+        if (null === $this->audio_codec) {
+            switch ($this->getFormat()) {
+                case 'mp4':
+                default:
+                    $this->audio_codec = 'aac';
+            }
+        }
         return $this->audio_codec;
     }
 
     /**
      * Set size
      *
-     * @param string $size
+     * @param string $size            
      * @return Output
      */
     public function setSize($size)
     {
         $this->size = $size;
-
+        
         return $this;
     }
 
     /**
      * Get size
      *
-     * @return string 
+     * @return string
      */
     public function getSize()
     {
@@ -1628,20 +1501,20 @@ class Output
     /**
      * Set width
      *
-     * @param string $width
+     * @param string $width            
      * @return Output
      */
     public function setWidth($width)
     {
         $this->width = $width;
-
+        
         return $this;
     }
 
     /**
      * Get width
      *
-     * @return string 
+     * @return string
      */
     public function getWidth()
     {
@@ -1651,20 +1524,20 @@ class Output
     /**
      * Set height
      *
-     * @param string $height
+     * @param string $height            
      * @return Output
      */
     public function setHeight($height)
     {
         $this->height = $height;
-
+        
         return $this;
     }
 
     /**
      * Get height
      *
-     * @return string 
+     * @return string
      */
     public function getHeight()
     {
@@ -1674,20 +1547,20 @@ class Output
     /**
      * Set upscale
      *
-     * @param string $upscale
+     * @param string $upscale            
      * @return Output
      */
     public function setUpscale($upscale)
     {
         $this->upscale = $upscale;
-
+        
         return $this;
     }
 
     /**
      * Get upscale
      *
-     * @return string 
+     * @return string
      */
     public function getUpscale()
     {
@@ -1697,20 +1570,20 @@ class Output
     /**
      * Set aspect_mode
      *
-     * @param string $aspectMode
+     * @param string $aspectMode            
      * @return Output
      */
     public function setAspectMode($aspectMode)
     {
         $this->aspect_mode = $aspectMode;
-
+        
         return $this;
     }
 
     /**
      * Get aspect_mode
      *
-     * @return string 
+     * @return string
      */
     public function getAspectMode()
     {
@@ -1720,20 +1593,20 @@ class Output
     /**
      * Set quality
      *
-     * @param string $quality
+     * @param string $quality            
      * @return Output
      */
     public function setQuality($quality)
     {
         $this->quality = $quality;
-
+        
         return $this;
     }
 
     /**
      * Get quality
      *
-     * @return string 
+     * @return string
      */
     public function getQuality()
     {
@@ -1743,20 +1616,20 @@ class Output
     /**
      * Set video_bitrate
      *
-     * @param string $videoBitrate
+     * @param string $videoBitrate            
      * @return Output
      */
     public function setVideoBitrate($videoBitrate)
     {
         $this->video_bitrate = $videoBitrate;
-
+        
         return $this;
     }
 
     /**
      * Get video_bitrate
      *
-     * @return string 
+     * @return string
      */
     public function getVideoBitrate()
     {
@@ -1766,20 +1639,20 @@ class Output
     /**
      * Set audio_quality
      *
-     * @param string $audioQuality
+     * @param string $audioQuality            
      * @return Output
      */
     public function setAudioQuality($audioQuality)
     {
         $this->audio_quality = $audioQuality;
-
+        
         return $this;
     }
 
     /**
      * Get audio_quality
      *
-     * @return string 
+     * @return string
      */
     public function getAudioQuality()
     {
@@ -1789,20 +1662,20 @@ class Output
     /**
      * Set audio_bitrate
      *
-     * @param string $audioBitrate
+     * @param string $audioBitrate            
      * @return Output
      */
     public function setAudioBitrate($audioBitrate)
     {
         $this->audio_bitrate = $audioBitrate;
-
+        
         return $this;
     }
 
     /**
      * Get audio_bitrate
      *
-     * @return string 
+     * @return string
      */
     public function getAudioBitrate()
     {
@@ -1812,20 +1685,20 @@ class Output
     /**
      * Set max_video_bitrate
      *
-     * @param string $maxVideoBitrate
+     * @param string $maxVideoBitrate            
      * @return Output
      */
     public function setMaxVideoBitrate($maxVideoBitrate)
     {
         $this->max_video_bitrate = $maxVideoBitrate;
-
+        
         return $this;
     }
 
     /**
      * Get max_video_bitrate
      *
-     * @return string 
+     * @return string
      */
     public function getMaxVideoBitrate()
     {
@@ -1835,20 +1708,20 @@ class Output
     /**
      * Set speed
      *
-     * @param string $speed
+     * @param string $speed            
      * @return Output
      */
     public function setSpeed($speed)
     {
         $this->speed = $speed;
-
+        
         return $this;
     }
 
     /**
      * Get speed
      *
-     * @return string 
+     * @return string
      */
     public function getSpeed()
     {
@@ -1858,20 +1731,20 @@ class Output
     /**
      * Set decoder_bitrate_cap
      *
-     * @param string $decoderBitrateCap
+     * @param string $decoderBitrateCap            
      * @return Output
      */
     public function setDecoderBitrateCap($decoderBitrateCap)
     {
         $this->decoder_bitrate_cap = $decoderBitrateCap;
-
+        
         return $this;
     }
 
     /**
      * Get decoder_bitrate_cap
      *
-     * @return string 
+     * @return string
      */
     public function getDecoderBitrateCap()
     {
@@ -1881,20 +1754,20 @@ class Output
     /**
      * Set decoder_buffer_size
      *
-     * @param string $decoderBufferSize
+     * @param string $decoderBufferSize            
      * @return Output
      */
     public function setDecoderBufferSize($decoderBufferSize)
     {
         $this->decoder_buffer_size = $decoderBufferSize;
-
+        
         return $this;
     }
 
     /**
      * Get decoder_buffer_size
      *
-     * @return string 
+     * @return string
      */
     public function getDecoderBufferSize()
     {
@@ -1904,20 +1777,20 @@ class Output
     /**
      * Set one_pass
      *
-     * @param string $onePass
+     * @param string $onePass            
      * @return Output
      */
     public function setOnePass($onePass)
     {
         $this->one_pass = $onePass;
-
+        
         return $this;
     }
 
     /**
      * Get one_pass
      *
-     * @return string 
+     * @return string
      */
     public function getOnePass()
     {
@@ -1927,20 +1800,20 @@ class Output
     /**
      * Set audio_constant_bitrate
      *
-     * @param string $audioConstantBitrate
+     * @param string $audioConstantBitrate            
      * @return Output
      */
     public function setAudioConstantBitrate($audioConstantBitrate)
     {
         $this->audio_constant_bitrate = $audioConstantBitrate;
-
+        
         return $this;
     }
 
     /**
      * Get audio_constant_bitrate
      *
-     * @return string 
+     * @return string
      */
     public function getAudioConstantBitrate()
     {
@@ -1950,20 +1823,20 @@ class Output
     /**
      * Set frame_rate
      *
-     * @param string $frameRate
+     * @param string $frameRate            
      * @return Output
      */
     public function setFrameRate($frameRate)
     {
         $this->frame_rate = $frameRate;
-
+        
         return $this;
     }
 
     /**
      * Get frame_rate
      *
-     * @return string 
+     * @return string
      */
     public function getFrameRate()
     {
@@ -1973,20 +1846,20 @@ class Output
     /**
      * Set max_frame_rate
      *
-     * @param string $maxFrameRate
+     * @param string $maxFrameRate            
      * @return Output
      */
     public function setMaxFrameRate($maxFrameRate)
     {
         $this->max_frame_rate = $maxFrameRate;
-
+        
         return $this;
     }
 
     /**
      * Get max_frame_rate
      *
-     * @return string 
+     * @return string
      */
     public function getMaxFrameRate()
     {
@@ -1996,20 +1869,20 @@ class Output
     /**
      * Set decimate
      *
-     * @param string $decimate
+     * @param string $decimate            
      * @return Output
      */
     public function setDecimate($decimate)
     {
         $this->decimate = $decimate;
-
+        
         return $this;
     }
 
     /**
      * Get decimate
      *
-     * @return string 
+     * @return string
      */
     public function getDecimate()
     {
@@ -2019,20 +1892,20 @@ class Output
     /**
      * Set keyframe_interval
      *
-     * @param string $keyframeInterval
+     * @param string $keyframeInterval            
      * @return Output
      */
     public function setKeyframeInterval($keyframeInterval)
     {
         $this->keyframe_interval = $keyframeInterval;
-
+        
         return $this;
     }
 
     /**
      * Get keyframe_interval
      *
-     * @return string 
+     * @return string
      */
     public function getKeyframeInterval()
     {
@@ -2042,20 +1915,20 @@ class Output
     /**
      * Set keyframe_rate
      *
-     * @param string $keyframeRate
+     * @param string $keyframeRate            
      * @return Output
      */
     public function setKeyframeRate($keyframeRate)
     {
         $this->keyframe_rate = $keyframeRate;
-
+        
         return $this;
     }
 
     /**
      * Get keyframe_rate
      *
-     * @return string 
+     * @return string
      */
     public function getKeyframeRate()
     {
@@ -2065,20 +1938,20 @@ class Output
     /**
      * Set fixed_keyframe_interval
      *
-     * @param string $fixedKeyframeInterval
+     * @param string $fixedKeyframeInterval            
      * @return Output
      */
     public function setFixedKeyframeInterval($fixedKeyframeInterval)
     {
         $this->fixed_keyframe_interval = $fixedKeyframeInterval;
-
+        
         return $this;
     }
 
     /**
      * Get fixed_keyframe_interval
      *
-     * @return string 
+     * @return string
      */
     public function getFixedKeyframeInterval()
     {
@@ -2088,20 +1961,20 @@ class Output
     /**
      * Set forced_keyframe_interval
      *
-     * @param string $forcedKeyframeInterval
+     * @param string $forcedKeyframeInterval            
      * @return Output
      */
     public function setForcedKeyframeInterval($forcedKeyframeInterval)
     {
         $this->forced_keyframe_interval = $forcedKeyframeInterval;
-
+        
         return $this;
     }
 
     /**
      * Get forced_keyframe_interval
      *
-     * @return string 
+     * @return string
      */
     public function getForcedKeyframeInterval()
     {
@@ -2111,20 +1984,20 @@ class Output
     /**
      * Set forced_keyframe_rate
      *
-     * @param string $forcedKeyframeRate
+     * @param string $forcedKeyframeRate            
      * @return Output
      */
     public function setForcedKeyframeRate($forcedKeyframeRate)
     {
         $this->forced_keyframe_rate = $forcedKeyframeRate;
-
+        
         return $this;
     }
 
     /**
      * Get forced_keyframe_rate
      *
-     * @return string 
+     * @return string
      */
     public function getForcedKeyframeRate()
     {
@@ -2134,20 +2007,20 @@ class Output
     /**
      * Set audio_sample_rate
      *
-     * @param string $audioSampleRate
+     * @param string $audioSampleRate            
      * @return Output
      */
     public function setAudioSampleRate($audioSampleRate)
     {
         $this->audio_sample_rate = $audioSampleRate;
-
+        
         return $this;
     }
 
     /**
      * Get audio_sample_rate
      *
-     * @return string 
+     * @return string
      */
     public function getAudioSampleRate()
     {
@@ -2157,20 +2030,20 @@ class Output
     /**
      * Set audio_channels
      *
-     * @param string $audioChannels
+     * @param string $audioChannels            
      * @return Output
      */
     public function setAudioChannels($audioChannels)
     {
         $this->audio_channels = $audioChannels;
-
+        
         return $this;
     }
 
     /**
      * Get audio_channels
      *
-     * @return string 
+     * @return string
      */
     public function getAudioChannels()
     {
@@ -2180,20 +2053,20 @@ class Output
     /**
      * Set number
      *
-     * @param string $number
+     * @param string $number            
      * @return Output
      */
     public function setNumber($number)
     {
         $this->number = $number;
-
+        
         return $this;
     }
 
     /**
      * Get number
      *
-     * @return string 
+     * @return string
      */
     public function getNumber()
     {
@@ -2203,20 +2076,20 @@ class Output
     /**
      * Set start_at_first_frame
      *
-     * @param string $startAtFirstFrame
+     * @param string $startAtFirstFrame            
      * @return Output
      */
     public function setStartAtFirstFrame($startAtFirstFrame)
     {
         $this->start_at_first_frame = $startAtFirstFrame;
-
+        
         return $this;
     }
 
     /**
      * Get start_at_first_frame
      *
-     * @return string 
+     * @return string
      */
     public function getStartAtFirstFrame()
     {
@@ -2226,20 +2099,20 @@ class Output
     /**
      * Set interval
      *
-     * @param string $interval
+     * @param string $interval            
      * @return Output
      */
     public function setInterval($interval)
     {
         $this->interval = $interval;
-
+        
         return $this;
     }
 
     /**
      * Get interval
      *
-     * @return string 
+     * @return string
      */
     public function getInterval()
     {
@@ -2249,20 +2122,20 @@ class Output
     /**
      * Set interval_in_frames
      *
-     * @param string $intervalInFrames
+     * @param string $intervalInFrames            
      * @return Output
      */
     public function setIntervalInFrames($intervalInFrames)
     {
         $this->interval_in_frames = $intervalInFrames;
-
+        
         return $this;
     }
 
     /**
      * Get interval_in_frames
      *
-     * @return string 
+     * @return string
      */
     public function getIntervalInFrames()
     {
@@ -2272,20 +2145,20 @@ class Output
     /**
      * Set times
      *
-     * @param string $times
+     * @param string $times            
      * @return Output
      */
     public function setTimes($times)
     {
         $this->times = $times;
-
+        
         return $this;
     }
 
     /**
      * Get times
      *
-     * @return string 
+     * @return string
      */
     public function getTimes()
     {
@@ -2295,20 +2168,20 @@ class Output
     /**
      * Set prefix
      *
-     * @param string $prefix
+     * @param string $prefix            
      * @return Output
      */
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
-
+        
         return $this;
     }
 
     /**
      * Get prefix
      *
-     * @return string 
+     * @return string
      */
     public function getPrefix()
     {
@@ -2318,20 +2191,20 @@ class Output
     /**
      * Set public
      *
-     * @param string $public
+     * @param string $public            
      * @return Output
      */
     public function setPublic($public)
     {
         $this->public = $public;
-
+        
         return $this;
     }
 
     /**
      * Get public
      *
-     * @return string 
+     * @return string
      */
     public function getPublic()
     {
@@ -2341,20 +2214,20 @@ class Output
     /**
      * Set access_control
      *
-     * @param string $accessControl
+     * @param string $accessControl            
      * @return Output
      */
     public function setAccessControl($accessControl)
     {
         $this->access_control = $accessControl;
-
+        
         return $this;
     }
 
     /**
      * Get access_control
      *
-     * @return string 
+     * @return string
      */
     public function getAccessControl()
     {
@@ -2364,20 +2237,20 @@ class Output
     /**
      * Set grantee
      *
-     * @param string $grantee
+     * @param string $grantee            
      * @return Output
      */
     public function setGrantee($grantee)
     {
         $this->grantee = $grantee;
-
+        
         return $this;
     }
 
     /**
      * Get grantee
      *
-     * @return string 
+     * @return string
      */
     public function getGrantee()
     {
@@ -2387,20 +2260,20 @@ class Output
     /**
      * Set permission
      *
-     * @param string $permission
+     * @param string $permission            
      * @return Output
      */
     public function setPermission($permission)
     {
         $this->permission = $permission;
-
+        
         return $this;
     }
 
     /**
      * Get permission
      *
-     * @return string 
+     * @return string
      */
     public function getPermission()
     {
@@ -2410,20 +2283,20 @@ class Output
     /**
      * Set rrs
      *
-     * @param string $rrs
+     * @param string $rrs            
      * @return Output
      */
     public function setRrs($rrs)
     {
         $this->rrs = $rrs;
-
+        
         return $this;
     }
 
     /**
      * Get rrs
      *
-     * @return string 
+     * @return string
      */
     public function getRrs()
     {
@@ -2433,20 +2306,20 @@ class Output
     /**
      * Set watermarks
      *
-     * @param string $watermarks
+     * @param string $watermarks            
      * @return Output
      */
     public function setWatermarks($watermarks)
     {
         $this->watermarks = $watermarks;
-
+        
         return $this;
     }
 
     /**
      * Get watermarks
      *
-     * @return string 
+     * @return string
      */
     public function getWatermarks()
     {
@@ -2456,20 +2329,20 @@ class Output
     /**
      * Set x
      *
-     * @param string $x
+     * @param string $x            
      * @return Output
      */
     public function setX($x)
     {
         $this->x = $x;
-
+        
         return $this;
     }
 
     /**
      * Get x
      *
-     * @return string 
+     * @return string
      */
     public function getX()
     {
@@ -2479,20 +2352,20 @@ class Output
     /**
      * Set y
      *
-     * @param string $y
+     * @param string $y            
      * @return Output
      */
     public function setY($y)
     {
         $this->y = $y;
-
+        
         return $this;
     }
 
     /**
      * Get y
      *
-     * @return string 
+     * @return string
      */
     public function getY()
     {
@@ -2502,20 +2375,20 @@ class Output
     /**
      * Set origin
      *
-     * @param string $origin
+     * @param string $origin            
      * @return Output
      */
     public function setOrigin($origin)
     {
         $this->origin = $origin;
-
+        
         return $this;
     }
 
     /**
      * Get origin
      *
-     * @return string 
+     * @return string
      */
     public function getOrigin()
     {
@@ -2525,20 +2398,20 @@ class Output
     /**
      * Set opacity
      *
-     * @param string $opacity
+     * @param string $opacity            
      * @return Output
      */
     public function setOpacity($opacity)
     {
         $this->opacity = $opacity;
-
+        
         return $this;
     }
 
     /**
      * Get opacity
      *
-     * @return string 
+     * @return string
      */
     public function getOpacity()
     {
@@ -2548,20 +2421,20 @@ class Output
     /**
      * Set caption_url
      *
-     * @param string $captionUrl
+     * @param string $captionUrl            
      * @return Output
      */
     public function setCaptionUrl($captionUrl)
     {
         $this->caption_url = $captionUrl;
-
+        
         return $this;
     }
 
     /**
      * Get caption_url
      *
-     * @return string 
+     * @return string
      */
     public function getCaptionUrl()
     {
@@ -2571,20 +2444,20 @@ class Output
     /**
      * Set skip_captions
      *
-     * @param string $skipCaptions
+     * @param string $skipCaptions            
      * @return Output
      */
     public function setSkipCaptions($skipCaptions)
     {
         $this->skip_captions = $skipCaptions;
-
+        
         return $this;
     }
 
     /**
      * Get skip_captions
      *
-     * @return string 
+     * @return string
      */
     public function getSkipCaptions()
     {
@@ -2594,20 +2467,20 @@ class Output
     /**
      * Set rotate
      *
-     * @param string $rotate
+     * @param string $rotate            
      * @return Output
      */
     public function setRotate($rotate)
     {
         $this->rotate = $rotate;
-
+        
         return $this;
     }
 
     /**
      * Get rotate
      *
-     * @return string 
+     * @return string
      */
     public function getRotate()
     {
@@ -2617,20 +2490,20 @@ class Output
     /**
      * Set deinterlace
      *
-     * @param string $deinterlace
+     * @param string $deinterlace            
      * @return Output
      */
     public function setDeinterlace($deinterlace)
     {
         $this->deinterlace = $deinterlace;
-
+        
         return $this;
     }
 
     /**
      * Get deinterlace
      *
-     * @return string 
+     * @return string
      */
     public function getDeinterlace()
     {
@@ -2640,20 +2513,20 @@ class Output
     /**
      * Set sharpen
      *
-     * @param string $sharpen
+     * @param string $sharpen            
      * @return Output
      */
     public function setSharpen($sharpen)
     {
         $this->sharpen = $sharpen;
-
+        
         return $this;
     }
 
     /**
      * Get sharpen
      *
-     * @return string 
+     * @return string
      */
     public function getSharpen()
     {
@@ -2663,20 +2536,20 @@ class Output
     /**
      * Set denoise
      *
-     * @param string $denoise
+     * @param string $denoise            
      * @return Output
      */
     public function setDenoise($denoise)
     {
         $this->denoise = $denoise;
-
+        
         return $this;
     }
 
     /**
      * Get denoise
      *
-     * @return string 
+     * @return string
      */
     public function getDenoise()
     {
@@ -2686,20 +2559,20 @@ class Output
     /**
      * Set autolevel
      *
-     * @param string $autolevel
+     * @param string $autolevel            
      * @return Output
      */
     public function setAutolevel($autolevel)
     {
         $this->autolevel = $autolevel;
-
+        
         return $this;
     }
 
     /**
      * Get autolevel
      *
-     * @return string 
+     * @return string
      */
     public function getAutolevel()
     {
@@ -2709,20 +2582,20 @@ class Output
     /**
      * Set deblock
      *
-     * @param string $deblock
+     * @param string $deblock            
      * @return Output
      */
     public function setDeblock($deblock)
     {
         $this->deblock = $deblock;
-
+        
         return $this;
     }
 
     /**
      * Get deblock
      *
-     * @return string 
+     * @return string
      */
     public function getDeblock()
     {
@@ -2732,20 +2605,20 @@ class Output
     /**
      * Set audio_gain
      *
-     * @param string $audioGain
+     * @param string $audioGain            
      * @return Output
      */
     public function setAudioGain($audioGain)
     {
         $this->audio_gain = $audioGain;
-
+        
         return $this;
     }
 
     /**
      * Get audio_gain
      *
-     * @return string 
+     * @return string
      */
     public function getAudioGain()
     {
@@ -2755,20 +2628,20 @@ class Output
     /**
      * Set audio_normalize
      *
-     * @param string $audioNormalize
+     * @param string $audioNormalize            
      * @return Output
      */
     public function setAudioNormalize($audioNormalize)
     {
         $this->audio_normalize = $audioNormalize;
-
+        
         return $this;
     }
 
     /**
      * Get audio_normalize
      *
-     * @return string 
+     * @return string
      */
     public function getAudioNormalize()
     {
@@ -2778,20 +2651,20 @@ class Output
     /**
      * Set audio_pre_normalize
      *
-     * @param string $audioPreNormalize
+     * @param string $audioPreNormalize            
      * @return Output
      */
     public function setAudioPreNormalize($audioPreNormalize)
     {
         $this->audio_pre_normalize = $audioPreNormalize;
-
+        
         return $this;
     }
 
     /**
      * Get audio_pre_normalize
      *
-     * @return string 
+     * @return string
      */
     public function getAudioPreNormalize()
     {
@@ -2801,20 +2674,20 @@ class Output
     /**
      * Set audio_post_normalize
      *
-     * @param string $audioPostNormalize
+     * @param string $audioPostNormalize            
      * @return Output
      */
     public function setAudioPostNormalize($audioPostNormalize)
     {
         $this->audio_post_normalize = $audioPostNormalize;
-
+        
         return $this;
     }
 
     /**
      * Get audio_post_normalize
      *
-     * @return string 
+     * @return string
      */
     public function getAudioPostNormalize()
     {
@@ -2824,20 +2697,20 @@ class Output
     /**
      * Set audio_bass
      *
-     * @param string $audioBass
+     * @param string $audioBass            
      * @return Output
      */
     public function setAudioBass($audioBass)
     {
         $this->audio_bass = $audioBass;
-
+        
         return $this;
     }
 
     /**
      * Get audio_bass
      *
-     * @return string 
+     * @return string
      */
     public function getAudioBass()
     {
@@ -2847,20 +2720,20 @@ class Output
     /**
      * Set audio_treble
      *
-     * @param string $audioTreble
+     * @param string $audioTreble            
      * @return Output
      */
     public function setAudioTreble($audioTreble)
     {
         $this->audio_treble = $audioTreble;
-
+        
         return $this;
     }
 
     /**
      * Get audio_treble
      *
-     * @return string 
+     * @return string
      */
     public function getAudioTreble()
     {
@@ -2870,20 +2743,20 @@ class Output
     /**
      * Set audio_highpass
      *
-     * @param string $audioHighpass
+     * @param string $audioHighpass            
      * @return Output
      */
     public function setAudioHighpass($audioHighpass)
     {
         $this->audio_highpass = $audioHighpass;
-
+        
         return $this;
     }
 
     /**
      * Get audio_highpass
      *
-     * @return string 
+     * @return string
      */
     public function getAudioHighpass()
     {
@@ -2893,20 +2766,20 @@ class Output
     /**
      * Set audio_lowpass
      *
-     * @param string $audioLowpass
+     * @param string $audioLowpass            
      * @return Output
      */
     public function setAudioLowpass($audioLowpass)
     {
         $this->audio_lowpass = $audioLowpass;
-
+        
         return $this;
     }
 
     /**
      * Get audio_lowpass
      *
-     * @return string 
+     * @return string
      */
     public function getAudioLowpass()
     {
@@ -2916,20 +2789,20 @@ class Output
     /**
      * Set audio_compression_ratio
      *
-     * @param string $audioCompressionRatio
+     * @param string $audioCompressionRatio            
      * @return Output
      */
     public function setAudioCompressionRatio($audioCompressionRatio)
     {
         $this->audio_compression_ratio = $audioCompressionRatio;
-
+        
         return $this;
     }
 
     /**
      * Get audio_compression_ratio
      *
-     * @return string 
+     * @return string
      */
     public function getAudioCompressionRatio()
     {
@@ -2939,20 +2812,20 @@ class Output
     /**
      * Set audio_compression_threshold
      *
-     * @param string $audioCompressionThreshold
+     * @param string $audioCompressionThreshold            
      * @return Output
      */
     public function setAudioCompressionThreshold($audioCompressionThreshold)
     {
         $this->audio_compression_threshold = $audioCompressionThreshold;
-
+        
         return $this;
     }
 
     /**
      * Get audio_compression_threshold
      *
-     * @return string 
+     * @return string
      */
     public function getAudioCompressionThreshold()
     {
@@ -2962,20 +2835,20 @@ class Output
     /**
      * Set audio_expansion_ratio
      *
-     * @param string $audioExpansionRatio
+     * @param string $audioExpansionRatio            
      * @return Output
      */
     public function setAudioExpansionRatio($audioExpansionRatio)
     {
         $this->audio_expansion_ratio = $audioExpansionRatio;
-
+        
         return $this;
     }
 
     /**
      * Get audio_expansion_ratio
      *
-     * @return string 
+     * @return string
      */
     public function getAudioExpansionRatio()
     {
@@ -2985,20 +2858,20 @@ class Output
     /**
      * Set audio_expansion_threshold
      *
-     * @param string $audioExpansionThreshold
+     * @param string $audioExpansionThreshold            
      * @return Output
      */
     public function setAudioExpansionThreshold($audioExpansionThreshold)
     {
         $this->audio_expansion_threshold = $audioExpansionThreshold;
-
+        
         return $this;
     }
 
     /**
      * Get audio_expansion_threshold
      *
-     * @return string 
+     * @return string
      */
     public function getAudioExpansionThreshold()
     {
@@ -3008,20 +2881,20 @@ class Output
     /**
      * Set audio_fade
      *
-     * @param string $audioFade
+     * @param string $audioFade            
      * @return Output
      */
     public function setAudioFade($audioFade)
     {
         $this->audio_fade = $audioFade;
-
+        
         return $this;
     }
 
     /**
      * Get audio_fade
      *
-     * @return string 
+     * @return string
      */
     public function getAudioFade()
     {
@@ -3031,20 +2904,20 @@ class Output
     /**
      * Set audio_fade_in
      *
-     * @param string $audioFadeIn
+     * @param string $audioFadeIn            
      * @return Output
      */
     public function setAudioFadeIn($audioFadeIn)
     {
         $this->audio_fade_in = $audioFadeIn;
-
+        
         return $this;
     }
 
     /**
      * Get audio_fade_in
      *
-     * @return string 
+     * @return string
      */
     public function getAudioFadeIn()
     {
@@ -3054,20 +2927,20 @@ class Output
     /**
      * Set audio_fade_out
      *
-     * @param string $audioFadeOut
+     * @param string $audioFadeOut            
      * @return Output
      */
     public function setAudioFadeOut($audioFadeOut)
     {
         $this->audio_fade_out = $audioFadeOut;
-
+        
         return $this;
     }
 
     /**
      * Get audio_fade_out
      *
-     * @return string 
+     * @return string
      */
     public function getAudioFadeOut()
     {
@@ -3077,20 +2950,20 @@ class Output
     /**
      * Set audio_karaoke_mode
      *
-     * @param string $audioKaraokeMode
+     * @param string $audioKaraokeMode            
      * @return Output
      */
     public function setAudioKaraokeMode($audioKaraokeMode)
     {
         $this->audio_karaoke_mode = $audioKaraokeMode;
-
+        
         return $this;
     }
 
     /**
      * Get audio_karaoke_mode
      *
-     * @return string 
+     * @return string
      */
     public function getAudioKaraokeMode()
     {
@@ -3100,20 +2973,20 @@ class Output
     /**
      * Set start_clip
      *
-     * @param string $startClip
+     * @param string $startClip            
      * @return Output
      */
     public function setStartClip($startClip)
     {
         $this->start_clip = $startClip;
-
+        
         return $this;
     }
 
     /**
      * Get start_clip
      *
-     * @return string 
+     * @return string
      */
     public function getStartClip()
     {
@@ -3123,20 +2996,20 @@ class Output
     /**
      * Set clip_length
      *
-     * @param string $clipLength
+     * @param string $clipLength            
      * @return Output
      */
     public function setClipLength($clipLength)
     {
         $this->clip_length = $clipLength;
-
+        
         return $this;
     }
 
     /**
      * Get clip_length
      *
-     * @return string 
+     * @return string
      */
     public function getClipLength()
     {
@@ -3146,20 +3019,20 @@ class Output
     /**
      * Set notifications
      *
-     * @param string $notifications
+     * @param string $notifications            
      * @return Output
      */
     public function setNotifications($notifications)
     {
         $this->notifications = $notifications;
-
+        
         return $this;
     }
 
     /**
      * Get notifications
      *
-     * @return string 
+     * @return string
      */
     public function getNotifications()
     {
@@ -3169,20 +3042,20 @@ class Output
     /**
      * Set event
      *
-     * @param string $event
+     * @param string $event            
      * @return Output
      */
     public function setEvent($event)
     {
         $this->event = $event;
-
+        
         return $this;
     }
 
     /**
      * Get event
      *
-     * @return string 
+     * @return string
      */
     public function getEvent()
     {
@@ -3192,20 +3065,20 @@ class Output
     /**
      * Set min_size
      *
-     * @param string $minSize
+     * @param string $minSize            
      * @return Output
      */
     public function setMinSize($minSize)
     {
         $this->min_size = $minSize;
-
+        
         return $this;
     }
 
     /**
      * Get min_size
      *
-     * @return string 
+     * @return string
      */
     public function getMinSize()
     {
@@ -3215,20 +3088,20 @@ class Output
     /**
      * Set max_size
      *
-     * @param string $maxSize
+     * @param string $maxSize            
      * @return Output
      */
     public function setMaxSize($maxSize)
     {
         $this->max_size = $maxSize;
-
+        
         return $this;
     }
 
     /**
      * Get max_size
      *
-     * @return string 
+     * @return string
      */
     public function getMaxSize()
     {
@@ -3238,20 +3111,20 @@ class Output
     /**
      * Set min_duration
      *
-     * @param string $minDuration
+     * @param string $minDuration            
      * @return Output
      */
     public function setMinDuration($minDuration)
     {
         $this->min_duration = $minDuration;
-
+        
         return $this;
     }
 
     /**
      * Get min_duration
      *
-     * @return string 
+     * @return string
      */
     public function getMinDuration()
     {
@@ -3261,20 +3134,20 @@ class Output
     /**
      * Set max_duration
      *
-     * @param string $maxDuration
+     * @param string $maxDuration            
      * @return Output
      */
     public function setMaxDuration($maxDuration)
     {
         $this->max_duration = $maxDuration;
-
+        
         return $this;
     }
 
     /**
      * Get max_duration
      *
-     * @return string 
+     * @return string
      */
     public function getMaxDuration()
     {
@@ -3284,20 +3157,20 @@ class Output
     /**
      * Set segment_seconds
      *
-     * @param string $segmentSeconds
+     * @param string $segmentSeconds            
      * @return Output
      */
     public function setSegmentSeconds($segmentSeconds)
     {
         $this->segment_seconds = $segmentSeconds;
-
+        
         return $this;
     }
 
     /**
      * Get segment_seconds
      *
-     * @return string 
+     * @return string
      */
     public function getSegmentSeconds()
     {
@@ -3307,20 +3180,20 @@ class Output
     /**
      * Set segment_size
      *
-     * @param string $segmentSize
+     * @param string $segmentSize            
      * @return Output
      */
     public function setSegmentSize($segmentSize)
     {
         $this->segment_size = $segmentSize;
-
+        
         return $this;
     }
 
     /**
      * Get segment_size
      *
-     * @return string 
+     * @return string
      */
     public function getSegmentSize()
     {
@@ -3330,20 +3203,20 @@ class Output
     /**
      * Set streams
      *
-     * @param string $streams
+     * @param string $streams            
      * @return Output
      */
     public function setStreams($streams)
     {
         $this->streams = $streams;
-
+        
         return $this;
     }
 
     /**
      * Get streams
      *
-     * @return string 
+     * @return string
      */
     public function getStreams()
     {
@@ -3353,20 +3226,20 @@ class Output
     /**
      * Set path
      *
-     * @param string $path
+     * @param string $path            
      * @return Output
      */
     public function setPath($path)
     {
         $this->path = $path;
-
+        
         return $this;
     }
 
     /**
      * Get path
      *
-     * @return string 
+     * @return string
      */
     public function getPath()
     {
@@ -3376,20 +3249,20 @@ class Output
     /**
      * Set bandwidth
      *
-     * @param string $bandwidth
+     * @param string $bandwidth            
      * @return Output
      */
     public function setBandwidth($bandwidth)
     {
         $this->bandwidth = $bandwidth;
-
+        
         return $this;
     }
 
     /**
      * Get bandwidth
      *
-     * @return string 
+     * @return string
      */
     public function getBandwidth()
     {
@@ -3399,20 +3272,20 @@ class Output
     /**
      * Set resolution
      *
-     * @param string $resolution
+     * @param string $resolution            
      * @return Output
      */
     public function setResolution($resolution)
     {
         $this->resolution = $resolution;
-
+        
         return $this;
     }
 
     /**
      * Get resolution
      *
-     * @return string 
+     * @return string
      */
     public function getResolution()
     {
@@ -3422,20 +3295,20 @@ class Output
     /**
      * Set codecs
      *
-     * @param string $codecs
+     * @param string $codecs            
      * @return Output
      */
     public function setCodecs($codecs)
     {
         $this->codecs = $codecs;
-
+        
         return $this;
     }
 
     /**
      * Get codecs
      *
-     * @return string 
+     * @return string
      */
     public function getCodecs()
     {
@@ -3445,20 +3318,20 @@ class Output
     /**
      * Set segment_image_url
      *
-     * @param string $segmentImageUrl
+     * @param string $segmentImageUrl            
      * @return Output
      */
     public function setSegmentImageUrl($segmentImageUrl)
     {
         $this->segment_image_url = $segmentImageUrl;
-
+        
         return $this;
     }
 
     /**
      * Get segment_image_url
      *
-     * @return string 
+     * @return string
      */
     public function getSegmentImageUrl()
     {
@@ -3468,20 +3341,20 @@ class Output
     /**
      * Set segment_video_snapshots
      *
-     * @param string $segmentVideoSnapshots
+     * @param string $segmentVideoSnapshots            
      * @return Output
      */
     public function setSegmentVideoSnapshots($segmentVideoSnapshots)
     {
         $this->segment_video_snapshots = $segmentVideoSnapshots;
-
+        
         return $this;
     }
 
     /**
      * Get segment_video_snapshots
      *
-     * @return string 
+     * @return string
      */
     public function getSegmentVideoSnapshots()
     {
@@ -3491,20 +3364,20 @@ class Output
     /**
      * Set max_hls_protocol_version
      *
-     * @param string $maxHlsProtocolVersion
+     * @param string $maxHlsProtocolVersion            
      * @return Output
      */
     public function setMaxHlsProtocolVersion($maxHlsProtocolVersion)
     {
         $this->max_hls_protocol_version = $maxHlsProtocolVersion;
-
+        
         return $this;
     }
 
     /**
      * Get max_hls_protocol_version
      *
-     * @return string 
+     * @return string
      */
     public function getMaxHlsProtocolVersion()
     {
@@ -3514,20 +3387,20 @@ class Output
     /**
      * Set hls_optimized_ts
      *
-     * @param string $hlsOptimizedTs
+     * @param string $hlsOptimizedTs            
      * @return Output
      */
     public function setHlsOptimizedTs($hlsOptimizedTs)
     {
         $this->hls_optimized_ts = $hlsOptimizedTs;
-
+        
         return $this;
     }
 
     /**
      * Get hls_optimized_ts
      *
-     * @return string 
+     * @return string
      */
     public function getHlsOptimizedTs()
     {
@@ -3537,20 +3410,20 @@ class Output
     /**
      * Set prepare_for_segmenting
      *
-     * @param string $prepareForSegmenting
+     * @param string $prepareForSegmenting            
      * @return Output
      */
     public function setPrepareForSegmenting($prepareForSegmenting)
     {
         $this->prepare_for_segmenting = $prepareForSegmenting;
-
+        
         return $this;
     }
 
     /**
      * Get prepare_for_segmenting
      *
-     * @return string 
+     * @return string
      */
     public function getPrepareForSegmenting()
     {
@@ -3560,20 +3433,20 @@ class Output
     /**
      * Set instant_play
      *
-     * @param string $instantPlay
+     * @param string $instantPlay            
      * @return Output
      */
     public function setInstantPlay($instantPlay)
     {
         $this->instant_play = $instantPlay;
-
+        
         return $this;
     }
 
     /**
      * Get instant_play
      *
-     * @return string 
+     * @return string
      */
     public function getInstantPlay()
     {
@@ -3583,20 +3456,20 @@ class Output
     /**
      * Set smil_base_url
      *
-     * @param string $smilBaseUrl
+     * @param string $smilBaseUrl            
      * @return Output
      */
     public function setSmilBaseUrl($smilBaseUrl)
     {
         $this->smil_base_url = $smilBaseUrl;
-
+        
         return $this;
     }
 
     /**
      * Get smil_base_url
      *
-     * @return string 
+     * @return string
      */
     public function getSmilBaseUrl()
     {
@@ -3606,20 +3479,20 @@ class Output
     /**
      * Set encryption_method
      *
-     * @param string $encryptionMethod
+     * @param string $encryptionMethod            
      * @return Output
      */
     public function setEncryptionMethod($encryptionMethod)
     {
         $this->encryption_method = $encryptionMethod;
-
+        
         return $this;
     }
 
     /**
      * Get encryption_method
      *
-     * @return string 
+     * @return string
      */
     public function getEncryptionMethod()
     {
@@ -3629,20 +3502,20 @@ class Output
     /**
      * Set encryption_key
      *
-     * @param string $encryptionKey
+     * @param string $encryptionKey            
      * @return Output
      */
     public function setEncryptionKey($encryptionKey)
     {
         $this->encryption_key = $encryptionKey;
-
+        
         return $this;
     }
 
     /**
      * Get encryption_key
      *
-     * @return string 
+     * @return string
      */
     public function getEncryptionKey()
     {
@@ -3652,20 +3525,20 @@ class Output
     /**
      * Set encryption_key_url
      *
-     * @param string $encryptionKeyUrl
+     * @param string $encryptionKeyUrl            
      * @return Output
      */
     public function setEncryptionKeyUrl($encryptionKeyUrl)
     {
         $this->encryption_key_url = $encryptionKeyUrl;
-
+        
         return $this;
     }
 
     /**
      * Get encryption_key_url
      *
-     * @return string 
+     * @return string
      */
     public function getEncryptionKeyUrl()
     {
@@ -3675,20 +3548,20 @@ class Output
     /**
      * Set encryption_key_rotation_period
      *
-     * @param string $encryptionKeyRotationPeriod
+     * @param string $encryptionKeyRotationPeriod            
      * @return Output
      */
     public function setEncryptionKeyRotationPeriod($encryptionKeyRotationPeriod)
     {
         $this->encryption_key_rotation_period = $encryptionKeyRotationPeriod;
-
+        
         return $this;
     }
 
     /**
      * Get encryption_key_rotation_period
      *
-     * @return string 
+     * @return string
      */
     public function getEncryptionKeyRotationPeriod()
     {
@@ -3698,20 +3571,20 @@ class Output
     /**
      * Set encryption_key_url_prefix
      *
-     * @param string $encryptionKeyUrlPrefix
+     * @param string $encryptionKeyUrlPrefix            
      * @return Output
      */
     public function setEncryptionKeyUrlPrefix($encryptionKeyUrlPrefix)
     {
         $this->encryption_key_url_prefix = $encryptionKeyUrlPrefix;
-
+        
         return $this;
     }
 
     /**
      * Get encryption_key_url_prefix
      *
-     * @return string 
+     * @return string
      */
     public function getEncryptionKeyUrlPrefix()
     {
@@ -3721,20 +3594,20 @@ class Output
     /**
      * Set encryption_iv
      *
-     * @param string $encryptionIv
+     * @param string $encryptionIv            
      * @return Output
      */
     public function setEncryptionIv($encryptionIv)
     {
         $this->encryption_iv = $encryptionIv;
-
+        
         return $this;
     }
 
     /**
      * Get encryption_iv
      *
-     * @return string 
+     * @return string
      */
     public function getEncryptionIv()
     {
@@ -3744,20 +3617,20 @@ class Output
     /**
      * Set encryption_password
      *
-     * @param string $encryptionPassword
+     * @param string $encryptionPassword            
      * @return Output
      */
     public function setEncryptionPassword($encryptionPassword)
     {
         $this->encryption_password = $encryptionPassword;
-
+        
         return $this;
     }
 
     /**
      * Get encryption_password
      *
-     * @return string 
+     * @return string
      */
     public function getEncryptionPassword()
     {
@@ -3767,20 +3640,20 @@ class Output
     /**
      * Set decryption_method
      *
-     * @param string $decryptionMethod
+     * @param string $decryptionMethod            
      * @return Output
      */
     public function setDecryptionMethod($decryptionMethod)
     {
         $this->decryption_method = $decryptionMethod;
-
+        
         return $this;
     }
 
     /**
      * Get decryption_method
      *
-     * @return string 
+     * @return string
      */
     public function getDecryptionMethod()
     {
@@ -3790,20 +3663,20 @@ class Output
     /**
      * Set decryption_key
      *
-     * @param string $decryptionKey
+     * @param string $decryptionKey            
      * @return Output
      */
     public function setDecryptionKey($decryptionKey)
     {
         $this->decryption_key = $decryptionKey;
-
+        
         return $this;
     }
 
     /**
      * Get decryption_key
      *
-     * @return string 
+     * @return string
      */
     public function getDecryptionKey()
     {
@@ -3813,20 +3686,20 @@ class Output
     /**
      * Set decryption_key_url
      *
-     * @param string $decryptionKeyUrl
+     * @param string $decryptionKeyUrl            
      * @return Output
      */
     public function setDecryptionKeyUrl($decryptionKeyUrl)
     {
         $this->decryption_key_url = $decryptionKeyUrl;
-
+        
         return $this;
     }
 
     /**
      * Get decryption_key_url
      *
-     * @return string 
+     * @return string
      */
     public function getDecryptionKeyUrl()
     {
@@ -3836,20 +3709,20 @@ class Output
     /**
      * Set decryption_password
      *
-     * @param string $decryptionPassword
+     * @param string $decryptionPassword            
      * @return Output
      */
     public function setDecryptionPassword($decryptionPassword)
     {
         $this->decryption_password = $decryptionPassword;
-
+        
         return $this;
     }
 
     /**
      * Get decryption_password
      *
-     * @return string 
+     * @return string
      */
     public function getDecryptionPassword()
     {
@@ -3859,20 +3732,20 @@ class Output
     /**
      * Set h264_reference_frames
      *
-     * @param string $h264ReferenceFrames
+     * @param string $h264ReferenceFrames            
      * @return Output
      */
     public function setH264ReferenceFrames($h264ReferenceFrames)
     {
         $this->h264_reference_frames = $h264ReferenceFrames;
-
+        
         return $this;
     }
 
     /**
      * Get h264_reference_frames
      *
-     * @return string 
+     * @return string
      */
     public function getH264ReferenceFrames()
     {
@@ -3882,20 +3755,20 @@ class Output
     /**
      * Set h264_profile
      *
-     * @param string $h264Profile
+     * @param string $h264Profile            
      * @return Output
      */
     public function setH264Profile($h264Profile)
     {
         $this->h264_profile = $h264Profile;
-
+        
         return $this;
     }
 
     /**
      * Get h264_profile
      *
-     * @return string 
+     * @return string
      */
     public function getH264Profile()
     {
@@ -3905,20 +3778,20 @@ class Output
     /**
      * Set h264_level
      *
-     * @param string $h264Level
+     * @param string $h264Level            
      * @return Output
      */
     public function setH264Level($h264Level)
     {
         $this->h264_level = $h264Level;
-
+        
         return $this;
     }
 
     /**
      * Get h264_level
      *
-     * @return string 
+     * @return string
      */
     public function getH264Level()
     {
@@ -3928,20 +3801,20 @@ class Output
     /**
      * Set h264_bframes
      *
-     * @param string $h264Bframes
+     * @param string $h264Bframes            
      * @return Output
      */
     public function setH264Bframes($h264Bframes)
     {
         $this->h264_bframes = $h264Bframes;
-
+        
         return $this;
     }
 
     /**
      * Get h264_bframes
      *
-     * @return string 
+     * @return string
      */
     public function getH264Bframes()
     {
@@ -3951,20 +3824,20 @@ class Output
     /**
      * Set tuning
      *
-     * @param string $tuning
+     * @param string $tuning            
      * @return Output
      */
     public function setTuning($tuning)
     {
         $this->tuning = $tuning;
-
+        
         return $this;
     }
 
     /**
      * Get tuning
      *
-     * @return string 
+     * @return string
      */
     public function getTuning()
     {
@@ -3974,20 +3847,20 @@ class Output
     /**
      * Set crf
      *
-     * @param string $crf
+     * @param string $crf            
      * @return Output
      */
     public function setCrf($crf)
     {
         $this->crf = $crf;
-
+        
         return $this;
     }
 
     /**
      * Get crf
      *
-     * @return string 
+     * @return string
      */
     public function getCrf()
     {
@@ -3997,20 +3870,20 @@ class Output
     /**
      * Set cue_points
      *
-     * @param string $cuePoints
+     * @param string $cuePoints            
      * @return Output
      */
     public function setCuePoints($cuePoints)
     {
         $this->cue_points = $cuePoints;
-
+        
         return $this;
     }
 
     /**
      * Get cue_points
      *
-     * @return string 
+     * @return string
      */
     public function getCuePoints()
     {
@@ -4020,20 +3893,20 @@ class Output
     /**
      * Set time
      *
-     * @param string $time
+     * @param string $time            
      * @return Output
      */
     public function setTime($time)
     {
         $this->time = $time;
-
+        
         return $this;
     }
 
     /**
      * Get time
      *
-     * @return string 
+     * @return string
      */
     public function getTime()
     {
@@ -4043,20 +3916,20 @@ class Output
     /**
      * Set name
      *
-     * @param string $name
+     * @param string $name            
      * @return Output
      */
     public function setName($name)
     {
         $this->name = $name;
-
+        
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -4066,20 +3939,20 @@ class Output
     /**
      * Set data
      *
-     * @param string $data
+     * @param string $data            
      * @return Output
      */
     public function setData($data)
     {
         $this->data = $data;
-
+        
         return $this;
     }
 
     /**
      * Get data
      *
-     * @return string 
+     * @return string
      */
     public function getData()
     {
@@ -4089,20 +3962,20 @@ class Output
     /**
      * Set vp6_temporal_down_watermark
      *
-     * @param string $vp6TemporalDownWatermark
+     * @param string $vp6TemporalDownWatermark            
      * @return Output
      */
     public function setVp6TemporalDownWatermark($vp6TemporalDownWatermark)
     {
         $this->vp6_temporal_down_watermark = $vp6TemporalDownWatermark;
-
+        
         return $this;
     }
 
     /**
      * Get vp6_temporal_down_watermark
      *
-     * @return string 
+     * @return string
      */
     public function getVp6TemporalDownWatermark()
     {
@@ -4112,20 +3985,20 @@ class Output
     /**
      * Set vp6_temporal_resampling
      *
-     * @param string $vp6TemporalResampling
+     * @param string $vp6TemporalResampling            
      * @return Output
      */
     public function setVp6TemporalResampling($vp6TemporalResampling)
     {
         $this->vp6_temporal_resampling = $vp6TemporalResampling;
-
+        
         return $this;
     }
 
     /**
      * Get vp6_temporal_resampling
      *
-     * @return string 
+     * @return string
      */
     public function getVp6TemporalResampling()
     {
@@ -4135,20 +4008,20 @@ class Output
     /**
      * Set vp6_undershoot_pct
      *
-     * @param string $vp6UndershootPct
+     * @param string $vp6UndershootPct            
      * @return Output
      */
     public function setVp6UndershootPct($vp6UndershootPct)
     {
         $this->vp6_undershoot_pct = $vp6UndershootPct;
-
+        
         return $this;
     }
 
     /**
      * Get vp6_undershoot_pct
      *
-     * @return string 
+     * @return string
      */
     public function getVp6UndershootPct()
     {
@@ -4158,20 +4031,20 @@ class Output
     /**
      * Set vp6_profile
      *
-     * @param string $vp6Profile
+     * @param string $vp6Profile            
      * @return Output
      */
     public function setVp6Profile($vp6Profile)
     {
         $this->vp6_profile = $vp6Profile;
-
+        
         return $this;
     }
 
     /**
      * Get vp6_profile
      *
-     * @return string 
+     * @return string
      */
     public function getVp6Profile()
     {
@@ -4181,20 +4054,20 @@ class Output
     /**
      * Set vp6_compression_mode
      *
-     * @param string $vp6CompressionMode
+     * @param string $vp6CompressionMode            
      * @return Output
      */
     public function setVp6CompressionMode($vp6CompressionMode)
     {
         $this->vp6_compression_mode = $vp6CompressionMode;
-
+        
         return $this;
     }
 
     /**
      * Get vp6_compression_mode
      *
-     * @return string 
+     * @return string
      */
     public function getVp6CompressionMode()
     {
@@ -4204,20 +4077,20 @@ class Output
     /**
      * Set vp6_2pass_min_section
      *
-     * @param string $vp62passMinSection
+     * @param string $vp62passMinSection            
      * @return Output
      */
     public function setVp62passMinSection($vp62passMinSection)
     {
         $this->vp6_2pass_min_section = $vp62passMinSection;
-
+        
         return $this;
     }
 
     /**
      * Get vp6_2pass_min_section
      *
-     * @return string 
+     * @return string
      */
     public function getVp62passMinSection()
     {
@@ -4227,20 +4100,20 @@ class Output
     /**
      * Set vp6_2pass_max_section
      *
-     * @param string $vp62passMaxSection
+     * @param string $vp62passMaxSection            
      * @return Output
      */
     public function setVp62passMaxSection($vp62passMaxSection)
     {
         $this->vp6_2pass_max_section = $vp62passMaxSection;
-
+        
         return $this;
     }
 
     /**
      * Get vp6_2pass_max_section
      *
-     * @return string 
+     * @return string
      */
     public function getVp62passMaxSection()
     {
@@ -4250,20 +4123,20 @@ class Output
     /**
      * Set vp6_stream_prebuffer
      *
-     * @param string $vp6StreamPrebuffer
+     * @param string $vp6StreamPrebuffer            
      * @return Output
      */
     public function setVp6StreamPrebuffer($vp6StreamPrebuffer)
     {
         $this->vp6_stream_prebuffer = $vp6StreamPrebuffer;
-
+        
         return $this;
     }
 
     /**
      * Get vp6_stream_prebuffer
      *
-     * @return string 
+     * @return string
      */
     public function getVp6StreamPrebuffer()
     {
@@ -4273,20 +4146,20 @@ class Output
     /**
      * Set vp6_stream_max_buffer
      *
-     * @param string $vp6StreamMaxBuffer
+     * @param string $vp6StreamMaxBuffer            
      * @return Output
      */
     public function setVp6StreamMaxBuffer($vp6StreamMaxBuffer)
     {
         $this->vp6_stream_max_buffer = $vp6StreamMaxBuffer;
-
+        
         return $this;
     }
 
     /**
      * Get vp6_stream_max_buffer
      *
-     * @return string 
+     * @return string
      */
     public function getVp6StreamMaxBuffer()
     {
@@ -4296,20 +4169,20 @@ class Output
     /**
      * Set vp6_deinterlace_mode
      *
-     * @param string $vp6DeinterlaceMode
+     * @param string $vp6DeinterlaceMode            
      * @return Output
      */
     public function setVp6DeinterlaceMode($vp6DeinterlaceMode)
     {
         $this->vp6_deinterlace_mode = $vp6DeinterlaceMode;
-
+        
         return $this;
     }
 
     /**
      * Get vp6_deinterlace_mode
      *
-     * @return string 
+     * @return string
      */
     public function getVp6DeinterlaceMode()
     {
@@ -4319,20 +4192,20 @@ class Output
     /**
      * Set vp6_denoise_level
      *
-     * @param string $vp6DenoiseLevel
+     * @param string $vp6DenoiseLevel            
      * @return Output
      */
     public function setVp6DenoiseLevel($vp6DenoiseLevel)
     {
         $this->vp6_denoise_level = $vp6DenoiseLevel;
-
+        
         return $this;
     }
 
     /**
      * Get vp6_denoise_level
      *
-     * @return string 
+     * @return string
      */
     public function getVp6DenoiseLevel()
     {
@@ -4342,20 +4215,20 @@ class Output
     /**
      * Set alpha_transparency
      *
-     * @param string $alphaTransparency
+     * @param string $alphaTransparency            
      * @return Output
      */
     public function setAlphaTransparency($alphaTransparency)
     {
         $this->alpha_transparency = $alphaTransparency;
-
+        
         return $this;
     }
 
     /**
      * Get alpha_transparency
      *
-     * @return string 
+     * @return string
      */
     public function getAlphaTransparency()
     {
@@ -4365,20 +4238,20 @@ class Output
     /**
      * Set constant_bitrate
      *
-     * @param string $constantBitrate
+     * @param string $constantBitrate            
      * @return Output
      */
     public function setConstantBitrate($constantBitrate)
     {
         $this->constant_bitrate = $constantBitrate;
-
+        
         return $this;
     }
 
     /**
      * Get constant_bitrate
      *
-     * @return string 
+     * @return string
      */
     public function getConstantBitrate()
     {
@@ -4388,20 +4261,20 @@ class Output
     /**
      * Set hint
      *
-     * @param string $hint
+     * @param string $hint            
      * @return Output
      */
     public function setHint($hint)
     {
         $this->hint = $hint;
-
+        
         return $this;
     }
 
     /**
      * Get hint
      *
-     * @return string 
+     * @return string
      */
     public function getHint()
     {
@@ -4411,20 +4284,20 @@ class Output
     /**
      * Set mtu_size
      *
-     * @param string $mtuSize
+     * @param string $mtuSize            
      * @return Output
      */
     public function setMtuSize($mtuSize)
     {
         $this->mtu_size = $mtuSize;
-
+        
         return $this;
     }
 
     /**
      * Get mtu_size
      *
-     * @return string 
+     * @return string
      */
     public function getMtuSize()
     {
@@ -4434,20 +4307,20 @@ class Output
     /**
      * Set max_aac_profile
      *
-     * @param string $maxAacProfile
+     * @param string $maxAacProfile            
      * @return Output
      */
     public function setMaxAacProfile($maxAacProfile)
     {
         $this->max_aac_profile = $maxAacProfile;
-
+        
         return $this;
     }
 
     /**
      * Get max_aac_profile
      *
-     * @return string 
+     * @return string
      */
     public function getMaxAacProfile()
     {
@@ -4457,20 +4330,20 @@ class Output
     /**
      * Set force_aac_profile
      *
-     * @param string $forceAacProfile
+     * @param string $forceAacProfile            
      * @return Output
      */
     public function setForceAacProfile($forceAacProfile)
     {
         $this->force_aac_profile = $forceAacProfile;
-
+        
         return $this;
     }
 
     /**
      * Get force_aac_profile
      *
-     * @return string 
+     * @return string
      */
     public function getForceAacProfile()
     {
@@ -4480,20 +4353,20 @@ class Output
     /**
      * Set aspera_transfer_policy
      *
-     * @param string $asperaTransferPolicy
+     * @param string $asperaTransferPolicy            
      * @return Output
      */
     public function setAsperaTransferPolicy($asperaTransferPolicy)
     {
         $this->aspera_transfer_policy = $asperaTransferPolicy;
-
+        
         return $this;
     }
 
     /**
      * Get aspera_transfer_policy
      *
-     * @return string 
+     * @return string
      */
     public function getAsperaTransferPolicy()
     {
@@ -4503,20 +4376,20 @@ class Output
     /**
      * Set transfer_minimum_rate
      *
-     * @param string $transferMinimumRate
+     * @param string $transferMinimumRate            
      * @return Output
      */
     public function setTransferMinimumRate($transferMinimumRate)
     {
         $this->transfer_minimum_rate = $transferMinimumRate;
-
+        
         return $this;
     }
 
     /**
      * Get transfer_minimum_rate
      *
-     * @return string 
+     * @return string
      */
     public function getTransferMinimumRate()
     {
@@ -4526,20 +4399,20 @@ class Output
     /**
      * Set transfer_maximum_rate
      *
-     * @param string $transferMaximumRate
+     * @param string $transferMaximumRate            
      * @return Output
      */
     public function setTransferMaximumRate($transferMaximumRate)
     {
         $this->transfer_maximum_rate = $transferMaximumRate;
-
+        
         return $this;
     }
 
     /**
      * Get transfer_maximum_rate
      *
-     * @return string 
+     * @return string
      */
     public function getTransferMaximumRate()
     {
@@ -4549,20 +4422,20 @@ class Output
     /**
      * Set copy_video
      *
-     * @param string $copyVideo
+     * @param string $copyVideo            
      * @return Output
      */
     public function setCopyVideo($copyVideo)
     {
         $this->copy_video = $copyVideo;
-
+        
         return $this;
     }
 
     /**
      * Get copy_video
      *
-     * @return string 
+     * @return string
      */
     public function getCopyVideo()
     {
@@ -4572,41 +4445,86 @@ class Output
     /**
      * Set copy_audio
      *
-     * @param string $copyAudio
+     * @param string $copyAudio            
      * @return Output
      */
     public function setCopyAudio($copyAudio)
     {
         $this->copy_audio = $copyAudio;
-
+        
         return $this;
     }
 
     /**
      * Get copy_audio
      *
-     * @return string 
+     * @return string
      */
     public function getCopyAudio()
     {
         return $this->copy_audio;
     }
-	
-	/**
-	 *
-	 * @return Job
-	 */
-	public function getJob() {
-		return $this->job;
-	}
-	
-	/**
-	 *
-	 * @param Job $job        	
-	 */
-	public function setJob(Job $job) {
-		$this->job = $job;
-		return $this;
-	}
-	
+
+    /**
+     *
+     * @return Job
+     */
+    public function getJob()
+    {
+        return $this->job;
+    }
+
+    /**
+     *
+     * @param Job $job            
+     */
+    public function setJob(Job $job)
+    {
+        $this->job = $job;
+        return $this;
+    }
+
+    public function getCurrentEvent()
+    {
+        return $this->currentEvent;
+    }
+
+    public function setCurrentEvent($currentEvent)
+    {
+        $this->currentEvent = $currentEvent;
+        return $this;
+    }
+
+    public function getCurrentEventProgress()
+    {
+        return $this->currentEventProgress;
+    }
+
+    public function setCurrentEventProgress($currentEventProgress)
+    {
+        $this->currentEventProgress = $currentEventProgress;
+        return $this;
+    }
+
+    public function getProgress()
+    {
+        return $this->progress;
+    }
+
+    public function setProgress($progress)
+    {
+        $this->progress = $progress;
+        return $this;
+    }
+
+    public function getMediaFile()
+    {
+        return $this->mediaFile;
+    }
+
+    public function setMediaFile($mediaFile)
+    {
+        $this->mediaFile = $mediaFile;
+        return $this;
+    }
 }

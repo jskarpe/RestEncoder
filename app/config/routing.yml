@@ -15,3 +15,6 @@ NelmioApiDocBundle:
 status:
     path:      /status
     defaults:  { _controller: YuavRestEncoderBundle:Status:index }
+file_download:
+    path:      /file/{key}
+    defaults:  { _controller: YuavRestEncoderBundle:File:download }

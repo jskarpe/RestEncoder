@@ -1,5 +1,49 @@
-<h1>{{ job.id }}- {{ job.state }}</h1>
-    <p>
-    {{ job.outputs|length }}
-{{ dump(job) }}
-    </p>
+{% extends '::base.html.twig' %} {% block body %}
+<div class="panel panel-default">
+	<div class="panel-heading">Encoding job</div>
+	<div class="panel-body">
+		<p>ID: {{ job.id }}</p>
+	</div>
+
+	<table class="table">
+		<tr>
+			<th>Submitted</th>
+			<th>Finished</th>
+		</tr>
+		<tr>
+			<td>{{ job.submittedAt|date('Y-m-d H:i:s') }}</td>
+			<td>{{ job.finishedAt|date('Y-m-d H:i:s') }}</td>
+		</tr>
+	</table>
+
+
+	<div class="center-block col-md-4">{% include
+		'YuavRestEncoderBundle:Index:input.html.twig' %}</div>
+
+	{% for output in job.outputs %}
+	<div class="center-block col-md-4">{{
+		include('YuavRestEncoderBundle:Index:output.html.twig', {output: output}) }}
+	</div>
+	{% endfor %}
+
+	<table class="table table-condensed">
+		<tr>
+			<th>Id</th>
+			<th>Dimensions</th>
+			<th>Url</th>
+			<th>Progress</th>
+		</tr>
+		{% for output in job.outputs %}
+		<tr>
+			<td><a href="/api/v1/outputs/{{ output.id }}.json"> {{ output.id }} </a></td>
+			<td>{{ output.height }}x{{ output.width }}</td>
+			<td><a href="{{ output.url }}">{{ output.url }}</a></td>
+			<td>{{ output.progress }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+</div>
+
+
+{% endblock %}

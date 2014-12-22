@@ -146,10 +146,11 @@ knp_gaufrette:
     adapters:
         foo:
             opencloud:
-                object_store_id: opencloud.object_store
+                object_store_id: yuav_rest_encoder.swift.objectstore
                 container_name: RestEncoder
                 create_container: true
     filesystems:
         outputs:
             adapter:    foo
             alias:      foo_filesystem
+    stream_wrapper: ~

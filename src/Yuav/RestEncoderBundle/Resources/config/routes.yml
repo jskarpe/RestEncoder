@@ -1,5 +1,5 @@
-rest_encoder_Job:
+rest_encoder_job:
     type: rest
     prefix: /v1
     resource: "Yuav\RestEncoderBundle\Controller\JobController"
-    name_prefix:  api_1_ # naming collision
+    name_prefix:  api_1_ # Avoid naming collision

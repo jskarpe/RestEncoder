@@ -69,6 +69,11 @@ class MediaFile
     private $job;
 
     /**
+     * @ORM\OneToOne(targetEntity="Output", inversedBy="outputMediaFile", cascade={"all"})
+     */
+    private $output;
+    
+    /**
      *
      * @var string @ORM\Column(name="url", type="string")
      */
@@ -739,4 +744,16 @@ class MediaFile
     {
         $this->setUpdatedAt(new \DateTime('now'));
     }
+
+    public function getOutput()
+    {
+        return $this->output;
+    }
+
+    public function setOutput($output)
+    {
+        $this->output = $output;
+        return $this;
+    }
+	
 }

@@ -21,7 +21,7 @@ class OutputProcessor
 
     private $om;
 
-    private $currentJob;
+    private $currentOutput;
 
     /**
      *
@@ -53,14 +53,13 @@ class OutputProcessor
     public function process(Output $output)
     {
         $job = $output->getJob();
-        $this->currentJob = $job;
+        $this->currentOutput = $output;
         $downloader = $this->getDownloader();
         $inputFile = $downloader->downloadFileAdvanced($job->getInput());
         $this->tempFiles[] = $inputFile;
         $video = $this->ffmpeg->open($inputFile);
         
         $translator = new Translator();
-        
         $translator->addFFMpegFilters($video, $job->getInputMediaFile(), $output);
         
         $filename = $output->getFilename();
@@ -79,15 +78,22 @@ class OutputProcessor
         $video->save($format, $outputPathFile);
         $this->tempfiles[] = $outputPathFile;
         
-        $this->upload(basename($outputPathFile), file_get_contents($outputPathFile));
+        $key = basename($outputPathFile);
         
+        $this->upload($key, file_get_contents($outputPathFile));
+        
+        $output->setUrl('file/' . $key);
+        $this->om->persist($output);
+        $this->om->flush();
         return $output;
     }
 
     public function updateProgress($video, $format, $percentage)
     {
-        if ($this->currentJob instanceof Job) {
-            $this->currentJob->setCurrentEventProgress("$percentage%");
+        if ($this->currentOutput instanceof Output) {
+            $this->currentOutput->setCurrentEventProgress("$percentage%");
+            $this->om->persist($this->currentOutput);
+            $this->om->flush();
         }
     }
 

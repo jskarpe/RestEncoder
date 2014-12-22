@@ -11,6 +11,7 @@
 /bin/
 /composer.phar
 /composer.lock
+AppCache.php
 .project
 .settings
 .buildpath

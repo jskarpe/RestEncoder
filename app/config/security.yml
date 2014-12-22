@@ -19,7 +19,7 @@ security:
             security: false
 
         restencoder:
-            pattern: ^/api/v
+            pattern: ^/axpi/v
             security: true
             http_basic:
                 provider: in_memory

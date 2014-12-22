@@ -71,6 +71,32 @@ class JobControllerTest extends WebTestCase {
 		$this->assertTrue ( isset ( $decoded ['id'] ) );
 	}
 	
+	public function testJsonGetJobProgressAction() {
+	    $fixtures = array (
+	        'Yuav\RestEncoderBundle\Tests\Fixtures\Entity\LoadJobData'
+	    );
+	    $this->loadFixtures ( $fixtures );
+	    $jobs = LoadJobData::$jobs;
+	
+	    $job = array_pop ( $jobs );
+	
+	    $route = $this->getUrl ( 'api_1_get_job_progress', array (
+	        'id' => $job->getId (),
+	        '_format' => 'json'
+	    ) );
+	
+	    $this->client->request ( 'GET', $route, array (
+	        'ACCEPT' => 'application/json'
+	    ) );
+	    $response = $this->client->getResponse ();
+	    $this->assertJsonResponse ( $response, 200 );
+	    $content = $response->getContent ();
+	
+	    $decoded = json_decode ( $content, true );
+	
+	    $this->assertTrue ( isset ( $decoded ['state'] ) , "No state found in json: $content");
+	}
+	
 	public function testJsonPostJobAction() {
 		$this->client->request ( 'POST', '/api/v1/jobs.json', array (), array (), array (
 				'CONTENT_TYPE' => 'application/json' 

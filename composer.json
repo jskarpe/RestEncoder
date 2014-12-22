@@ -15,7 +15,7 @@
         "knplabs/gaufrette": "0.1.*",
         "knplabs/knp-gaufrette-bundle": "*@dev",
         "php": ">=5.3.3",
-        "symfony/symfony": "~2.4",
+        "symfony/symfony": "~2.6",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
@@ -31,7 +31,12 @@
         "nelmio/api-doc-bundle": "dev-master",
         "braincrafted/bootstrap-bundle": "@stable",
         "rackspace/php-opencloud": "dev-master",
-        "guzzlehttp/log-subscriber": "dev-master"
+        "guzzlehttp/log-subscriber": "dev-master",
+        "behat/behat": "~3.0",
+        "behat/symfony2-extension": "~2.0",
+        "behat/mink-extension": "~2.0",
+        "sanpi/behatch-contexts": "*",
+        "behat/mink-browserkit-driver": "~1.1"
     },
     "scripts": {
         "post-install-cmd": [
@@ -65,6 +70,7 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "phpunit/phpunit": "3.7.*",
-        "liip/functional-test-bundle":"dev-master"
+        "liip/functional-test-bundle":"dev-master",
+        "behat/mink": "~1.5"
     }
 }

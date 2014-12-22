@@ -13,3 +13,8 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+    
+    openstack_identity_url: 'http://10.0.0.112:5000/v2.0'
+    openstack_username: 'swift'
+    openstack_password: 'swift'
+    openstack_tenant_name: 'swift'

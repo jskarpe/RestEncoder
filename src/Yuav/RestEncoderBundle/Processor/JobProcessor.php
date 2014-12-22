@@ -11,6 +11,7 @@ use Monolog;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Psr\Log\LoggerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Yuav\RestEncoderBundle\Processor\Job\OutputTranslator;
 
 class JobProcessor
 {
@@ -51,6 +52,7 @@ class JobProcessor
         if ($this->logger) {
             $this->logger->debug('Downloading file ' . $job->getInput());
         }
+        $job->setProgress('0%');
         $this->setJobState($job, 'downloading');
         $downloader = $this->getDownloader();
         $inputFile = $downloader->downloadFileAdvanced($job->getInput());
@@ -60,6 +62,7 @@ class JobProcessor
         }
         
         // Analyze file
+        $job->setProgress('10%');
         $this->setJobState($job, 'analyzing input');
         $mediaProcessor = $this->getMediaFileProcessor();
         $inputMediaFile = $mediaProcessor->process($inputFile);
@@ -68,6 +71,7 @@ class JobProcessor
         $job->setInputMediaFile($inputMediaFile);
         
         // Queue valid outputs for encoding
+        $job->setProgress('20%');
         $this->setJobState($job, 'queuing output');
         $outputFilter = $this->getOutputFilter();
         $outputs = $outputFilter->findValidOutputs($inputMediaFile, $job);
@@ -76,9 +80,13 @@ class JobProcessor
                 $this->logger->error('No valid outputs found in job ' . $job->getId());
             }
         }
+        
+        $translator = new OutputTranslator();
         $job->setOutputs(new ArrayCollection());
         foreach ($outputs as $output) {
             $job->addOutput($output);
+            $outputMediaFile = $translator->outputToMediaFile($output, $job->getInputMediaFile());
+            $outputMediaFile->setJob($job);
             
             // Publish job to RabbitMQ
             $msg = array(
@@ -97,7 +105,8 @@ class JobProcessor
         // Cleanup
         $downloader->rmTmpFile($job->getInput());
         
-        $this->setJobState($job, 'processed');
+        $job->setProgress('30%');
+        $this->setJobState($job, 'encoding');
         if ($this->logger) {
             $this->logger->debug('Analysis of ' . $inputFile . ' complete.');
         }
