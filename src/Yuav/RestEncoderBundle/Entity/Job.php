@@ -4,6 +4,7 @@ namespace Yuav\RestEncoderBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Yuav\RestEncoderBundle\Model\JobInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Job
@@ -88,6 +89,7 @@ class Job implements JobInterface
      * An HTTP, S3, Cloud Files, GCS, FTP, FTPS, SFTP, or Aspera URL where we can download file to transcode.
      *
      * @var string @ORM\Column(name="input", type="string", length=2048)
+     * @Assert\NotBlank()
      */
     private $input;
 

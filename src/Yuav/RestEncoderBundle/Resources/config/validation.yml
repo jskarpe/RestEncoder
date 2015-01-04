@@ -8,3 +8,7 @@ Yuav\RestEncoderBundle\Entity\Job:
                 max: 2048
                 minMessage: "Input URI must be at least  characters length"
                 maxMessage: "Input URI cannot be longer than  characters length"
+Yuav\RestEncoderBundle\Entity\Job2:
+    getters:
+        input:
+            - NotBlank:

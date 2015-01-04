@@ -256,6 +256,8 @@ class JobController extends FOSRestController
         }
     }
 
+
+    
     /**
      * Update existing job from the submitted data or create a new job at a specific location.
      *
@@ -299,6 +301,51 @@ class JobController extends FOSRestController
         }
     }
 
+
+
+    /**
+     * Delete existing job.
+     *
+     * @ApiDoc(
+     * resource = true,
+     * input = "Yuav\RestEncoderBundle\Form\JobType",
+     * statusCodes = {
+     * 204 = "Returned when successful",
+     * 400 = "Returned when the form has errors"
+     * }
+     * )
+     *
+     * @Annotations\View(
+     * template = "YuavRestEncoderBundle:Job:editJob.html.twig",
+     * templateVar = "form"
+     * )
+     *
+     * @param Request $request
+     *            the request object
+     * @param int $id
+     *            the job id
+     *
+     * @return FormTypeInterface|View
+     *
+     * @throws NotFoundHttpException when job not exist
+     */
+    public function deleteJobAction(Request $request, $id)
+    {
+        try {
+            $job = $this->container->get('yuav_rest_encoder.job.handler')->delete($this->getOr404($id), $request->request->all());
+    
+            $routeOptions = array(
+                'id' => $id,
+                '_format' => $request->get('_format')
+            );
+    
+            return $this->routeRedirectView('api_1_get_job', $routeOptions, Codes::HTTP_NO_CONTENT);
+        } catch (InvalidFormException $exception) {
+    
+            return $exception->getForm();
+        }
+    }
+    
     /**
      * Fetch a Page or throw an 404 Exception.
      *

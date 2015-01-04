@@ -1,0 +1,21 @@
+default:
+    suites:
+        restencoder_suite:
+            type: symfony_bundle
+            bundle: 'YuavRestEncoderBundle'
+            contexts: 
+                - Yuav\RestEncoderBundle\Features\Context\JsonRestContext: ~
+                - Yuav\RestEncoderBundle\Features\Context\FeatureContext:
+                    entityManager: '@doctrine.orm.entity_manager'
+                - behatch:json
+                - behatch:rest
+                - behatch:xml
+    extensions:
+        Behat\Symfony2Extension: ~
+        Sanpi\Behatch\Extension: ~
+        Behat\MinkExtension:
+            sessions:
+                default:
+                    symfony2: ~
+    autoload:
+        '': %paths.base%/src
