@@ -7,6 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Yuav\RestEncoderBundle\Entity\Output;
+use Yuav\RestEncoderBundle\Form\DataTransformer\InputToStringTransformer;
 
 class JobType extends AbstractType
 {
@@ -18,6 +19,8 @@ class JobType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $transformer = new InputToStringTransformer();
+        
         $builder->add('api_key')
             ->add('asperaTransferPolicy', null, array(
             'required' => false
@@ -32,7 +35,8 @@ class JobType extends AbstractType
             ->add('grouping', null, array(
             'required' => false
         ))
-            ->add('input', null, array(
+            ->add($builder->create('input', 'text')
+            ->addModelTransformer($transformer), null, array(
             'required' => true
         ))
             ->add('liveStream', null, array(

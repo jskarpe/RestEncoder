@@ -44,25 +44,13 @@ class Job implements JobInterface
 
     /**
      *
-     * @var MediaFile @ORM\OneToOne(targetEntity="MediaFile", mappedBy="job", cascade={"persist"})
-     */
-    private $inputMediaFile;
-
-    /**
-     *
      * @var boolean @ORM\Column(name="test", type="boolean", nullable=true)
      */
     private $test;
 
     /**
      *
-     * @var array @ORM\OneToMany(targetEntity="MediaFile", mappedBy="job", cascade={"persist"})
-     */
-    private $outputMediaFiles;
-
-    /**
-     *
-     * @var array @ORM\OneToMany(targetEntity="Thumbnail", mappedBy="job")
+     * @var array @ORM\OneToMany(targetEntity="Thumbnail", mappedBy="job", cascade={"persist", "remove"})
      */
     private $thumbnails;
 
@@ -71,12 +59,6 @@ class Job implements JobInterface
      * @var string @ORM\Column(name="state", type="string", length=100)
      */
     private $state;
-
-    /**
-     *
-     * @var string @ORM\Column(name="progress", type="string", length=100, nullable=true)
-     */
-    private $progress;
 
     /**
      * The API key for your account
@@ -88,8 +70,7 @@ class Job implements JobInterface
     /**
      * An HTTP, S3, Cloud Files, GCS, FTP, FTPS, SFTP, or Aspera URL where we can download file to transcode.
      *
-     * @var string @ORM\Column(name="input", type="string", length=2048)
-     * @Assert\NotBlank()
+     * @var string @ORM\OneToOne(targetEntity="Input", mappedBy="job", cascade={"persist", "remove"})
      */
     private $input;
 
@@ -643,13 +624,13 @@ class Job implements JobInterface
     /**
      * Set input
      *
-     * @param string $input            
+     * @param Input $input            
      * @return Job
      */
-    public function setInput($input)
+    public function setInput(Input $input)
     {
+        $input->setJob($this);
         $this->input = $input;
-        
         return $this;
     }
 
@@ -661,29 +642,6 @@ class Job implements JobInterface
     public function getInput()
     {
         return $this->input;
-    }
-
-    /**
-     * Set input media file
-     *
-     * @param MediaFile $inputMediaFile            
-     * @return Job
-     */
-    public function setInputMediaFile(MediaFile $inputMediaFile)
-    {
-        $this->inputMediaFile = $inputMediaFile;
-        $inputMediaFile->setJob($this);
-        return $this;
-    }
-
-    /**
-     * Get input_media_file
-     *
-     * @return MediaFile
-     */
-    public function getInputMediaFile()
-    {
-        return $this->inputMediaFile;
     }
 
     /**
@@ -707,52 +665,6 @@ class Job implements JobInterface
     public function getTest()
     {
         return $this->test;
-    }
-
-    /**
-     * Set output media files
-     *
-     * @param array $outputMediaFiles            
-     * @return Job
-     */
-    public function setOutputMediaFiles(ArrayCollection $outputMediaFiles = null)
-    {
-        $this->outputMediaFiles = $outputMediaFiles;
-        if (null !== $outputMediaFiles) {
-            foreach ($outputMediaFiles as $outputMediaFile) {
-                if ($outputMediaFile instanceof MediaFile) {
-                    $outputMediaFile->setJob($this);
-                } else {
-                    throw\InvalidArgumentException("Expected ArrayCollection with MediaFile objects, found type: " . gettype($outputMediaFile));
-                }
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Get output_media_files
-     *
-     * @return ArrayCollection
-     */
-    public function getOutputMediaFiles()
-    {
-        return $this->outputMediaFiles;
-    }
-
-    public function addOutputMediaFile(MediaFile $mediaFile)
-    {
-        $this->outputMediaFiles->add($mediaFile);
-        $mediaFile->setJob($this);
-        return $this;
-    }
-
-    public function removeOutputMediaFile($mediaFile)
-    {
-        if ($this->outputMediaFiles->contains($mediaFile)) {
-            $this->outputMediaFiles->removeElement($mediaFile);
-        }
-        return $this;
     }
 
     /**
@@ -816,16 +728,5 @@ class Job implements JobInterface
     public function populateUpdatedAt()
     {
         $this->setUpdatedAt(new \DateTime('now'));
-    }
-
-    public function getProgress()
-    {
-        return $this->progress;
-    }
-
-    public function setProgress($progress)
-    {
-        $this->progress = $progress;
-        return $this;
     }
 }

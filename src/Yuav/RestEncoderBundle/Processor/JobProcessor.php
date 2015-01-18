@@ -12,6 +12,7 @@ use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Psr\Log\LoggerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Yuav\RestEncoderBundle\Processor\Job\OutputTranslator;
+use Yuav\RestEncoderBundle\Entity\Input;
 
 class JobProcessor
 {
@@ -48,30 +49,31 @@ class JobProcessor
 
     public function process(Job $job)
     {
+        if (!$job->getInput() instanceof Input) {
+            throw new \InvalidArgumentException('Invalid or empty input set in job');
+        }
+        
         // Download a local copy of input
         if ($this->logger) {
-            $this->logger->debug('Downloading file ' . $job->getInput());
+            $this->logger->debug('Downloading file ' . $job->getInput()->getUri());
         }
-        $job->setProgress('0%');
         $this->setJobState($job, 'downloading');
         $downloader = $this->getDownloader();
-        $inputFile = $downloader->downloadFileAdvanced($job->getInput());
+        $inputFile = $downloader->downloadFileAdvanced($job->getInput()->getUri());
         $this->tempFiles[] = $inputFile;
         if ($this->logger) {
             $this->logger->debug('Successfully downloaded ' . $inputFile . ' to ' . $inputFile . ' (' . filesize($inputFile) . ' bytes)');
         }
         
         // Analyze file
-        $job->setProgress('10%');
         $this->setJobState($job, 'analyzing input');
         $mediaProcessor = $this->getMediaFileProcessor();
         $inputMediaFile = $mediaProcessor->process($inputFile);
-        $inputMediaFile->setUrl($job->getInput());
+        $inputMediaFile->setUrl($job->getInput()->getUri());
         $inputMediaFile->setTest($job->getTest());
-        $job->setInputMediaFile($inputMediaFile);
+        $job->getInput()->setMediaFile($inputMediaFile);
         
         // Queue valid outputs for encoding
-        $job->setProgress('20%');
         $this->setJobState($job, 'queuing output');
         $outputFilter = $this->getOutputFilter();
         $outputs = $outputFilter->findValidOutputs($inputMediaFile, $job);
@@ -85,7 +87,7 @@ class JobProcessor
         $job->setOutputs(new ArrayCollection());
         foreach ($outputs as $output) {
             $job->addOutput($output);
-            $outputMediaFile = $translator->outputToMediaFile($output, $job->getInputMediaFile());
+            $outputMediaFile = $translator->outputToMediaFile($output, $job->getInput()->getMediaFile());
             $outputMediaFile->setJob($job);
             
             // Publish job to RabbitMQ
@@ -103,9 +105,8 @@ class JobProcessor
         // Queue thumbnails generation
         
         // Cleanup
-        $downloader->rmTmpFile($job->getInput());
+        $downloader->rmTmpFile($job->getInput()->getUri());
         
-        $job->setProgress('30%');
         $this->setJobState($job, 'encoding');
         if ($this->logger) {
             $this->logger->debug('Analysis of ' . $inputFile . ' complete.');

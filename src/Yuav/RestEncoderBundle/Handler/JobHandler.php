@@ -69,32 +69,6 @@ class JobHandler implements JobHandlerInterface
         return $this->processForm($job, $parameters, 'POST');
     }
 
-    /**
-     * Edit a Job.
-     *
-     * @param JobInterface $job            
-     * @param array $parameters            
-     *
-     * @return PageInterface
-     */
-    public function put(JobInterface $job, array $parameters)
-    {
-        return $this->processForm($job, $parameters, 'PUT');
-    }
-
-    /**
-     * Partially update a Job.
-     *
-     * @param JonInterface $job            
-     * @param array $parameters            
-     *
-     * @return JobInterface
-     */
-    public function patch(JobInterface $job, array $parameters)
-    {
-        return $this->processForm($job, $parameters, 'PATCH');
-    }
-
     public function delete(JobInterface $job, array $parameters)
     {
 //         return $this->processForm($job, $parameters, 'DELETE');
@@ -126,7 +100,6 @@ class JobHandler implements JobHandlerInterface
                 $output = new Output();
                 $job->addOutput($output);
             }
-            
             $this->om->persist($job);
             $this->om->flush($job);
             

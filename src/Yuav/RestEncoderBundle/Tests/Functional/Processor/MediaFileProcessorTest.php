@@ -3,6 +3,7 @@ namespace Yuav\RestEncoderBundle\Tests\Functional\Encoder;
 
 use Yuav\RestEncoderBundle\Entity\Job;
 use Yuav\RestEncoderBundle\Processor\MediaFileProcessor;
+use Yuav\RestEncoderBundle\Entity\Input;
 
 class InputHandlerTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +14,9 @@ class InputHandlerTest extends \PHPUnit_Framework_TestCase
         $inputFile = realpath(__DIR__ . '/../../Files/video_test.mp4');
         
         $job = new Job();
-        $job->setInput($url);
+        $input = new Input();
+        $input->setUri($url);
+        $job->setInput($input);
         
         $mediaFileProcessor = new MediaFileProcessor();
         $mediaFile = $mediaFileProcessor->process($inputFile);

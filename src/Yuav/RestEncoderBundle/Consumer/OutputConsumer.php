@@ -41,6 +41,13 @@ class OutputConsumer implements ConsumerInterface
                 $this->logger->debug("Received output id $outputId from Output queue");
             }
             $output = $this->om->getRepository('\Yuav\RestEncoderBundle\Entity\Output')->find($outputId);
+            if (! $output) {
+                // Ignore jobs missing from database
+                if ($this->logger) {
+                    $this->logger->warning("Output '$outputId' was not found in the database. Removing queue item...");
+                }
+                return; // Remove from queue
+            }
             $outputProcessor = $this->getOutputProcessor();
             $output = $outputProcessor->process($output);
             return $output;

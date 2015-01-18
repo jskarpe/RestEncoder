@@ -5,6 +5,7 @@ use Yuav\RestEncoderBundle\Entity\Job;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Yuav\RestEncoderBundle\Entity\Output;
+use Yuav\RestEncoderBundle\Entity\Input;
 
 class LoadJobMp4SampleEncode implements FixtureInterface
 {
@@ -13,7 +14,9 @@ class LoadJobMp4SampleEncode implements FixtureInterface
 	public function load(ObjectManager $manager)
 	{
 		$job = new Job();
-		$job->setInput('http://vjs.zencdn.net/v/oceans.mp4');
+		$input = new Input();
+		$input->setUri('http://vjs.zencdn.net/v/oceans.mp4');
+		$job->setInput($input);
 		$job->setApiKey('dummy');
 		
 		$output = new Output();

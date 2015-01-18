@@ -110,22 +110,25 @@ class JobController extends FOSRestController
     {
         $job = $this->getOr404($id);
         $progress = array(
-            'progress' => $job->getProgress(),
+            // 'progress' => $job->getProgress(),
             'state' => $job->getState()
         );
         
-        $input = $job->getInputMediaFile();
+        $input = $job->getInput()->getMediaFile();
         if ($input instanceof MediaFile) {
             $progress['input'] = array(
                 'id' => $input->getId(),
-                'state' => $input->getState()
+                'state' => $input->getState(),
+                'current_event' => $output->getCurrentEvent(),
+                'current_event_progress' => $input->getCurrentEventProgress(),
+                'progress' => $input->getProgress()
             );
         }
         
         foreach ($job->getOutputs() as $output) {
             $outputProgress = array(
                 'id' => $output->getId(),
-                'state' => $output->getState(),
+                // 'state' => $output->getState(),
                 'current_event' => $output->getCurrentEvent(),
                 'current_event_progress' => $output->getCurrentEventProgress(),
                 'progress' => $output->getProgress()
@@ -191,7 +194,7 @@ class JobController extends FOSRestController
             );
             $producer = $this->get('old_sound_rabbit_mq.job_queue_producer');
             $producer->publish(json_encode($msg));
-            
+
             // Add location header to newly created job
             $routeOptions = array(
                 'id' => $newJob->getId(),
@@ -205,103 +208,6 @@ class JobController extends FOSRestController
             return $exception->getForm();
         }
     }
-
-    /**
-     * Update existing job from the submitted data or create a new job at a specific location.
-     *
-     * @ApiDoc(
-     * resource = true,
-     * input = "Yuav\RestEncoderBundle\Form\JobType",
-     * statusCodes = {
-     * 201 = "Returned when the Job is created",
-     * 204 = "Returned when successful",
-     * 400 = "Returned when the form has errors"
-     * }
-     * )
-     *
-     * @Annotations\View(
-     * template = "YuavRestEncoderBundle:Job:editJob.html.twig",
-     * templateVar = "form"
-     * )
-     *
-     * @param Request $request
-     *            the request object
-     * @param int $id
-     *            the page id
-     *            
-     * @return FormTypeInterface|View
-     *
-     * @throws NotFoundHttpException when page not exist
-     */
-    public function putJobAction(Request $request, $id)
-    {
-        try {
-            if (! ($job = $this->container->get('yuav_rest_encoder.job.handler')->get($id))) {
-                $statusCode = Codes::HTTP_CREATED;
-                $job = $this->container->get('yuav_rest_encoder.job.handler')->post($request->request->all());
-            } else {
-                $statusCode = Codes::HTTP_NO_CONTENT;
-                $job = $this->container->get('yuav_rest_encoder.job.handler')->put($job, $request->request->all());
-            }
-            
-            $routeOptions = array(
-                'id' => $job->getId(),
-                '_format' => $request->get('_format')
-            );
-            
-            return $this->routeRedirectView('api_1_get_job', $routeOptions, $statusCode);
-        } catch (InvalidFormException $exception) {
-            
-            return $exception->getForm();
-        }
-    }
-
-
-    
-    /**
-     * Update existing job from the submitted data or create a new job at a specific location.
-     *
-     * @ApiDoc(
-     * resource = true,
-     * input = "Yuav\RestEncoderBundle\Form\JobType",
-     * statusCodes = {
-     * 204 = "Returned when successful",
-     * 400 = "Returned when the form has errors"
-     * }
-     * )
-     *
-     * @Annotations\View(
-     * template = "YuavRestEncoderBundle:Job:editJob.html.twig",
-     * templateVar = "form"
-     * )
-     *
-     * @param Request $request
-     *            the request object
-     * @param int $id
-     *            the job id
-     *            
-     * @return FormTypeInterface|View
-     *
-     * @throws NotFoundHttpException when job not exist
-     */
-    public function patchJobAction(Request $request, $id)
-    {
-        try {
-            $job = $this->container->get('yuav_rest_encoder.job.handler')->patch($this->getOr404($id), $request->request->all());
-            
-            $routeOptions = array(
-                'id' => $job->getId(),
-                '_format' => $request->get('_format')
-            );
-            
-            return $this->routeRedirectView('api_1_get_job', $routeOptions, Codes::HTTP_NO_CONTENT);
-        } catch (InvalidFormException $exception) {
-            
-            return $exception->getForm();
-        }
-    }
-
-
 
     /**
      * Delete existing job.
@@ -324,7 +230,7 @@ class JobController extends FOSRestController
      *            the request object
      * @param int $id
      *            the job id
-     *
+     *            
      * @return FormTypeInterface|View
      *
      * @throws NotFoundHttpException when job not exist
@@ -333,19 +239,19 @@ class JobController extends FOSRestController
     {
         try {
             $job = $this->container->get('yuav_rest_encoder.job.handler')->delete($this->getOr404($id), $request->request->all());
-    
+            
             $routeOptions = array(
                 'id' => $id,
                 '_format' => $request->get('_format')
             );
-    
+            
             return $this->routeRedirectView('api_1_get_job', $routeOptions, Codes::HTTP_NO_CONTENT);
         } catch (InvalidFormException $exception) {
-    
+            
             return $exception->getForm();
         }
     }
-    
+
     /**
      * Fetch a Page or throw an 404 Exception.
      *

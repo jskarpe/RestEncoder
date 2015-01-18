@@ -35,6 +35,9 @@ class Downloader
 
     public function downloadFileAdvanced($url)
     {
+        if (empty($url)) {
+            throw new \InvalidArgumentException('Expected non-empty string argument, got: ' . get_type($url));
+        }
         if (isset($this->downloadedFiles[$url])) {
             return $this->downloadedFiles[$url];
         }
@@ -108,6 +111,9 @@ class Downloader
 
     public function rmTmpFile($url)
     {
+        if (empty($url)) {
+            throw new \InvalidArgumentException('Url cannot be empty');
+        }
         if (isset($this->downloadedFiles[$url])) {
             $file = $this->downloadedFiles[$url];
             if (file_exists($file)) {

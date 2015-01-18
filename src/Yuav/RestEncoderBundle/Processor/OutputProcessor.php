@@ -55,16 +55,16 @@ class OutputProcessor
         $job = $output->getJob();
         $this->currentOutput = $output;
         $downloader = $this->getDownloader();
-        $inputFile = $downloader->downloadFileAdvanced($job->getInput());
+        $inputFile = $downloader->downloadFileAdvanced($job->getInput()->getUri());
         $this->tempFiles[] = $inputFile;
         $video = $this->ffmpeg->open($inputFile);
         
         $translator = new Translator();
-        $translator->addFFMpegFilters($video, $job->getInputMediaFile(), $output);
+        $translator->addFFMpegFilters($video, $job->getInput()->getMediaFile(), $output);
         
         $filename = $output->getFilename();
         if (null === $filename) {
-            $filename = basename($job->getInput());
+            $filename = basename($job->getInput()->getUri());
         }
         
         $outputPathFile = tempnam(sys_get_temp_dir(), 'RestEncoder') . $filename;
