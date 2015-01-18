@@ -1,6 +1,6 @@
 <div class="panel panel-info">
 	<div class="panel-heading">
-		<h3 class="panel-title">Download and analyze: {{ input.uri }}</h3>
+		<h3 class="panel-title">Download and analyze: <a href="{{ input.uri }}">{{ input.uri }}</a></h3>
 	</div>
 	<div class="panel-body">
 		<table class="table table-condensed table-no-border"
@@ -21,14 +21,14 @@
 					<td>{{ input.mediaFile is null ? "..." :
 						input.mediaFile.durationInMs|milliseconds_to_time }}</td>
 					<td>{{ input.mediaFile is null ? "..." :
-						input.mediaFile.width }}</td>
+						input.mediaFile.width ~ "x" ~ input.mediaFile.height }}</td>
 					<td>{{ input.mediaFile is null ? "..." :
 						input.mediaFile.format }}</td>
 				</tr>
 			</tbody>
 		</table>
 		<div class="progress" style="margin: 0px;">
-			<div class="progress-bar progress-info progress-bar-striped active"
+			<div class="progress-bar progress-info progress-bar-striped {% if input.progress < 100 %}active{% endif %}"
 				role="progressbar" aria-valuenow="{{ input.progress|number_format }}" aria-valuemin="0"
 				aria-valuemax="100" style="width: {{ input.progress|number_format }}%">{{ input.progress|number_format }}%</div>
 		</div>
