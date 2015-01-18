@@ -4539,13 +4539,13 @@ class Output
     public function calculateProgress()
     {
         $weights = array(
-            'Encoding' => 90/100,
-            'Uploading' => 10/100
+            'Encoding' => 0.90,
+            'Uploading' => 0.10
         );
     
         $progress = 0;
         $e = $this->getCurrentEvent();
-        $ep = $this->getCurrentEventProgress();
+        $ep = $this->getCurrentEventProgress() / 100;
         switch ($this->getCurrentEvent()) {
             default:
                 break;
@@ -4555,6 +4555,6 @@ class Output
             case 'Uploading':
                 $progress = $weights['Encoding'] + $ep * $weights[$e];
         }
-        $this->progress = $progress;
+        $this->progress = $progress * 100;
     }
 }

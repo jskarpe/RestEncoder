@@ -150,22 +150,22 @@ class Input
     public function calculateProgress()
     {
         $weights = array(
-            'Downloading' => 90,
-            'Analzying' => 10
+            'Downloading' => 0.9,
+            'Analyzing' => 0.1
         );
         
         $progress = 0;
         $e = $this->getCurrentEvent();
-        $ep = $this->getCurrentEventProgress();
-        switch ($this->getCurrentEvent()) {
+        $ep = $this->getCurrentEventProgress()/100;
+        switch ($e) {
             default:
                 break;
             case 'Downloading':
-                $progress = $ep * $weights[$e]/100;
+                $progress = $ep * $weights[$e];
                 break;
-            case 'Analzying':
-                $progress = $weights['Downloading']/100 + $ep * $weights[$e]/100;
+            case 'Analyzing':
+                $progress = $weights['Downloading'] + $ep * $weights[$e];
         }
-        $this->progress = $progress;
+        $this->progress = $progress * 100;
     }
 }
