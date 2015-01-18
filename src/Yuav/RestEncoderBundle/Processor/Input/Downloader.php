@@ -8,9 +8,9 @@ class Downloader
 
     private $downloadedFiles = array();
 
-    public function download($url)
+    public function download($url, $progressCallback = false)
     {
-        if (isset($this->downloadedFiles[$url])) {
+        if (isset($this->downloadedFiles[$url]) && file_exists($this->downloadedFiles[$url])) {
             return $this->downloadedFiles[$url];
         }
         
@@ -21,6 +21,11 @@ class Downloader
         curl_setopt($ch, CURLOPT_TIMEOUT, 50);
         curl_setopt($ch, CURLOPT_FILE, $fp);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        if ($progressCallback) {
+            curl_setopt($ch, CURLOPT_BUFFERSIZE, 64*1024);
+            curl_setopt($ch, CURLOPT_NOPROGRESS, false);
+            curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, $progressCallback);
+        }
         $res = curl_exec($ch);
         if (false === $res) {
             throw new \RuntimeException("Failed to download $url - " . curl_error($ch));

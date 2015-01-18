@@ -27,7 +27,7 @@ class Output
     private $job;
 
     /**
-     * @ORM\OneToOne(targetEntity="MediaFile", inversedBy="output", cascade={"all"})
+     * @ORM\OneToOne(targetEntity="MediaFile", mappedBy="output", cascade={"all"})
      */
     private $mediaFile;
 

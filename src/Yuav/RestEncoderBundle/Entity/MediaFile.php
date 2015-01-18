@@ -69,7 +69,12 @@ class MediaFile
     private $job;
 
     /**
-     * @ORM\OneToOne(targetEntity="Output", inversedBy="outputMediaFile", cascade={"all"})
+     * @ORM\OneToOne(targetEntity="Input", inversedBy="mediaFile", cascade={"all"})
+     */
+    private $input;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Output", inversedBy="mediaFile", cascade={"all"})
      */
     private $output;
     

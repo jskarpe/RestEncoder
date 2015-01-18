@@ -17,13 +17,13 @@
 	</table>
 
 
-	<div class="center-block col-md-4">{% include
-		'YuavRestEncoderBundle:Index:input.html.twig' %}</div>
+	<div class="center-block col-md-4">{{ include(
+		'YuavRestEncoderBundle:Index:input.html.twig', {input: job.input}) }}</div>
 
 	{% for output in job.outputs %}
 	<div class="center-block col-md-4">{{
-		include('YuavRestEncoderBundle:Index:output.html.twig', {output: output}) }}
-	</div>
+		include('YuavRestEncoderBundle:Index:output.html.twig', {output:
+		output}) }}</div>
 	{% endfor %}
 
 	<table class="table table-condensed">

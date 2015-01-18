@@ -33,7 +33,7 @@ class Input
     private $job;
 
     /**
-     * @ORM\OneToOne(targetEntity="MediaFile", inversedBy="input", cascade={"all"})
+     * @ORM\OneToOne(targetEntity="MediaFile", mappedBy="input", cascade={"all"})
      */
     private $mediaFile;
 

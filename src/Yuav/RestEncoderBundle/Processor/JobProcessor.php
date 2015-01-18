@@ -23,6 +23,8 @@ class JobProcessor
 
     private $outputQueueProducer;
 
+    private $inputBeingDownloaded;
+
     private $mediaFileProcessor;
 
     private $tempFiles = array();
@@ -49,27 +51,32 @@ class JobProcessor
 
     public function process(Job $job)
     {
-        if (!$job->getInput() instanceof Input) {
+        if (! $job->getInput() instanceof Input) {
             throw new \InvalidArgumentException('Invalid or empty input set in job');
         }
         
         // Download a local copy of input
         if ($this->logger) {
-            $this->logger->debug('Downloading file ' . $job->getInput()->getUri());
+            $this->logger->debug('Downloading file ' . $job->getInput()
+                ->getUri());
         }
         $this->setJobState($job, 'downloading');
         $downloader = $this->getDownloader();
-        $inputFile = $downloader->downloadFileAdvanced($job->getInput()->getUri());
+        $this->inputBeingDownloaded = $job->getInput();
+        $inputFile = $downloader->downloadFileAdvanced($job->getInput()
+            ->getUri());
         $this->tempFiles[] = $inputFile;
         if ($this->logger) {
             $this->logger->debug('Successfully downloaded ' . $inputFile . ' to ' . $inputFile . ' (' . filesize($inputFile) . ' bytes)');
         }
+        $this->inputBeingDownloaded = null;
         
         // Analyze file
         $this->setJobState($job, 'analyzing input');
         $mediaProcessor = $this->getMediaFileProcessor();
         $inputMediaFile = $mediaProcessor->process($inputFile);
-        $inputMediaFile->setUrl($job->getInput()->getUri());
+        $inputMediaFile->setUrl($job->getInput()
+            ->getUri());
         $inputMediaFile->setTest($job->getTest());
         $job->getInput()->setMediaFile($inputMediaFile);
         
@@ -87,7 +94,8 @@ class JobProcessor
         $job->setOutputs(new ArrayCollection());
         foreach ($outputs as $output) {
             $job->addOutput($output);
-            $outputMediaFile = $translator->outputToMediaFile($output, $job->getInput()->getMediaFile());
+            $outputMediaFile = $translator->outputToMediaFile($output, $job->getInput()
+                ->getMediaFile());
             $outputMediaFile->setJob($job);
             
             // Publish job to RabbitMQ
@@ -105,13 +113,26 @@ class JobProcessor
         // Queue thumbnails generation
         
         // Cleanup
-        $downloader->rmTmpFile($job->getInput()->getUri());
+        $downloader->rmTmpFile($job->getInput()
+            ->getUri());
         
         $this->setJobState($job, 'encoding');
         if ($this->logger) {
             $this->logger->debug('Analysis of ' . $inputFile . ' complete.');
         }
         return $job;
+    }
+
+    public function updateDownloadProgress($ch, $download_size, $downloaded, $upload_size, $uploaded)
+    {
+        $input = $this->inputBeingDownloaded;
+        if ($download_size > 0) {
+            $input->setProgress(100 * $downloaded / $download_size);
+        } else {
+            $input->setProgress(50);
+        }
+        $this->om->persist($input);
+        $this->om->flush();
     }
 
     private function setJobState($job, $state)
