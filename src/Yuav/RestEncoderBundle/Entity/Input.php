@@ -161,10 +161,10 @@ class Input
             default:
                 break;
             case 'Downloading':
-                $progress = $ep * $weights[$e];
+                $progress = $ep * $weights[$e]/100;
                 break;
             case 'Analzying':
-                $progress = $weights['Downloading'] + $ep * $weights[$e];
+                $progress = $weights['Downloading']/100 + $ep * $weights[$e]/100;
         }
         $this->progress = $progress;
     }

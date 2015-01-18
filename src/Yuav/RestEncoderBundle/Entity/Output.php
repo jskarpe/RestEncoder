@@ -4539,8 +4539,8 @@ class Output
     public function calculateProgress()
     {
         $weights = array(
-            'Encoding' => 90,
-            'Uploading' => 10
+            'Encoding' => 90/100,
+            'Uploading' => 10/100
         );
     
         $progress = 0;

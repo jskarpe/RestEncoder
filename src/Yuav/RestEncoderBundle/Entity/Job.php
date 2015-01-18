@@ -742,9 +742,9 @@ class Job implements JobInterface
     public function calculateProgress()
     {
         $progress = 0;
-        $weightInput = 10;
-        $weightOutput = 80;
-        $weightThumbnails = 10;
+        $weightInput = 10/100;
+        $weightOutput = 80/100;
+        $weightThumbnails = 10/100;
         $progress = $weightInput * $this->getInput()->getProgress() + $weightOutput * $this->findOutputProgress();
         $this->progress = $progress;
     }
