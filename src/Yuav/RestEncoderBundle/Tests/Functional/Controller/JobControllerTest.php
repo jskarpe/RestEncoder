@@ -100,7 +100,23 @@ class JobControllerTest extends WebTestCase
         
         $decoded = json_decode($content, true);
         
-        $this->assertTrue(isset($decoded['state']), "No state found in json: $content");
+        $this->assertArrayHasKey('state', $decoded, "No state found in json: $content");
+        $this->assertArrayHasKey('progress', $decoded, "No progress found in json: $content");
+        $this->assertArrayHasKey('input', $decoded, "No input found in json: $content");
+        $this->assertInternalType('array', $decoded['input']);
+        $array = $decoded['input'];
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('current_event', $array);
+        $this->assertArrayHasKey('current_event_progress', $array);
+        $this->assertArrayHasKey('progress', $array);
+        $this->assertInternalType('array', $decoded['outputs']);
+        foreach ($decoded['outputs'] as $array) {
+            $this->assertInternalType('array', $array);
+            $this->assertArrayHasKey('id', $array);
+            $this->assertArrayHasKey('current_event', $array);
+            $this->assertArrayHasKey('current_event_progress', $array);
+            $this->assertArrayHasKey('progress', $array);
+        }
     }
 
     public function testJsonPostJobAction()

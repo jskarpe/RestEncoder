@@ -16,6 +16,7 @@ use Yuav\RestEncoderBundle\Exception\InvalidFormException;
 use Yuav\RestEncoderBundle\Form\JobType;
 use Yuav\RestEncoderBundle\Model\JobInterface;
 use Yuav\RestEncoderBundle\Entity\MediaFile;
+use Yuav\RestEncoderBundle\Entity\Input;
 
 class JobController extends FOSRestController
 {
@@ -109,17 +110,17 @@ class JobController extends FOSRestController
     public function getJobProgressAction(Request $request, $id)
     {
         $job = $this->getOr404($id);
+        
         $progress = array(
-            // 'progress' => $job->getProgress(),
+            'progress' => $job->getProgress(),
             'state' => $job->getState()
         );
         
-        $input = $job->getInput()->getMediaFile();
-        if ($input instanceof MediaFile) {
+        $input = $job->getInput();
+        if ($input instanceof Input) {
             $progress['input'] = array(
                 'id' => $input->getId(),
-                'state' => $input->getState(),
-                'current_event' => $output->getCurrentEvent(),
+                'current_event' => $input->getCurrentEvent(),
                 'current_event_progress' => $input->getCurrentEventProgress(),
                 'progress' => $input->getProgress()
             );

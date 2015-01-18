@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Output
 {
@@ -68,9 +69,9 @@ class Output
 
     /**
      *
-     * @var string @ORM\Column(name="current_event_progress", type="string", length=100, nullable=true)
+     * @var string @ORM\Column(name="current_event_progress", type="string", length=100)
      */
-    private $currentEventProgress;
+    private $currentEventProgress = 0;
 
     /**
      *
@@ -4508,6 +4509,9 @@ class Output
 
     public function getProgress()
     {
+        if (null === $this->progress) {
+            $this->calculateProgress();
+        }
         return $this->progress;
     }
 
@@ -4526,5 +4530,31 @@ class Output
     {
         $this->mediaFile = $mediaFile;
         return $this;
+    }
+    
+    /**
+     * Helper function to calculate overall progress
+     * @ORM\PrePersist
+     */
+    public function calculateProgress()
+    {
+        $weights = array(
+            'Encoding' => 90,
+            'Uploading' => 10
+        );
+    
+        $progress = 0;
+        $e = $this->getCurrentEvent();
+        $ep = $this->getCurrentEventProgress();
+        switch ($this->getCurrentEvent()) {
+            default:
+                break;
+            case 'Encoding':
+                $progress = $ep * $weights[$e];
+                break;
+            case 'Uploading':
+                $progress = $weights['Encoding'] + $ep * $weights[$e];
+        }
+        $this->progress = $progress;
     }
 }

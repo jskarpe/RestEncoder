@@ -88,6 +88,12 @@ class Job implements JobInterface
     private $outputs;
 
     /**
+     *
+     * @var string @ORM\Column(name="progress", type="string")
+     */
+    private $progress;
+
+    /**
      * NA: The region where a file is processed
      *
      * @var string @ORM\Column(name="region", type="string", nullable=true)
@@ -728,5 +734,45 @@ class Job implements JobInterface
     public function populateUpdatedAt()
     {
         $this->setUpdatedAt(new \DateTime('now'));
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function calculateProgress()
+    {
+        $progress = 0;
+        $weightInput = 10;
+        $weightOutput = 80;
+        $weightThumbnails = 10;
+        $progress = $weightInput * $this->getInput()->getProgress() + $weightOutput * $this->findOutputProgress();
+        $this->progress = $progress;
+    }
+
+    private function findOutputProgress()
+    {
+        $numOutputs = count($this->getOutputs());
+        if (0 == $numOutputs) {
+            return 0;
+        }
+        $progressSum = 0;
+        foreach ($this->getOutputs() as $output) {
+            $progressSum += $output->getProgress();
+        }
+        return $progressSum / $numOutputs;
+    }
+
+    public function getProgress()
+    {
+        if (null === $this->progress) {
+            $this->calculateProgress();
+        }
+        return $this->progress;
+    }
+
+    public function setProgress($progress)
+    {
+        $this->progress = $progress;
+        return $this;
     }
 }

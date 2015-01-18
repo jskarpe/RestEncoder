@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Input
  *
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Input
 {
@@ -44,9 +45,9 @@ class Input
 
     /**
      *
-     * @var string @ORM\Column(name="current_event_progress", type="string", length=100, nullable=true)
+     * @var string @ORM\Column(name="current_event_progress", type="string", length=100)
      */
-    private $currentEventProgress;
+    private $currentEventProgress = 0;
 
     /**
      *
@@ -130,6 +131,9 @@ class Input
 
     public function getProgress()
     {
+        if (null === $this->progress) {
+            $this->calculateProgress();
+        }
         return $this->progress;
     }
 
@@ -137,5 +141,31 @@ class Input
     {
         $this->progress = $progress;
         return $this;
+    }
+
+    /**
+     * Helper function to calculate overall progress
+     * @ORM\PrePersist
+     */
+    public function calculateProgress()
+    {
+        $weights = array(
+            'Downloading' => 90,
+            'Analzying' => 10
+        );
+        
+        $progress = 0;
+        $e = $this->getCurrentEvent();
+        $ep = $this->getCurrentEventProgress();
+        switch ($this->getCurrentEvent()) {
+            default:
+                break;
+            case 'Downloading':
+                $progress = $ep * $weights[$e];
+                break;
+            case 'Analzying':
+                $progress = $weights['Downloading'] + $ep * $weights[$e];
+        }
+        $this->progress = $progress;
     }
 }
