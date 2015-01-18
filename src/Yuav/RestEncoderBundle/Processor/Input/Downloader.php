@@ -38,7 +38,7 @@ class Downloader
         return $filename;
     }
 
-    public function downloadFileAdvanced($url)
+    public function downloadFileAdvanced($url, $progressCallback = false)
     {
         if (empty($url)) {
             throw new \InvalidArgumentException('Expected non-empty string argument, got: ' . get_type($url));
@@ -57,7 +57,11 @@ class Downloader
         curl_setopt($ch, CURLOPT_WRITEHEADER, $headerStream);
         curl_setopt($ch, CURLOPT_FILE, $bodyStream);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        
+        if ($progressCallback) {
+            curl_setopt($ch, CURLOPT_BUFFERSIZE, 64*1024);
+            curl_setopt($ch, CURLOPT_NOPROGRESS, false);
+            curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, $progressCallback);
+        }
         $mh = curl_multi_init();
         curl_multi_add_handle($mh, $ch);
         $headerProcessed = false;

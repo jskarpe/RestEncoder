@@ -27,7 +27,7 @@ class Output
     private $job;
 
     /**
-     * @ORM\OneToOne(targetEntity="MediaFile", mappedBy="output", cascade={"all"})
+     * @ORM\OneToOne(targetEntity="MediaFile", inversedBy="output", cascade={"all"})
      */
     private $mediaFile;
 
@@ -4535,6 +4535,7 @@ class Output
     /**
      * Helper function to calculate overall progress
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
     public function calculateProgress()
     {

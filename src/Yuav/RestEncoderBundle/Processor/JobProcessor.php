@@ -25,6 +25,8 @@ class JobProcessor
 
     private $inputBeingDownloaded;
 
+    private $inputBeingDownloadedLastUpdate;
+
     private $mediaFileProcessor;
 
     private $tempFiles = array();
@@ -51,21 +53,27 @@ class JobProcessor
 
     public function process(Job $job)
     {
-        if (! $job->getInput() instanceof Input) {
+        $input = $job->getInput();
+        if (! $input instanceof Input) {
             throw new \InvalidArgumentException('Invalid or empty input set in job');
         }
         
         // Download a local copy of input
         if ($this->logger) {
-            $this->logger->debug('Downloading file ' . $job->getInput()
-                ->getUri());
+            $this->logger->debug('Downloading file ' . $input->getUri());
         }
         $this->setJobState($job, 'downloading');
         $downloader = $this->getDownloader();
+        
         $this->inputBeingDownloaded = $job->getInput();
-        $inputFile = $downloader->downloadFileAdvanced($job->getInput()
-            ->getUri());
+        $inputFile = $downloader->downloadFileAdvanced($input->getUri(), array(
+            $this,
+            'updateDownloadProgress'
+        ));
         $this->tempFiles[] = $inputFile;
+        $this->inputBeingDownloaded->setCurrentEventProgress(100);
+        $this->om->persist($this->inputBeingDownloaded);
+        $this->om->flush();
         if ($this->logger) {
             $this->logger->debug('Successfully downloaded ' . $inputFile . ' to ' . $inputFile . ' (' . filesize($inputFile) . ' bytes)');
         }
@@ -73,12 +81,18 @@ class JobProcessor
         
         // Analyze file
         $this->setJobState($job, 'analyzing input');
+        $input->setCurrentEvent('Analyzing');
+        $input->setCurrentEventProgress(0);
+        $this->om->persist($input);
+        $this->om->flush();
         $mediaProcessor = $this->getMediaFileProcessor();
         $inputMediaFile = $mediaProcessor->process($inputFile);
-        $inputMediaFile->setUrl($job->getInput()
-            ->getUri());
+        $inputMediaFile->setUrl($input->getUri());
         $inputMediaFile->setTest($job->getTest());
-        $job->getInput()->setMediaFile($inputMediaFile);
+        $input->setMediaFile($inputMediaFile);
+        $input->setCurrentEventProgress(100);
+        $this->om->persist($input);
+        $this->om->flush();
         
         // Queue valid outputs for encoding
         $this->setJobState($job, 'queuing output');
@@ -123,16 +137,24 @@ class JobProcessor
         return $job;
     }
 
-    public function updateDownloadProgress($ch, $download_size, $downloaded, $upload_size, $uploaded)
+    public function updateDownloadProgress($ch, $downloadSize, $downloaded, $uploadSize, $uploaded)
     {
+        $timestamp = microtime(true) * 1000; // ms
+        if ($timestamp - $this->inputBeingDownloadedLastUpdate < 500) {
+            return;
+        }
+        
         $input = $this->inputBeingDownloaded;
-        if ($download_size > 0) {
-            $input->setProgress(100 * $downloaded / $download_size);
+        $input->setCurrentEvent('Downloading');
+        if ($downloadSize > 0) {
+            $input->setCurrentEventProgress(100 * $downloaded / $downloadSize);
         } else {
-            $input->setProgress(50);
+            $input->setCurrentEventProgress(0);
         }
         $this->om->persist($input);
         $this->om->flush();
+        
+        $this->inputBeingDownloadedLastUpdate = $timestamp;
     }
 
     private function setJobState($job, $state)

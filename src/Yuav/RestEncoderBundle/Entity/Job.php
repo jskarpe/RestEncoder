@@ -643,7 +643,7 @@ class Job implements JobInterface
     /**
      * Get input
      *
-     * @return string
+     * @return \Yuav\RestEncoderBundle\Entity\Input
      */
     public function getInput()
     {
@@ -738,6 +738,7 @@ class Job implements JobInterface
 
     /**
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
     public function calculateProgress()
     {

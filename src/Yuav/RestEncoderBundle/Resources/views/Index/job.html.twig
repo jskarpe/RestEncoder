@@ -1,0 +1,216 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Encoding job</div>
+	<div class="panel-body">
+		<p>ID: {{ job.id }}</p>
+	</div>
+
+	<table class="table">
+		<tr>
+			<th>Submitted</th>
+			<th>Finished</th>
+		</tr>
+		<tr>
+			<td>{{ job.submitted }}</td>
+			<td>{{ job.finished }}</td>
+		</tr>
+	</table>
+
+	<table class="table">
+		<tr>
+			<th>Download and analyze ID</th>
+		</tr>
+		<tr>
+			<td>{{ job.input.id }}</td>
+		</tr>
+	</table>
+
+</div>
+
+
+
+
+
+<h1>
+	Encoding Job <span class="heading-divider">|</span> <span
+		class="heading-tagline">ID: 119903875</span>
+</h1>
+<div id="job_status" class="status finished">Finished</div>
+
+
+<div id="test_job" class="clearfix">TEST JOB</div>
+
+
+
+<div id="job_overview" class="clearfix">
+	<div class="stacked-data left">
+		<div class="stacked-data-pair">
+			<label class="small">Submitted</label>
+			<div class="stacked-data-value">
+				<time class="standard-time-display"
+					title="08:11:51 AM UTC - 2014-10-12"
+					data-raw-time="2014-10-12 08:11 AM">10:11:51 AM CEST - 2014-10-12</time>
+			</div>
+		</div>
+		<div class="stacked-data-pair">
+			<label class="small">Wait Time</label>
+			<div class="stacked-data-value">00:00:02</div>
+		</div>
+		<div class="stacked-data-pair right">
+			<label class="small">Total Output File Size</label>
+			<div class="stacked-data-value">950 KB</div>
+		</div>
+		<div class="stacked-data-pair left">
+			<label class="small">Finished</label>
+			<div class="stacked-data-value">
+				<time class="standard-time-display"
+					title="08:12:13 AM UTC - 2014-10-12"
+					data-raw-time="2014-10-12 08:12 AM">10:12:13 AM CEST - 2014-10-12</time>
+			</div>
+		</div>
+		<div class="stacked-data-pair">
+			<label class="small">Total Job Time</label>
+			<div class="stacked-data-value">00:00:22</div>
+		</div>
+		<div class="stacked-data-pair right">
+			<label class="small">Total Output Duration</label>
+			<div class="stacked-data-value">00:00:05</div>
+		</div>
+		<div class="stacked-data-pair left">
+			<label class="small">Region</label>
+			<div class="stacked-data-value">
+				<img alt="Us" class="flag small"
+					src="https://a.zencdn.net/assets/flags/us-dd43e5ea5d87b545d95efab136baf15a.png"
+					title="us-virginia"> us-virginia
+			</div>
+		</div>
+		<div class="stacked-data-pair">
+			<label class="small">API Version</label>
+			<div class="stacked-data-value">v2</div>
+		</div>
+		<div class="stacked-data-pair right">
+			<label class="small">API Request</label>
+			<div class="stacked-data-value">
+				<a href="/api_requests/387870329">387870329</a> (<a
+					href="/request_builder?job=119903875">load in request builder</a>)
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="input_step_section" class="step-section clearfix">
+	<div class="step-overview">
+		<h3>
+			Download &amp; Inspect Input <span class="step-id">ID: 119874824</span>
+		</h3>
+		<label class="small">Finished</label> {# <div class="progress-bar">#}
+		{# <img alt="Progress-bar-animated"
+		src="https://a.zencdn.net/assets/progress-bar-animated-a87e3766fc0314366c3d0ce7ca85c23a.gif">#}
+		{# <div class="progress-bar-cover finished" style="left: 0%"></div>#}
+		{# </div>#}
+		<div class="progress">
+			<div class="progress-bar progress-bar-striped active"
+				role="progressbar" aria-valuenow="45" aria-valuemin="0"
+				aria-valuemax="100" style="width: 45%">
+				<span class="sr-only">45% Complete</span>
+			</div>
+		</div>
+
+
+
+	</div>
+	<div class="step-content">
+		<div id="input" class="file-box clearfix data-href"
+			data-href="/jobs/119903875/input_media_file">
+			<img alt="Icon-input" class="file-box-icon"
+				src="https://a.zencdn.net/assets/icon-input-37cec91fecc8732137d5e1a5ac10fe43.png">
+			<div class="thumbnail-box">
+				<img
+					src="https://a.zencdn.net/assets/placeholder-private-medium-446bdd0d2c26ec78e5e705840d66c37e.png"
+					class="thumbnail" height="90" width="160">
+			</div>
+			<div class="file-box-content">
+				<div class="file-box-overview clearfix">
+					<div class="file-data-pair">
+						<label class="small">Input URL</label> <span
+							title="http://s3.amazonaws.com/zencodertesting/test.mov">http://s3.amazonaws.com/zencoderte...test.mov</span>
+					</div>
+				</div>
+				<div class="file-box-details clearfix">
+					<div class="file-data-pair">
+						<label class="small">File Size</label> <span>900 KB</span>
+					</div>
+					<div class="file-data-pair">
+						<label class="small">Duration</label> <span>00:00:05</span>
+					</div>
+					<div class="file-data-pair">
+						<label class="small">Frame Size</label> <span>1280x720</span>
+					</div>
+					<div class="file-data-pair">
+						<label class="small">Format</label> <span>mpeg4</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="step-section clearfix">
+	<div class="step-overview">
+		<h3>
+			Encode &amp; Upload Output #1 <span class="step-id">ID: 344822395</span>
+		</h3>
+		<label class="small">Finished</label>
+		<div class="progress-bar">
+			<img alt="Progress-bar-animated"
+				src="https://a.zencdn.net/assets/progress-bar-animated-a87e3766fc0314366c3d0ce7ca85c23a.gif">
+			<div class="progress-bar-cover finished" style="left: 0%"></div>
+		</div>
+
+
+	</div>
+	<div class="step-content">
+		<div class="file-box clearfix data-href"
+			data-href="/output_media_files/344822395">
+			<img alt="Icon-output" class="file-box-icon"
+				src="https://a.zencdn.net/assets/icon-output-27f2cad33fb7adeb0c99f2f61c1677ea.png">
+			<div class="thumbnail-box">
+				<img
+					src="https://a.zencdn.net/assets/placeholder-private-small-76c403b743e8305357e0f213db14866a.png"
+					class="thumbnail">
+			</div>
+			<div class="file-box-content clearfix">
+				<div class="file-box-overview clearfix">
+					<div class="file-data-pair output-label">
+						<label class="small">Output Label</label> <span>...</span>
+					</div>
+					<div class="file-data-pair">
+						<label class="small">Output URL</label> <span
+							title="http://zencoder-temp-storage-us-east-1.s3.amazonaws.com/o/20141012/711ffaa0914ff9fe0a6f320e48c230ce/a8b603d9096254963b2d4b63da017070.mp4">http:/...a8b603d9096254963b2d4b63da017070.mp4</span>
+					</div>
+				</div>
+				<div class="file-box-details clearfix">
+					<div class="file-data-pair">
+						<label class="small">File Size</label> <span>950 KB</span>
+					</div>
+					<div class="file-data-pair">
+						<label class="small">Duration</label> <span>00:00:05</span>
+					</div>
+					<div class="file-data-pair">
+						<label class="small">Frame Size</label> <span>1280x720</span>
+					</div>
+					<div class="file-data-pair">
+						<label class="small">Video Codec</label> <span>h264</span>
+					</div>
+					<div class="file-data-pair">
+						<label class="small">Audio Codec</label> <span>aac</span>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+</div>
+
+
