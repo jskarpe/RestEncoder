@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Output
  *
- * @ORM\Table()
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
@@ -61,6 +60,16 @@ class Output
      */
     private $base_url;
 
+    /**
+     * @var string @ORM\Column(name="error_message", type="string", nullable=true)
+     */
+    private $errorMessage;
+    
+    /**
+     * @var string @ORM\Column(name="error_type", type="string", length=255, nullable=true)
+     */
+    private $errorType;
+    
     /**
      *
      * @var string @ORM\Column(name="current_event", type="string", length=100, nullable=true)
@@ -4558,4 +4567,27 @@ class Output
         }
         $this->progress = $progress * 100;
     }
+
+    public function getErrorMessage()
+    {
+        return $this->errorMessage;
+    }
+
+    public function setErrorMessage($errorMessage)
+    {
+        $this->errorMessage = $errorMessage;
+        return $this;
+    }
+
+    public function getErrorType()
+    {
+        return $this->errorType;
+    }
+
+    public function setErrorType($errorType)
+    {
+        $this->errorType = $errorType;
+        return $this;
+    }
+	
 }

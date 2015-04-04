@@ -46,7 +46,7 @@ class OutputConsumer implements ConsumerInterface
                 if ($this->logger) {
                     $this->logger->warning("Output '$outputId' was not found in the database. Removing queue item...");
                 }
-                return; // Remove from queue
+                return true; // Remove from queue
             }
             $outputProcessor = $this->getOutputProcessor();
             $output = $outputProcessor->process($output);
@@ -59,10 +59,10 @@ class OutputConsumer implements ConsumerInterface
             /**
              * Returning false will requeue job in RabbitMQ.
              *
-             * Any value that is no false will acknowledge the message and remove it
+             * Any value that is not false will acknowledge the message and remove it
              * from the queue
              */
-            return false;
+            return true;
         }
     }
 

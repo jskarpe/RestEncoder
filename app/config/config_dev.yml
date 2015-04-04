@@ -35,13 +35,5 @@ monolog:
 assetic:
     use_controller: true
 
-doctrine:
-    dbal:
-        default_connection: default
-        connections:
-            default:
-                driver:   pdo_sqlite
-                path:     %kernel.cache_dir%/dev.sqlite3
-
 #swiftmailer:
 #    delivery_address: me@example.com

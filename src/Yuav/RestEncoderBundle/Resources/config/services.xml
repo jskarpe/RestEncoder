@@ -16,6 +16,32 @@
 	</parameters>
 
 	<services>
+        <service id="guzzle_monolog_adapter" class="Guzzle\Log\MonologLogAdapter">
+            <argument type="service" id="logger" />
+        </service>
+        <service id="guzzle_log_plugin" class="Guzzle\Plugin\Log\LogPlugin">
+            <argument type="service" id="guzzle_monolog_adapter" />
+        </service>
+		<service id="yuav_rest_encoder.aws_s3"
+		         class="Aws\S3\S3Client"
+		         factory-class="Aws\S3\S3Client"
+		         factory-method="factory">
+		    <argument type="collection">
+		        <argument key="key">%yuav_rest_encoder.aws_key%</argument>
+		        <argument key="secret">%yuav_rest_encoder.aws_secret_key%</argument>
+		    </argument>
+            <call method="addSubscriber">
+                <argument type="service" id="guzzle_log_plugin" />
+            </call>
+		</service>
+		<service id="yuav_rest_encoder.s3_adapter" class="Gaufrette\Adapter\AwsS3">
+		    <argument type="service" id="yuav_rest_encoder.aws_s3"></argument>
+		    <argument>%yuav_rest_encoder.s3.bucket_name%</argument>
+		</service>
+		<service id="yuav_rest_encoder.fs" class="Gaufrette\Filesystem">
+		    <argument type="service" id="yuav_rest_encoder.s3_adapter"></argument>
+		</service>
+
 		<service id="yuav_rest_encoder.swift.client" class="OpenCloud\OpenStack">
 			<argument>%yuav_rest_encoder.swift.uri%</argument>
 			<argument>%yuav_rest_encoder.swift.credentials%</argument>

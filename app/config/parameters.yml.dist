@@ -5,6 +5,7 @@ parameters:
     database_name:     symfony
     database_user:     root
     database_password: ~
+    database_path:     "%kernel.root_dir%/data/%kernel.environment%.db3"
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
@@ -18,3 +19,7 @@ parameters:
     openstack_username: 'swift'
     openstack_password: 'swift'
     openstack_tenant_name: 'swift'
+
+    yuav_rest_encoder.aws_key: 'key'
+    yuav_rest_encoder.aws_secret_key: 'secret_key'
+    yuav_rest_encoder.s3.bucket_name: 'restencoder'

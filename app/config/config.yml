@@ -55,8 +55,7 @@ doctrine:
         charset:  UTF8
         # if using pdo_sqlite as your database driver, add the path in parameters.yml
         # e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        # path:     "%database_path%"
-
+        path:     "%database_path%"
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
@@ -142,7 +141,7 @@ services:
         arguments:
           - %openstack_identity_url%
           - {username: %openstack_username%, password: %openstack_password%, tenantName: %openstack_tenant_name%}
-            
+
 knp_gaufrette:
     adapters:
         foo:
@@ -150,8 +149,16 @@ knp_gaufrette:
                 object_store_id: yuav_rest_encoder.swift.objectstore
                 container_name: RestEncoder
                 create_container: true
+        s3_storage:
+            aws_s3:
+                service_id: yuav_rest_encoder.aws_s3
+                bucket_name: %yuav_rest_encoder.s3.bucket_name%
+                options:
+                    create: true
+                
     filesystems:
         outputs:
-            adapter:    foo
-            alias:      foo_filesystem
+            adapter:    s3_storage
+            alias:      s3_filesystem
+
     stream_wrapper: ~

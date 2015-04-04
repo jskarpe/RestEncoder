@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Job
  *
- * @ORM\Table()
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */

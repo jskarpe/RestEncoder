@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * MediaFile
  *
- * @ORM\Table()
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */

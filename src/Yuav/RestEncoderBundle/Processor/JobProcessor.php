@@ -62,7 +62,7 @@ class JobProcessor
         if ($this->logger) {
             $this->logger->debug('Downloading file ' . $input->getUri());
         }
-        $this->setJobState($job, 'downloading');
+        $this->setJobState($job, 'Downloading');
         $downloader = $this->getDownloader();
         
         $this->inputBeingDownloaded = $job->getInput();
@@ -95,7 +95,7 @@ class JobProcessor
         $this->om->flush();
         
         // Queue valid outputs for encoding
-        $this->setJobState($job, 'queuing output');
+        $this->setJobState($job, 'Queuing output');
         $outputFilter = $this->getOutputFilter();
         $outputs = $outputFilter->findValidOutputs($inputMediaFile, $job);
         if (empty($outputs)) {
@@ -130,7 +130,7 @@ class JobProcessor
         $downloader->rmTmpFile($job->getInput()
             ->getUri());
         
-        $this->setJobState($job, 'encoding');
+        $this->setJobState($job, 'Input analyzed');
         if ($this->logger) {
             $this->logger->debug('Analysis of ' . $inputFile . ' complete.');
         }

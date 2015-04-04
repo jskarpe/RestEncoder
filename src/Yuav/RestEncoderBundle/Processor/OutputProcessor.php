@@ -55,18 +55,28 @@ class OutputProcessor
         $job = $output->getJob();
         $this->currentOutput = $output;
         $downloader = $this->getDownloader();
-        $inputFile = $downloader->downloadFileAdvanced($job->getInput()->getUri());
+        $this->setState($output, 'Getting local copy of input file');
+        if ($this->logger) {
+            $this->logger->debug('Getting local copy of input file: ' . $job->getInput()
+                ->getUri());
+        }
+        $inputFile = $downloader->downloadFileAdvanced($job->getInput()
+            ->getUri());
         $this->tempFiles[] = $inputFile;
         $video = $this->ffmpeg->open($inputFile);
         
         $translator = new Translator();
-        $translator->addFFMpegFilters($video, $job->getInput()->getMediaFile(), $output);
+        $translator->addFFMpegFilters($video, $job->getInput()
+            ->getMediaFile(), $output);
         
         $filename = $output->getFilename();
         if (null === $filename) {
-            $filename = basename($job->getInput()->getUri());
+            $filename = basename($job->getInput()->getUri() . '.' . $output->getFormat());
         }
         
+        if ($this->logger) {
+            $this->logger->debug('Adding FFMPEG filters');
+        }
         $outputPathFile = tempnam(sys_get_temp_dir(), 'RestEncoder') . $filename;
         $format = $translator->getFFMpegFormatFromOutput($output);
         
@@ -75,16 +85,30 @@ class OutputProcessor
             'updateProgress'
         ));
         
+        if ($this->logger) {
+            $this->logger->debug('Starting encode');
+        }
         $video->save($format, $outputPathFile);
         $this->tempfiles[] = $outputPathFile;
         
         $key = basename($outputPathFile);
         
-        $this->upload($key, file_get_contents($outputPathFile));
+        try {
+            $this->upload($key, file_get_contents($outputPathFile));
+        } catch (\RuntimeException $e) {
+            $output->setErrorType('UploadFailureError');
+            $output->setErrorMessage($e->getMessage());
+            $this->om->persist($output);
+            $this->om->flush();
+            throw $e;
+        }
         
         $output->setUrl('file/' . $key);
         $this->om->persist($output);
         $this->om->flush();
+        if ($this->logger) {
+            $this->logger->debug('Encode complete');
+        }
         return $output;
     }
 
@@ -99,7 +123,17 @@ class OutputProcessor
 
     public function upload($key, $contents)
     {
+        if ($this->logger) {
+            $this->logger->debug("Uploading output file '$key'");
+        }
         $this->fs->write($key, $contents);
+    }
+
+    private function setState(Output $output, $state)
+    {
+        $output->setCurrentEvent($state);
+        $this->om->persist($output);
+        $this->om->flush();
     }
 
     /**

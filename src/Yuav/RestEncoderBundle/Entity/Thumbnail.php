@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Thumbnail
  *
- * @ORM\Table()
  * @ORM\Entity
  */
 class Thumbnail
