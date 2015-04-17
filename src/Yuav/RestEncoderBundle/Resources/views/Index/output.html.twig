@@ -1,6 +1,6 @@
 <div class="panel {{ output.errorMessage is null ? "panel-info" : "panel-danger"}} ">
 	<div class="panel-heading">
-		<h3 class="panel-title">{{ output.errorType is null ? "Encoder and upload: ". output.url : output.errorType }}</h3>
+		<h3 class="panel-title">Output {%  if output.errorType is null %}<a href="/{{ output.url }}">{{ output.url }}</a>{% else %} {{ output.errorType }} {% endif %}</h3>
 	</div>
 	<div class="panel-body">
 		<table class="table table-condensed table-no-border"
@@ -28,12 +28,10 @@
 		{% if output.errorMessage %}
 		  {{ output.errorMessage }}
 		{% else %}
-		<div class="progress" style="margin: 0px;">
-			<div class="progress-bar progress-info progress-bar-striped active"
-				role="progressbar" aria-valuenow="45" aria-valuemin="0"
-				aria-valuemax="100"
-				style="width: {{ output.currentEventProgress }}%">{{
-				output.currentEventProgress }}%</div>
+				<div class="progress" style="margin: 0px;">
+			<div class="progress-bar progress-info progress-bar-striped {% if output.currentEventProgress < 100 %}active{% endif %}"
+				role="progressbar" aria-valuenow="{{ output.currentEventProgress|number_format }}" aria-valuemin="0"
+				aria-valuemax="100" style="width: {{ output.currentEventProgress|number_format }}%">{{ output.currentEventProgress|number_format }}%</div>
 		</div>
 		{% endif %}
 	</div>

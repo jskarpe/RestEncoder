@@ -155,10 +155,9 @@ knp_gaufrette:
                 bucket_name: %yuav_rest_encoder.s3.bucket_name%
                 options:
                     create: true
-                
+
     filesystems:
         outputs:
             adapter:    s3_storage
-            alias:      s3_filesystem
 
     stream_wrapper: ~

@@ -3,3 +3,6 @@ rest_encoder_job:
     prefix: /v1
     resource: "Yuav\RestEncoderBundle\Controller\JobController"
     name_prefix:  api_1_ # Avoid naming collision
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /doc

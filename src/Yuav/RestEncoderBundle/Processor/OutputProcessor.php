@@ -31,7 +31,7 @@ class OutputProcessor
 
     private $tempFiles;
 
-    public function __construct(ObjectManager $om, FFMpeg $ffmpeg, \Knp\Bundle\GaufretteBundle\FilesystemMap $fsMap, LoggerInterface $logger = null)
+    public function __construct(ObjectManager $om, FFMpeg $ffmpeg,\Knp\Bundle\GaufretteBundle\FilesystemMap $fsMap, LoggerInterface $logger = null)
     {
         $this->om = $om;
         $this->ffmpeg = $ffmpeg;
@@ -88,13 +88,16 @@ class OutputProcessor
         if ($this->logger) {
             $this->logger->debug('Starting encode');
         }
+        $this->setState($output, 'Encoding');
         $video->save($format, $outputPathFile);
         $this->tempfiles[] = $outputPathFile;
         
         $key = basename($outputPathFile);
         
         try {
+            $this->setState($output, 'Uploading');
             $this->upload($key, file_get_contents($outputPathFile));
+            unlink($outputPathFile);
         } catch (\RuntimeException $e) {
             $output->setErrorType('UploadFailureError');
             $output->setErrorMessage($e->getMessage());
@@ -104,6 +107,7 @@ class OutputProcessor
         }
         
         $output->setUrl('file/' . $key);
+        $output->setCurrentEventProgress(100);
         $this->om->persist($output);
         $this->om->flush();
         if ($this->logger) {
@@ -132,6 +136,7 @@ class OutputProcessor
     private function setState(Output $output, $state)
     {
         $output->setCurrentEvent($state);
+        $output->setCurrentEventProgress(0);
         $this->om->persist($output);
         $this->om->flush();
     }

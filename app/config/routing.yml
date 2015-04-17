@@ -8,13 +8,6 @@ index:
 index_request_builder:
     path:      /request_builder
     defaults:  { _controller: YuavRestEncoderBundle:Index:requestBuilder }
-    
-NelmioApiDocBundle:
-    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-    prefix:   /api/doc
-status:
-    path:      /status
-    defaults:  { _controller: YuavRestEncoderBundle:Status:index }
 file_download:
     path:      /file/{key}
     defaults:  { _controller: YuavRestEncoderBundle:File:download }

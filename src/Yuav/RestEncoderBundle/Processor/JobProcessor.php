@@ -62,6 +62,8 @@ class JobProcessor
         if ($this->logger) {
             $this->logger->debug('Downloading file ' . $input->getUri());
         }
+        
+        // TODO replace with Guzzle service
         $this->setJobState($job, 'Downloading');
         $downloader = $this->getDownloader();
         
